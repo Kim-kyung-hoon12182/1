@@ -10,7 +10,7 @@ type CompactLineProps = {
   session: RunSession
 }
 
-// 확인할 곳이 아닌 줄은 한 줄로 줄여 둔다. 누르면 펼쳐서 짚은 재료와 규칙을 보여 준다.
+// 확인할 곳이 아닌 줄은 한 줄로 줄여 둔다. 누르면 펼쳐서 참고한 자료와 규칙을 보여 준다.
 export default function CompactLine({ index, session }: CompactLineProps) {
   const line = session.lines[index]
 

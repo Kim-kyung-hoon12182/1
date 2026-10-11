@@ -32,8 +32,8 @@ const CASES: { name: string; actual: unknown; expected: unknown }[] = [
       const run = buildRunRecord({
         id: 'r',
         number: 3,
-        input: '재료',
-        sentences: ['재료'],
+        input: '자료',
+        sentences: ['자료'],
         lines: [line('가나다'), line('라마바', '라마사')],
         flaggedCount: 2,
         elapsedMs: 7400,

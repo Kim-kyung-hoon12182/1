@@ -95,7 +95,7 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-label-md text-secondary">
             <Icon name="menu_book" className="text-[16px]" />
-            {cited.length > 0 ? `짚은 재료: ${cited.map((item) => circled(item.id)).join(' ')}` : '짚은 재료가 없어요'}
+            {cited.length > 0 ? `참고한 자료: ${cited.map((item) => circled(item.id)).join(' ')}` : '참고한 자료가 없어요'}
           </div>
           {cited.length > 0 && (
             <button
@@ -107,7 +107,7 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
               }}
               className="inline-flex items-center gap-0.5 text-label-sm text-primary hover:underline"
             >
-              재료에서 보기
+              자료에서 보기
               <Icon name="arrow_outward" className="text-[13px]" />
             </button>
           )}

@@ -62,9 +62,9 @@ export function QuestionsAside() {
 // 2단계(규칙) 오른쪽: 규칙 쓰는 방법, 저장 뒤 쓰임, 저장·전송 안내
 export function RulesAside({ ruleCount }: { ruleCount: number }) {
   const usage = [
-    { title: '새 재료 넣기', body: '이번 주 메모나 자료를 붙여 넣어요' },
+    { title: '새 자료 넣기', body: '이번 주 메모나 자료를 붙여 넣어요' },
     { title: `규칙 ${ruleCount}개를 지켜 글 쓰기`, body: '규칙에 맞춰 쓰고, 줄마다 근거 문장을 표시해요' },
-    { title: '확인할 곳 보고 고치기', body: '재료에서 못 찾은 값이나 근거가 약한 줄을 표시해요' },
+    { title: '확인할 곳 보고 고치기', body: '자료에서 못 찾은 값이나 근거가 약한 줄을 표시해요' },
   ]
 
   return (

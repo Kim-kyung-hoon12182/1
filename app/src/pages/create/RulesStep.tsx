@@ -89,7 +89,7 @@ export default function RulesStep({ draft }: { draft: TaskDraft }) {
         <p className="flex items-center gap-1.5 text-center text-body-sm text-on-surface-variant md:text-left">
           <Icon name="info" className="shrink-0 text-[18px] text-primary" />
           <span>
-            <strong>[저장하고 실행]</strong>을 누르면 이 작업이 <strong>[내 작업]</strong>에 저장되고, 이어서 재료를 넣어 실행할 수 있어요.
+            <strong>[저장하고 실행]</strong>을 누르면 이 작업이 <strong>[내 작업]</strong>에 저장되고, 이어서 자료를 넣어 실행할 수 있어요.
           </span>
         </p>
         <Button

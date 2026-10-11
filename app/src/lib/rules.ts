@@ -11,7 +11,7 @@ export const buildRulePrompt = (answers: Answers) =>
     '- 응답은 JSON 문자열 배열만 출력합니다. 예: ["규칙 하나", "규칙 둘"]',
     '',
     `[무슨 일] ${answers.what}`,
-    `[재료] ${answers.materials}`,
+    `[자료] ${answers.materials}`,
     `[결과 모양] ${answers.shape}`,
     ...(answers.example?.trim() ? [`[예전에 잘 나온 결과] ${answers.example}`] : []),
   ].join('\n')

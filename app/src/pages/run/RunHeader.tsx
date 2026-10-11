@@ -53,7 +53,7 @@ export default function RunHeader({ task, session }: RunHeaderProps) {
       actions={
         hasResult && (
           <Button icon="restart_alt" onClick={session.backToInput}>
-            재료 다시 입력
+            자료 다시 입력
           </Button>
         )
       }

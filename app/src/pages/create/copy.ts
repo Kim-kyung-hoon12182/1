@@ -9,8 +9,8 @@ export const QUESTIONS = [
   },
   {
     field: 'materials',
-    title: '2. 어떤 재료를 쓰나요?',
-    hint: '실행할 때마다 붙여 넣을 재료의 종류를 적어 주세요.',
+    title: '2. 어떤 자료를 쓰나요?',
+    hint: '실행할 때마다 붙여 넣을 자료의 종류를 적어 주세요.',
     placeholder: '예: 지난주 업무 메모',
   },
   {
@@ -23,7 +23,7 @@ export const QUESTIONS = [
 
 export const RECAP_FIELDS = [
   { field: 'what', icon: 'repeat', label: '하는 일' },
-  { field: 'materials', icon: 'input', label: '재료' },
+  { field: 'materials', icon: 'input', label: '자료' },
   { field: 'shape', icon: 'table_chart', label: '결과 모양' },
 ] as const
 
@@ -35,7 +35,7 @@ export const QUESTIONS_TIPS = [
 export const AFTER_REGISTER_STEPS = [
   { title: '질문에 답하기', body: '지금 화면에서 작업을 설명해요' },
   { title: '규칙 확인하고 저장', body: '글을 쓸 때 지킬 규칙을 정해요' },
-  { title: '재료 넣고 실행', body: '다음부터는 재료만 붙여 넣어요' },
+  { title: '자료 넣고 실행', body: '다음부터는 자료만 붙여 넣어요' },
 ]
 
 export const RULE_TIPS = [

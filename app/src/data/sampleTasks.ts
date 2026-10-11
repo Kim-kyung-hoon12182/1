@@ -17,7 +17,7 @@ const rules = (texts: string[]): Rule[] => texts.map((text, index) => ({ id: `r$
 
 const defineSample = (sample: Omit<Sample, 'material'>): Sample => ({ ...sample, material: sample.sentences.join('\n') })
 
-// 예시마다 결과 줄 중 하나는 재료에 없는 숫자, 하나는 근거가 약한 문장이다 (F-09).
+// 예시마다 결과 줄 중 하나는 자료에 없는 숫자, 하나는 근거가 약한 문장이다 (F-09).
 export const SAMPLES: Record<SampleKey, Sample> = {
   report: defineSample({
     key: 'report',
@@ -99,7 +99,7 @@ export const SAMPLES: Record<SampleKey, Sample> = {
       '숫자와 연도는 자료에 있는 것만 쓴다',
       '자료에 없는 해석은 시사점 줄에만 쓴다',
       '해요체로 쓴다',
-      '근거가 되는 문장을 함께 짚는다',
+      '근거가 되는 문장을 함께 표시한다',
     ]),
     sentences: [
       '국내 생성형 AI 도입 기업 비율은 올해 38%로 집계됐습니다.',

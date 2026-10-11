@@ -24,7 +24,7 @@ export const buildHandoffPrompt = (task: HandoffTask) => {
     '[지킬 규칙]',
     ...rules.map((rule, index) => `${index + 1}. ${rule}`),
     '',
-    '[재료]',
-    `제가 ${withObjectParticle(task.answers.materials)} 붙여 넣으면 그걸로만 써 주세요. 재료에 없는 숫자나 이름은 쓰지 말고, 모르는 부분은 [확인 필요]라고 표시해 주세요.`,
+    '[자료]',
+    `제가 ${withObjectParticle(task.answers.materials)} 붙여 넣으면 그걸로만 써 주세요. 자료에 없는 숫자나 이름은 쓰지 말고, 모르는 부분은 [확인 필요]라고 표시해 주세요.`,
   ].join('\n')
 }

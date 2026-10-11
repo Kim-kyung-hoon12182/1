@@ -20,7 +20,7 @@ type RunPageProps = {
   onGoToTasks: () => void
 }
 
-// S3 실행·결과: 왼쪽에 재료, 오른쪽에 줄마다 짚은 재료와 확인할 곳
+// S3 실행·결과: 왼쪽에 자료, 오른쪽에 줄마다 참고한 자료와 확인할 곳
 export default function RunPage({ task, prefillMaterial, onRecord, onGoToTasks }: RunPageProps) {
   const session = useRunSession(task, prefillMaterial, onRecord)
   const hasResult = session.result !== null
@@ -53,7 +53,7 @@ export default function RunPage({ task, prefillMaterial, onRecord, onGoToTasks }
             </>
           ) : (
             <EmptyState icon="article" title="아직 결과가 없어요" className="min-h-72 bg-surface-lowest">
-              재료를 넣고 [실행하기]를 누르면 결과가 줄마다 나오고, 확인할 곳이 표시돼요. 처음이면 [예시 재료 넣기]로 먼저 해 보세요.
+              자료를 넣고 [실행하기]를 누르면 결과가 줄마다 나오고, 확인할 곳이 표시돼요. 처음이면 [예시 자료 넣기]로 먼저 해 보세요.
               <p className="mt-3 text-label-sm text-outline">{READ_FIRST_NOTE}</p>
             </EmptyState>
           )}

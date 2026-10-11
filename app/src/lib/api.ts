@@ -52,7 +52,7 @@ export async function generateRules(answers: Answers): Promise<RuleResult> {
 
 type RunOutcome = { result: RunResult; code?: undefined } | { result?: undefined; code: ApiErrorCode }
 
-// F-03: 실패하면 호출한 쪽이 재료를 그대로 두고 안내한다.
+// F-03: 실패하면 호출한 쪽이 자료를 그대로 두고 안내한다.
 export async function generateRun(task: Task, material: string): Promise<RunOutcome> {
   const sentences = splitSentences(material)
   try {

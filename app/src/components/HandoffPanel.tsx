@@ -19,7 +19,7 @@ type HandoffPanelProps = {
 const SETUP_STEPS = [
   '아래 지시문을 복사해요.',
   '쓰는 AI 서비스(예: ChatGPT)의 예약 작업 기능에서 새 작업을 만들고 지시문을 붙여 넣어요.',
-  '실행 주기를 정하고, 실행될 때마다 재료(메모)를 직접 붙여 넣어요.',
+  '실행 주기를 정하고, 실행될 때마다 자료(메모)를 직접 붙여 넣어요.',
 ]
 
 type CopyState = 'idle' | 'done' | 'failed'

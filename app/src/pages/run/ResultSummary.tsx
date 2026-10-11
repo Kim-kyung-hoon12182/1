@@ -19,7 +19,7 @@ export default function ResultSummary({ session }: { session: RunSession }) {
             <Badge tone="solid" className="font-semibold">
               2·3단계
             </Badge>
-            <h2 className="text-headline-sm">결과와 짚은 재료</h2>
+            <h2 className="text-headline-sm">결과와 참고한 자료</h2>
           </div>
           {flagged.length > 0 && (
             <div className="flex items-center gap-1.5">
@@ -38,7 +38,7 @@ export default function ResultSummary({ session }: { session: RunSession }) {
         <div className="flex flex-wrap items-center gap-1.5">
           <Badge size="md">전체 {lines.length}줄</Badge>
           <Badge size="md" tone="muted" icon="link">
-            짚은 곳 {countByStatus(lines, 'has_source')}줄
+            참고한 곳 {countByStatus(lines, 'has_source')}줄
           </Badge>
           {countByStatus(lines, 'heading') > 0 && (
             <Badge size="md" icon="title">
@@ -49,7 +49,7 @@ export default function ResultSummary({ session }: { session: RunSession }) {
             근거 확인 필요 {countByStatus(lines, 'needs_check')}줄
           </Badge>
           <Badge size="md" tone="flag" icon="error">
-            재료에 없음 {countByStatus(lines, 'not_in_input')}줄
+            자료에 없음 {countByStatus(lines, 'not_in_input')}줄
           </Badge>
         </div>
       </Card>

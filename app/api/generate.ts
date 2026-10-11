@@ -1,5 +1,5 @@
 const MODEL = 'gemini-3.5-flash-lite'
-// 재료 8,000자에 규칙·질문 답변·지시 문장이 더해진 요청 전체의 한도
+// 자료 8,000자에 규칙·질문 답변·지시 문장이 더해진 요청 전체의 한도
 const MAX_INPUT_CHARS = 14000
 // 구글이 느릴 때 화면이 계속 기다리지 않도록, 재시도까지 합쳐 이 시간 안에 끝낸다
 const TOTAL_TIMEOUT_MS = 30_000
@@ -41,7 +41,7 @@ export async function POST(request: Request): Promise<Response> {
     return fail(400, 'bad_request', '내용을 입력해 주세요.')
   }
   if (prompt.length > MAX_INPUT_CHARS) {
-    return fail(400, 'bad_request', '입력이 너무 길어요. 재료를 줄여 주세요.')
+    return fail(400, 'bad_request', '입력이 너무 길어요. 자료를 줄여 주세요.')
   }
 
   const deadline = Date.now() + TOTAL_TIMEOUT_MS

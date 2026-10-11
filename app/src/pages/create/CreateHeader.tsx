@@ -59,7 +59,7 @@ export default function CreateHeader({ phase, onBack }: CreateHeaderProps) {
         description={
           inRules
             ? '초안을 읽어 보고 고칠 곳을 고친 뒤 저장하세요. 저장한 규칙만 이 작업에 쓰여요.'
-            : '반복하는 일을 한 번 등록해 두면, 다음부터는 재료만 넣고 실행해요.'
+            : '반복하는 일을 한 번 등록해 두면, 다음부터는 자료만 넣고 실행해요.'
         }
         actions={<Stepper current={PHASE_STEP[phase]} />}
       />

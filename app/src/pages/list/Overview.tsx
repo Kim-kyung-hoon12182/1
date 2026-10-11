@@ -24,7 +24,7 @@ export default function Overview({ tasks }: { tasks: Task[] }) {
           </div>
           <p className="text-body-sm leading-normal text-secondary">
             자주 쓰는 문서의 <strong className="text-on-surface">설명과 규칙</strong>을 저장해 두는 곳이에요. 매번 같은 설명을 다시 쓰지 않아도 돼요.
-            규칙은 글을 쓸 때 지킬 약속이고, 앱이 결과를 판단하는 기준은 아니에요. 재료를 넣고 [실행하기]를 누르면 규칙에 맞춰 글을 쓰고 확인할 곳을 표시해 줘요.
+            규칙은 글을 쓸 때 지킬 약속이고, 앱이 결과를 판단하는 기준은 아니에요. 자료를 넣고 [실행하기]를 누르면 규칙에 맞춰 글을 쓰고 확인할 곳을 표시해 줘요.
           </p>
         </div>
       </Card>

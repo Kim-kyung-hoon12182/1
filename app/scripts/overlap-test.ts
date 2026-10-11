@@ -34,7 +34,7 @@ for (const threshold of THRESHOLDS) {
   }
 
   console.log(
-    `기준값 ${threshold}: 틀린 줄 중 근거① ${wrongGotSource}/${wrongTotal}, 정상 줄 중 내려감 ${okDowngraded}/${okTotal}, 재료에 없는 숫자 탐지 ${numberCaught}/${numberTotal}`,
+    `기준값 ${threshold}: 틀린 줄 중 근거① ${wrongGotSource}/${wrongTotal}, 정상 줄 중 내려감 ${okDowngraded}/${okTotal}, 자료에 없는 숫자 탐지 ${numberCaught}/${numberTotal}`,
   )
   if (verbose) console.log(misses.join('\n'))
 }

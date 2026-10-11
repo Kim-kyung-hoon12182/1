@@ -7,13 +7,13 @@ import type { OutputLine, Run, Task } from '@/types/task'
 
 type CopyState = 'idle' | 'done' | 'failed'
 
-// 실패해도 재료는 그대로 남아 있다 (F-03)
+// 실패해도 자료는 그대로 남아 있다 (F-03)
 const RUN_FAILURE_NOTICE: Record<ApiErrorCode, string> = {
-  no_key: 'AI 키가 설정되지 않아서 실행할 수 없어요. 예시 작업의 예시 재료는 키 없이도 돼요.',
-  rate_limit: '지금 사용하는 사람이 많아요. 1분 뒤에 다시 실행해 주세요. 재료는 그대로 남아 있어요.',
-  upstream: 'AI 응답을 받지 못했어요. 잠시 뒤 다시 실행해 주세요. 재료는 그대로 남아 있어요.',
-  bad_request: '재료가 너무 길거나 형식이 맞지 않아요. 재료를 줄여서 다시 실행해 주세요.',
-  network: '연결에 실패했어요. 인터넷 연결을 확인하고 다시 실행해 주세요. 재료는 그대로 남아 있어요.',
+  no_key: 'AI 키가 설정되지 않아서 실행할 수 없어요. 예시 작업의 예시 자료는 키 없이도 돼요.',
+  rate_limit: '지금 사용하는 사람이 많아요. 1분 뒤에 다시 실행해 주세요. 자료는 그대로 남아 있어요.',
+  upstream: 'AI 응답을 받지 못했어요. 잠시 뒤 다시 실행해 주세요. 자료는 그대로 남아 있어요.',
+  bad_request: '자료가 너무 길거나 형식이 맞지 않아요. 자료를 줄여서 다시 실행해 주세요.',
+  network: '연결에 실패했어요. 인터넷 연결을 확인하고 다시 실행해 주세요. 자료는 그대로 남아 있어요.',
 }
 
 // 작업 하나를 실행하는 동안의 상태와 동작 (S3). [복사하고 끝내기]를 누르면 onRecord로 실행 기록을 넘긴다 (F-06).
@@ -42,7 +42,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
   // 지금 고른 줄이 확인할 곳 중 몇 번째인지 (고르지 않았거나 확인할 곳이 아니면 0)
   const flaggedPosition = selected === null ? 0 : flagged.indexOf(selected) + 1
 
-  // 재료 칸 안에서만 움직인다. 화면 전체가 스크롤되면 지금 보던 결과 줄이 밀려난다.
+  // 자료 칸 안에서만 움직인다. 화면 전체가 스크롤되면 지금 보던 결과 줄이 밀려난다.
   const scrollToSentence = (id: number) => {
     const sentence = sentenceRefs.current[id - 1]
     const list = sentence?.parentElement
@@ -51,7 +51,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     list.scrollTo({ top, behavior: 'smooth' })
   }
 
-  // 줄을 고르면 재료 칸이 그 줄이 짚은 재료로 옮겨 간다 (S3-5). 줄을 고칠 때마다 움직이지 않도록 선택이 바뀔 때만 실행한다.
+  // 줄을 고르면 자료 칸이 그 줄이 참고한 자료로 옮겨 간다 (S3-5). 줄을 고칠 때마다 움직이지 않도록 선택이 바뀔 때만 실행한다.
   useEffect(() => {
     if (selected === null) return
     const firstId = lines[selected]?.sourceIds[0]
@@ -92,7 +92,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     resetView()
   }
 
-  // 체험용 작업의 예시 재료는 AI 없이 예시 결과를 보여 주고(F-09), 그 밖의 재료는 AI에 보낸다(F-03)
+  // 체험용 작업의 예시 자료는 AI 없이 예시 결과를 보여 주고(F-09), 그 밖의 자료는 AI에 보낸다(F-03)
   async function run() {
     const material = input.trim()
     if (!material || running) return
