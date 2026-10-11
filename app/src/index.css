@@ -15,7 +15,7 @@
   --color-on-surface: #0b1c30;
   --color-on-surface-variant: #434655;
   --color-secondary: #565e74;
-  --color-outline: #747686;
+  --color-outline: #656778;
   --color-outline-variant: #c4c5d7;
 
   /* 확인할 곳 표시. 정확하다는 뜻의 색(초록 등)은 만들지 않는다 */
@@ -62,12 +62,12 @@
   --text-body-sm--line-height: 20px;
   --text-body-sm--letter-spacing: 0.005em;
   --text-body-sm--font-weight: 400;
-  --text-label-md: 12px;
-  --text-label-md--line-height: 16px;
+  --text-label-md: 13px;
+  --text-label-md--line-height: 18px;
   --text-label-md--letter-spacing: 0.01em;
   --text-label-md--font-weight: 600;
-  --text-label-sm: 11px;
-  --text-label-sm--line-height: 14px;
+  --text-label-sm: 12px;
+  --text-label-sm--line-height: 16px;
   --text-label-sm--letter-spacing: 0.02em;
   --text-label-sm--font-weight: 500;
 

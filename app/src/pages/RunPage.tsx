@@ -54,7 +54,7 @@ export default function RunPage({ task, prefillMaterial, onRecord, onGoToTasks }
           ) : (
             <EmptyState icon="article" title="아직 결과가 없어요" className="min-h-72 bg-surface-lowest">
               자료를 넣고 [실행하기]를 누르면 결과가 줄마다 나오고, 확인할 곳이 표시돼요. 처음이면 [예시 자료 넣기]로 먼저 해 보세요.
-              <p className="mt-3 text-label-sm text-outline">{READ_FIRST_NOTE}</p>
+              <p className="mt-3 text-body-sm text-on-surface-variant">{READ_FIRST_NOTE}</p>
             </EmptyState>
           )}
         </section>
