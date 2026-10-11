@@ -6,6 +6,7 @@ import Icon from '@/components/Icon'
 import Notice from '@/components/Notice'
 import type { RunSession } from '@/hooks/useRunSession'
 import { cn } from '@/lib/cn'
+import { splitByTokens } from '@/lib/highlight'
 import { circled } from '@/lib/material'
 import { citedSentences, describeReason, isFlagged } from '@/lib/run'
 import type { Task } from '@/types/task'
@@ -80,7 +81,23 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
           className="resize-none p-3.5 ring-2 ring-primary"
         />
       ) : (
-        <p className="rounded-lg bg-background p-3.5 text-body-md leading-relaxed">{line.editedText ?? line.text}</p>
+        <p className="rounded-lg bg-background p-3.5 text-body-md leading-relaxed">
+          {line.editedText !== undefined
+            ? line.editedText
+            : splitByTokens(line.text, line.status === 'not_in_input' ? line.missingTokens : []).map((part, i) =>
+                part.mark ? (
+                  <mark
+                    key={i}
+                    title="자료에서 찾지 못한 값"
+                    className="rounded-sm bg-flag-tint px-0.5 font-semibold text-flag-ink underline decoration-flag-icon decoration-2 underline-offset-4"
+                  >
+                    {part.text}
+                  </mark>
+                ) : (
+                  part.text
+                ),
+              )}
+        </p>
       )}
 
       {flagged && (
