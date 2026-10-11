@@ -25,7 +25,7 @@ export default function RunHeader({ task, session }: RunHeaderProps) {
       eyebrow={
         <div className="flex flex-wrap items-center gap-2">
           <Badge pill icon="folder_open" className="bg-surface-high text-on-surface-variant">
-            {task.isDemo ? '예시 작업' : '내 작업'} · {task.runs.length + 1}회차
+            {task.isDemo ? '예시 작업' : '내 작업'} · {session.finished?.number ?? task.runs.length + 1}회차
           </Badge>
           {hasResult && (
             <Badge pill tone={flaggedCount > 0 ? 'flag' : 'muted'} className="gap-1.5 font-semibold">

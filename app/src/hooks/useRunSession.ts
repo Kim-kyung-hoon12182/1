@@ -1,15 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { getSample } from '@/data/sampleTasks'
 import { buildSampleResult, finalTextOf, flaggedIndexes, type RunResult } from '@/lib/run'
-import type { OutputLine, Task } from '@/types/task'
+import { buildRunRecord } from '@/lib/runRecord'
+import type { OutputLine, Run, Task } from '@/types/task'
 
 type CopyState = 'idle' | 'done' | 'failed'
 
 const NO_SAMPLE_NOTICE = 'AI 연결 전이라 이 작업은 아직 실행할 수 없어요. 예시 작업은 바로 실행해 볼 수 있어요.'
 const SAMPLE_ONLY_NOTICE = 'AI 연결 전이라 지금은 예시 재료로만 실행할 수 있어요.'
 
-// 작업 하나를 실행하는 동안의 상태와 동작 (S3)
-export function useRunSession(task: Task, prefillMaterial: boolean) {
+// 작업 하나를 실행하는 동안의 상태와 동작 (S3). [복사하고 끝내기]를 누르면 onRecord로 실행 기록을 넘긴다 (F-06).
+export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (run: Run) => void) {
   const sample = getSample(task.sampleKey)
   const [input, setInput] = useState(prefillMaterial && sample ? sample.material : '')
   const [result, setResult] = useState<RunResult | null>(null)
@@ -18,6 +19,8 @@ export function useRunSession(task: Task, prefillMaterial: boolean) {
   const [editing, setEditing] = useState<number | null>(null)
   const [copyState, setCopyState] = useState<CopyState>('idle')
   const [cardScrollTarget, setCardScrollTarget] = useState<{ index: number } | null>(null)
+  const [finished, setFinished] = useState<Run | null>(null)
+  const shownAt = useRef(0)
   const sentenceRefs = useRef<(HTMLLIElement | null)[]>([])
   const cardRefs = useRef<(HTMLElement | null)[]>([])
   const fallbackRef = useRef<HTMLTextAreaElement>(null)
@@ -59,6 +62,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean) {
     setSelected(null)
     setEditing(null)
     setCopyState('idle')
+    setFinished(null)
   }
 
   function loadSample() {
@@ -77,6 +81,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean) {
     if (input.trim() !== sample.material) return setNotice(SAMPLE_ONLY_NOTICE)
     setNotice('')
     setResult(buildSampleResult(sample, input.trim()))
+    shownAt.current = Date.now()
     resetView()
   }
 
@@ -86,6 +91,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean) {
   }
 
   function updateLine(index: number, patch: Partial<OutputLine>) {
+    if (finished) return
     setResult((prev) =>
       prev ? { ...prev, lines: prev.lines.map((line, i) => (i === index ? { ...line, ...patch } : line)) } : prev,
     )
@@ -93,6 +99,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean) {
   }
 
   function startEdit(index: number) {
+    if (finished) return
     setSelected(index)
     setEditing(index)
   }
@@ -114,13 +121,36 @@ export function useRunSession(task: Task, prefillMaterial: boolean) {
     setCardScrollTarget({ index: target })
   }
 
-  async function copyAndFinish() {
+  async function copyText() {
     try {
       await navigator.clipboard.writeText(finalText)
       setCopyState('done')
+      return true
     } catch {
       setCopyState('failed')
+      return false
     }
+  }
+
+  // F-06 순서: ① 복사 ② 복사가 실패해도 기록은 확정(성공 여부는 copied에 남김) ③ 다음 행동 안내
+  async function copyAndFinish() {
+    if (!result || finished) return
+    const copied = await copyText()
+    const record = buildRunRecord({
+      id: crypto.randomUUID(),
+      number: task.runs.length + 1,
+      input: input.trim(),
+      sentences,
+      lines,
+      flaggedCount: flagged.length,
+      elapsedMs: Date.now() - shownAt.current,
+      copied,
+      finalText,
+      isSample: true,
+      createdAt: new Date().toISOString(),
+    })
+    onRecord(record)
+    setFinished(record)
   }
 
   return {
@@ -137,6 +167,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean) {
     selected,
     editing,
     copyState,
+    finished,
     finalText,
     sentenceRefs,
     cardRefs,
@@ -151,6 +182,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean) {
     finishEdit,
     revertLine,
     goToFlagged,
+    copyText,
     copyAndFinish,
   }
 }

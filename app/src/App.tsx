@@ -16,7 +16,7 @@ type View =
   | { screen: 'run'; taskId: string; prefill: boolean }
 
 export default function App() {
-  const { tasks, demo, saveFailed, addTask, resetDemo, findTask } = useTasks()
+  const { tasks, demo, saveFailed, addTask, addRun, resetDemo, findTask } = useTasks()
   const [view, setView] = useState<View>({ screen: 'tasks' })
   const [lastRun, setLastRun] = useState<{ taskId: string; prefill: boolean } | null>(null)
 
@@ -72,7 +72,13 @@ export default function App() {
         />
       )}
       {view.screen === 'run' && runningTask && (
-        <RunPage key={`${runningTask.id}-${view.prefill}`} task={runningTask} prefillMaterial={view.prefill} />
+        <RunPage
+          key={`${runningTask.id}-${view.prefill}`}
+          task={runningTask}
+          prefillMaterial={view.prefill}
+          onRecord={(run) => addRun(runningTask.id, run)}
+          onGoToTasks={() => setView({ screen: 'tasks' })}
+        />
       )}
       <AppFooter />
     </div>

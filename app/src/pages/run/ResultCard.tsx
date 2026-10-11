@@ -133,7 +133,7 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
             접기
           </Button>
         )}
-        {line.editedText !== undefined && (
+        {!session.finished && line.editedText !== undefined && (
           <Button
             size="sm"
             variant="ghost"
@@ -145,17 +145,19 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
             되돌리기
           </Button>
         )}
-        <Button
-          size="sm"
-          icon="edit"
-          className="px-3 py-1.5"
-          onClick={(event) => {
-            event.stopPropagation()
-            session.startEdit(index)
-          }}
-        >
-          고치기
-        </Button>
+        {!session.finished && (
+          <Button
+            size="sm"
+            icon="edit"
+            className="px-3 py-1.5"
+            onClick={(event) => {
+              event.stopPropagation()
+              session.startEdit(index)
+            }}
+          >
+            고치기
+          </Button>
+        )}
       </div>
     </Card>
   )

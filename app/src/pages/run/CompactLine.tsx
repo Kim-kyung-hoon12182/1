@@ -31,14 +31,16 @@ export default function CompactLine({ index, session }: CompactLineProps) {
         </Badge>
       )}
       <StatusLabel status={line.status} sourceIds={line.sourceIds} missingTokens={line.missingTokens} />
-      <IconButton
-        icon="edit"
-        label={`${index + 1}번 줄 고치기`}
-        onClick={(event) => {
-          event.stopPropagation()
-          session.startEdit(index)
-        }}
-      />
+      {!session.finished && (
+        <IconButton
+          icon="edit"
+          label={`${index + 1}번 줄 고치기`}
+          onClick={(event) => {
+            event.stopPropagation()
+            session.startEdit(index)
+          }}
+        />
+      )}
     </Card>
   )
 }
