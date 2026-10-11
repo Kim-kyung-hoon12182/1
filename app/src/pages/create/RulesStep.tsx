@@ -90,12 +90,23 @@ export default function RulesStep({ draft }: { draft: TaskDraft }) {
         <Button icon="arrow_back" className="w-full md:w-auto" onClick={() => draft.setPhase('questions')}>
           질문으로 돌아가기
         </Button>
-        <p className="flex items-center gap-1.5 text-center text-body-sm text-on-surface-variant md:text-left">
-          <Icon name="info" className="shrink-0 text-[18px] text-primary" />
-          <span>
-            <strong>[저장하고 실행]</strong>을 누르면 이 작업이 <strong>[내 작업]</strong>에 저장되고, 이어서 자료를 넣어 실행할 수 있어요.
-          </span>
-        </p>
+        {draft.canSave ? (
+          <p className="flex items-center gap-1.5 text-center text-body-sm text-on-surface-variant md:text-left">
+            <Icon name="info" className="shrink-0 text-[18px] text-primary" />
+            <span>
+              <strong>[저장하고 실행]</strong>을 누르면 이 작업이 <strong>[내 작업]</strong>에 저장되고, 이어서 자료를 넣어 실행할 수 있어요.
+            </span>
+          </p>
+        ) : (
+          <p id="save-hint" role="status" className="flex items-center gap-1.5 text-center text-body-sm font-semibold text-flag-text md:text-left">
+            <Icon name="error" className="shrink-0 text-[18px] text-flag-icon" />
+            <span>
+              {!draft.name.trim() ? '작업 이름을 적어 주세요.' : ''}
+              {!draft.name.trim() && ruleCount === 0 ? ' ' : ''}
+              {ruleCount === 0 ? '규칙을 1개 이상 남겨 주세요.' : ''}
+            </span>
+          </p>
+        )}
         <Button
           variant="primary"
           size="lg"
@@ -103,6 +114,7 @@ export default function RulesStep({ draft }: { draft: TaskDraft }) {
           icon="arrow_forward"
           className="w-full px-8 shadow-md md:w-auto"
           onClick={draft.save}
+          aria-describedby={draft.canSave ? undefined : 'save-hint'}
           disabled={!draft.canSave}
         >
           저장하고 실행
@@ -136,6 +148,7 @@ function TaskRecap({ draft }: { draft: TaskDraft }) {
             value={draft.name}
             maxLength={NAME_MAX}
             placeholder="예: 주간보고"
+            aria-required="true"
             onChange={(event) => draft.setName(event.target.value)}
           />
           <div className="flex flex-wrap items-center gap-2">

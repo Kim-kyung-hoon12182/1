@@ -67,5 +67,6 @@ app/
 - `handoff.ts`(지시문 만들기)를 고치면 `node --experimental-strip-types scripts/handoff-test.ts`를 돌린다
 - `runPrompt.ts`(실행 요청·응답 읽기)를 고치면 `node --experimental-strip-types scripts/run-prompt-test.ts`를 돌린다
 - `heading.ts`(소제목 판정)를 고치면 `node --experimental-strip-types scripts/heading-test.ts`를 돌린다
+- `route.ts`(화면 주소)를 고치면 `node --experimental-strip-types scripts/route-test.ts`, `highlight.ts`를 고치면 `scripts/highlight-test.ts`를 돌린다
 - `evidence.ts`나 `streak.ts`를 고치면 `node --experimental-strip-types scripts/overlap-test.ts`, `node --experimental-strip-types scripts/streak-test.ts`를 다시 돌리고, 결과가 바뀌면 `../docs/screen-spec.md` F-04 결과표를 고친다
 - `.env.local`(GEMINI_API_KEY)은 커밋하지 않는다. 키가 없어도 예시 결과로 앱이 동작해야 한다

@@ -91,6 +91,7 @@ function MaterialInput({ task, session }: SourcePanelProps) {
         </Button>
       </div>
       <TextArea
+        autoFocus
         tone="paper"
         value={input}
         readOnly={running}

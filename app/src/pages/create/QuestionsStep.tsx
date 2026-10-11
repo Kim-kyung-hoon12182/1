@@ -18,6 +18,7 @@ type QuestionsStepProps = {
 // 1단계: 질문 4개에 답한다
 export default function QuestionsStep({ draft, onCancel }: QuestionsStepProps) {
   const { answers, sampleKey, loading } = draft
+  const emptyQuestions = QUESTIONS.flatMap((question, index) => (answers[question.field].trim() ? [] : [index + 1]))
 
   return (
     <div className="grid items-start gap-6 lg:grid-cols-12">
@@ -65,6 +66,7 @@ export default function QuestionsStep({ draft, onCancel }: QuestionsStepProps) {
                 maxLength={ANSWER_MAX}
                 onChange={(event) => draft.setAnswer(question.field, event.target.value)}
                 placeholder={question.placeholder}
+                aria-required="true"
               />
             </Field>
             <hr className="border-surface-high" />
@@ -99,6 +101,11 @@ export default function QuestionsStep({ draft, onCancel }: QuestionsStepProps) {
           <Button size="lg" className="w-full px-6 py-2 sm:w-auto" onClick={onCancel}>
             취소하고 돌아가기
           </Button>
+          {!draft.canMakeRules && (
+            <p id="make-rules-hint" role="status" className="text-center text-body-sm font-semibold text-flag-text">
+              질문 {emptyQuestions.join(', ')}번에 답하면 규칙을 만들 수 있어요
+            </p>
+          )}
           <Button
             variant="primary"
             size="lg"
@@ -106,6 +113,7 @@ export default function QuestionsStep({ draft, onCancel }: QuestionsStepProps) {
             icon="arrow_forward"
             className="w-full bg-primary-container px-8 shadow-md hover:bg-primary sm:w-auto"
             onClick={draft.makeRules}
+            aria-describedby={draft.canMakeRules ? undefined : 'make-rules-hint'}
             disabled={!draft.canMakeRules || loading}
           >
             {draft.rulesReady ? '규칙 확인하기' : '규칙 만들기'}

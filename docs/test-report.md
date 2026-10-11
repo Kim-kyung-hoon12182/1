@@ -240,6 +240,8 @@ node --experimental-strip-types scripts/run-record-test.ts
 node --experimental-strip-types scripts/handoff-test.ts
 node --experimental-strip-types scripts/run-prompt-test.ts
 node --experimental-strip-types scripts/heading-test.ts
+node --experimental-strip-types scripts/route-test.ts
+node --experimental-strip-types scripts/highlight-test.ts
 pnpm dev          # 화면 흐름은 http://localhost:5173 에서 위 3절 순서대로
 ```
 
@@ -300,3 +302,18 @@ pnpm dev          # 화면 흐름은 http://localhost:5173 에서 위 3절 순�
 | AI-15 | 8,000자 자료(7,965자, 280문장, 프롬프트 약 9,700자) 실제 Gemini 실행. 500자 안팎 규칙일 때 | 통과: 1.6초, 5줄(앞쪽 3일치만 요약), 번호 3/3 맞음 |
 | AI-16 | 같은 자료, "일차마다 한 줄씩 모두" 규칙, 화면에서 실행 | 통과: 20.1초, 141줄, 번호 39/39(처음 40줄 확인) 맞음, 복사 141줄, 기록 46KB 저장. **실패 후 수정**: 처음에는 앱이 40줄에서 조용히 잘라 101줄을 잃었다 → 상한을 300줄로 올림 |
 | AI-17 | 시제 바꿈(진행했다 → 진행할 예정) | 앱 검사가 못 잡고 "참고한 곳"이 붙음(알려진 한계, I-17) |
+
+## 12. 추가 테스트: 사용성 개선 6가지 (2026-10-11)
+
+로직 테스트 `route-test.ts` 17개, `highlight-test.ts` 9개 통과. 화면은 1280×800에서 확인했고, 글자 크기·대비는 1280, 1024 폭에서 모든 글자를 훑어 쟀다.
+
+| ID | 시나리오 | 결과 |
+| --- | --- | --- |
+| UX-01 | 실행 화면에서 뒤로가기·앞으로가기 | 통과: 내 작업 ↔ 실행 화면, 앱 안에 머묾 |
+| UX-02 | 실행 화면에서 새로고침 | 통과: 같은 작업의 실행 화면이 열리고 [작업 실행] 메뉴 활성 |
+| UX-03 | 없는 작업 주소(`#/run/없는작업`) | 통과: 내 작업으로 대체(기록 교체) |
+| UX-04 | "자료에 없음" 줄 | 통과: `1억 원`이 주황 배경·밑줄·굵게로 표시, 고친 줄은 표시 없음 |
+| UX-05 | 글자 크기·대비(내 작업, 새 작업, 실행 입력·결과, 1280·1024) | 통과: 가장 작은 글자 12px, 대비 4.5 미만 글자 0개, 가로 넘침·잘림 0 |
+| UX-06 | 규칙 단계, 결과 화면, 질문 단계의 아래 고정 버튼 | 통과: 맨 위에서도 맨 아래에서도 화면 안에 보임 |
+| UX-07 | 비활성 버튼 이유 안내 | 통과: 질문 번호별 안내, 이름·규칙 안내, `aria-describedby`, `aria-required` |
+| UX-08 | 자료 입력 칸 자동 커서 | 통과: 화면에 들어올 때, [자료 다시 입력] 뒤에도 |
