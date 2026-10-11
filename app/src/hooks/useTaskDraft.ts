@@ -101,7 +101,7 @@ export function useTaskDraft(initialSampleKey: SampleKey | undefined, onSaved: (
   function addRule() {
     const text = newRule.trim()
     if (!text) return
-    setRules((prev) => [...prev, { id: `u${Date.now().toString(36)}`, text, source: 'setup' }])
+    setRules((prev) => [...prev, { id: `u${crypto.randomUUID().slice(0, 8)}`, text, source: 'setup' }])
     setNewRule('')
   }
 
