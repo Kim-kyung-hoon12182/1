@@ -12,9 +12,9 @@ export default function CopyBar({ session }: { session: RunSession }) {
           <Icon name="content_copy" className="text-[22px]" />
         </div>
         <div>
-          <h3 className="text-headline-sm">다 봤다면 복사해서 쓰세요</h3>
+          <h3 className="text-headline-sm">다 봤으면 복사하세요</h3>
           <p className="text-body-sm text-on-surface-variant">
-            AI 결과는 정답을 보장하지 않아요. 고친 내용까지 반영해서 복사하고, 이번 실행을 기록해요.
+            AI 결과가 항상 맞는 건 아니에요. 고친 내용까지 반영해 복사하고, 이번 실행을 기록해요.
           </p>
         </div>
       </div>

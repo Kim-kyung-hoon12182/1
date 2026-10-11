@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Badge from '@/components/Badge'
 import Button from '@/components/Button'
 import Dialog from '@/components/Dialog'
 import HandoffPanel from '@/components/HandoffPanel'
@@ -28,17 +27,12 @@ export default function TaskListPage({ tasks, demo, onCreate, onRun, onResetDemo
   return (
     <PageContainer>
       <PageHeader
-        eyebrow={
-          <Badge icon="folder_special" className="text-primary">
-            반복 작업 관리
-          </Badge>
-        }
         title="내 작업"
-        description="자주 하는 문서 작업을 한 번 등록해 두면, 다음부터는 재료만 넣어 실행할 수 있어요. 고친 내용이 쌓이면 맡겨볼 만한 때를 알려드려요."
+        description="자주 쓰는 문서를 한 번 등록해 두면, 다음부터는 재료만 붙여 넣고 실행해요. 안 고치고 쓴 기록이 쌓이면 맡겨볼 만한 때를 알려 줘요."
         actions={
           <>
             <Button icon="science" className="bg-surface-lowest shadow-sm hover:bg-surface" onClick={() => onRun(demo)}>
-              예시로 체험해보기
+              예시로 체험해 보기
             </Button>
             <Button variant="primary" icon="add" className="bg-primary-container text-headline-sm hover:bg-primary" onClick={() => onCreate()}>
               새 작업 등록

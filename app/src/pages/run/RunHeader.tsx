@@ -21,7 +21,7 @@ export default function RunHeader({ task, session }: RunHeaderProps) {
       cardPadding="md"
       className="mb-4"
       title={task.name}
-      description="AI가 쓴 글에서 확인할 곳을 짚어드려요."
+      description="결과에서 확인할 곳을 표시해 줘요."
       eyebrow={
         <div className="flex flex-wrap items-center gap-2">
           <Badge pill icon="folder_open" className="bg-surface-high text-on-surface-variant">

@@ -43,9 +43,9 @@ export default function QuestionsStep({ draft, onCancel }: QuestionsStepProps) {
         </div>
 
         <Notice tone="info" icon="psychology" className="p-4">
-          <h2 className="text-headline-sm text-on-surface">프롬프트 작성법을 몰라도 괜찮아요</h2>
+          <h2 className="text-headline-sm text-on-surface">질문 4개에 답해 주세요</h2>
           <p className="mt-1 leading-relaxed">
-            아래 질문에 편하게 답해 주시면, AI가 글을 쓸 때 지킬 규칙을 만들어 드려요. 규칙은 다음 단계에서 직접 고칠 수 있어요.
+            답한 내용으로 글을 쓸 때 지킬 규칙 초안을 만들어요. 다음 단계에서 직접 고칠 수 있어요.
           </p>
         </Notice>
 
@@ -75,7 +75,7 @@ export default function QuestionsStep({ draft, onCancel }: QuestionsStepProps) {
           id="q-example"
           label="4. 예전에 잘 나온 결과가 있나요?"
           tag="선택 사항"
-          hint="마음에 들었던 결과를 붙여 넣으면 규칙을 만들 때 참고해요. 없으면 비워 두셔도 돼요."
+          hint="마음에 들었던 결과를 붙여 넣으면 규칙을 만들 때 참고해요. 없으면 비워 두세요."
         >
           <TextArea
             id="q-example"
@@ -92,7 +92,7 @@ export default function QuestionsStep({ draft, onCancel }: QuestionsStepProps) {
         </Field>
 
         <Notice tone="primary" icon="lightbulb">
-          <strong>[규칙 만들기]</strong>를 누르면 답변을 바탕으로 AI가 글을 쓸 때 지킬 규칙 5~8개를 만들어 줘요. 다음 단계에서 규칙을 고치거나 추가할 수 있고, 아직 작업이 저장된 것은 아니에요.
+          <strong>[규칙 만들기]</strong>를 누르면 답한 내용으로 규칙 5~8개를 만들어요. 다음 단계에서 고치거나 추가할 수 있고, 아직 작업이 저장된 건 아니에요.
         </Notice>
 
         <div className="flex flex-col items-center justify-between gap-3 border-t border-surface-high pt-3 sm:flex-row">
@@ -132,7 +132,7 @@ function LoadingOverlay({ onCancel }: { onCancel: () => void }) {
       </div>
       <h3 className="mb-1 text-headline-md">규칙을 만들고 있어요</h3>
       <p className="mb-4 max-w-md text-body-md text-on-surface-variant">
-        입력하신 답변을 바탕으로 AI가 글을 쓸 때 지킬 규칙을 정리하고 있어요. 잠시만 기다려 주세요.
+        답한 내용으로 규칙 초안을 쓰고 있어요. 보통 몇 초 걸려요.
       </p>
       <Button variant="ghost" size="sm" className="text-primary underline underline-offset-4" onClick={onCancel}>
         취소

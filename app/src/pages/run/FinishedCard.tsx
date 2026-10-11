@@ -25,7 +25,7 @@ const describeStreak = (run: Run, streak: number) => {
   if (run.edited) return '고친 내용이 있어서 연속 안 고침은 처음부터 다시 세요.'
   if (run.passState === 'quick_pass') return '확인할 곳을 보기 전에 빠르게 넘겨서 연속 안 고침에 넣지 않아요.'
   if (streak >= HANDOFF_STREAK) return `안 고친 기록이 연속 ${streak}번이에요.`
-  return `안 고친 기록이 연속 ${streak}번이에요. ${HANDOFF_STREAK - streak}번 더 이어지면 맡겨볼 만한 때를 알려드려요.`
+  return `안 고친 기록이 연속 ${streak}번이에요. ${HANDOFF_STREAK - streak}번 더 이어지면 맡겨볼 만한 때를 알려 줘요.`
 }
 
 // [복사하고 끝내기] 뒤에 보이는 카드. 기록한 결과와 다음 행동을 알려 준다 (S3-8, F-06).

@@ -31,9 +31,9 @@ export default function RulesStep({ draft }: { draft: TaskDraft }) {
             <Icon name="edit_note" className="text-[20px]" />
           </div>
           <div className="flex flex-col gap-1">
-            <h2 className="text-headline-sm">아래 규칙은 입력한 내용을 바탕으로 만든 초안이에요</h2>
+            <h2 className="text-headline-sm">아래 규칙은 답한 내용으로 만든 초안이에요</h2>
             <p className="max-w-4xl text-body-sm leading-relaxed text-on-surface-variant">
-              규칙은 AI가 글을 쓸 때 지키는 약속이에요. 앱이 결과가 맞는지 판단하는 기준은 아니에요. 우리 방식과 맞지 않는 규칙은 삭제하거나 고치고, 필요한 규칙은 직접 추가하세요.
+              규칙은 글을 쓸 때 지킬 약속이고, 앱이 결과를 판단하는 기준은 아니에요. 맞지 않는 규칙은 지우거나 고치고, 빠진 규칙은 직접 추가하세요.
             </p>
           </div>
         </div>
@@ -84,7 +84,7 @@ export default function RulesStep({ draft }: { draft: TaskDraft }) {
 
       <Card as="section" elevation="md" className="flex flex-col items-center justify-between gap-3 p-5 md:flex-row">
         <Button icon="arrow_back" className="w-full md:w-auto" onClick={() => draft.setPhase('questions')}>
-          이전 (질문 수정)
+          질문으로 돌아가기
         </Button>
         <p className="flex items-center gap-1.5 text-center text-body-sm text-on-surface-variant md:text-left">
           <Icon name="info" className="shrink-0 text-[18px] text-primary" />

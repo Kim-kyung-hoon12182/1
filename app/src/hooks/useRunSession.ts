@@ -9,7 +9,7 @@ type CopyState = 'idle' | 'done' | 'failed'
 
 // 실패해도 재료는 그대로 남아 있다 (F-03)
 const RUN_FAILURE_NOTICE: Record<ApiErrorCode, string> = {
-  no_key: 'AI 연결 키가 없어서 이 재료는 실행할 수 없어요. 예시 작업의 예시 재료는 키 없이도 실행할 수 있어요.',
+  no_key: 'AI 키가 설정되지 않아서 실행할 수 없어요. 예시 작업의 예시 재료는 키 없이도 돼요.',
   rate_limit: '지금 사용하는 사람이 많아요. 1분 뒤에 다시 실행해 주세요. 재료는 그대로 남아 있어요.',
   upstream: 'AI 응답을 받지 못했어요. 잠시 뒤 다시 실행해 주세요. 재료는 그대로 남아 있어요.',
   bad_request: '재료가 너무 길거나 형식이 맞지 않아요. 재료를 줄여서 다시 실행해 주세요.',

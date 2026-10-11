@@ -28,7 +28,7 @@ export function QuestionsAside() {
       <Card padding="none" className="space-y-3 p-5">
         <div className="flex items-center gap-1 text-primary">
           <Icon name="tips_and_updates" className="text-[22px]" />
-          <h3 className="text-headline-sm text-on-surface">처음이라면 이렇게 써 보세요</h3>
+          <h3 className="text-headline-sm text-on-surface">쓰는 요령</h3>
         </div>
         {QUESTIONS_TIPS.map((tip, index) => (
           <div key={tip.title}>
@@ -47,7 +47,7 @@ export function QuestionsAside() {
       <Card padding="none" className="space-y-3 p-5">
         <div className="flex items-center gap-1">
           <Icon name="timeline" className="text-[20px] text-primary" />
-          <h3 className="text-headline-sm">등록한 뒤에는 이렇게 써요</h3>
+          <h3 className="text-headline-sm">등록하고 나면</h3>
         </div>
         <StepList steps={AFTER_REGISTER_STEPS} />
         <p className="text-body-sm leading-relaxed text-on-surface-variant">
@@ -63,7 +63,7 @@ export function QuestionsAside() {
 export function RulesAside({ ruleCount }: { ruleCount: number }) {
   const usage = [
     { title: '새 재료 넣기', body: '이번 주 메모나 자료를 붙여 넣어요' },
-    { title: `규칙 ${ruleCount}개를 지켜 글 쓰기`, body: 'AI가 규칙에 맞춰 줄마다 근거 위치를 짚어요' },
+    { title: `규칙 ${ruleCount}개를 지켜 글 쓰기`, body: '규칙에 맞춰 쓰고, 줄마다 근거 문장을 표시해요' },
     { title: '확인할 곳 보고 고치기', body: '재료에서 못 찾은 값이나 근거가 약한 줄을 표시해요' },
   ]
 
@@ -90,12 +90,12 @@ export function RulesAside({ ruleCount }: { ruleCount: number }) {
       <Card padding="none" className="space-y-3 p-5">
         <div className="flex items-center gap-2">
           <TitleIcon icon="schema" />
-          <h3 className="text-headline-sm">이 규칙은 어떻게 쓰이나요?</h3>
+          <h3 className="text-headline-sm">저장한 규칙은 어떻게 쓰이나요?</h3>
         </div>
-        <p className="text-body-sm text-on-surface-variant">저장한 뒤 실행할 때마다 이렇게 쓰여요.</p>
+        <p className="text-body-sm text-on-surface-variant">실행할 때마다 이 순서로 써요.</p>
         <StepList steps={usage} />
         <p className="text-body-sm text-on-surface-variant">
-          표시는 앱이 검사한 범위만 알려줘요. 내용이 맞는지는 직접 확인해 주세요.
+          표시는 앱이 검사한 범위만 알려 줘요. 내용이 맞는지는 직접 확인하세요.
         </p>
       </Card>
       <DataNotice />

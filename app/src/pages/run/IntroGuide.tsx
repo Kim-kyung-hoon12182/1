@@ -18,7 +18,7 @@ export default function IntroGuide({ currentStep, open, onToggle }: IntroGuidePr
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
         <span className="flex items-center gap-1 text-label-md">
           <Icon name="explore" className="text-[18px] text-primary" />
-          이렇게 사용해요
+          사용 순서
         </span>
         <ol className="flex flex-1 flex-wrap items-center gap-x-3 gap-y-1">
           {GUIDE_STEPS.map((step, index) => {

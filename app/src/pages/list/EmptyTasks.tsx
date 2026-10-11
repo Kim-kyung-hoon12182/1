@@ -18,12 +18,12 @@ export default function EmptyTasks({ onTryDemo, onCreate }: EmptyTasksProps) {
       <div className="flex max-w-2xl flex-col gap-1">
         <h2 className="text-headline-sm">아직 등록한 작업이 없어요</h2>
         <p className="text-body-sm text-secondary">
-          처음이라면 예시로 먼저 체험해 보세요. 직접 등록하면 질문 4개에 답하는 것만으로 규칙이 만들어져요. 예시 작업으로 시작할 수도 있어요.
+          먼저 예시로 해 보세요. 직접 등록하면 질문 4개에 답하는 것만으로 규칙 초안이 나와요. 예시 작업을 바탕으로 시작할 수도 있어요.
         </p>
       </div>
       <div className="flex flex-wrap items-center justify-center gap-3">
         <Button variant="primary" size="lg" className="px-5 py-2.5" onClick={onTryDemo}>
-          예시로 체험해보기
+          예시로 체험해 보기
         </Button>
         <Button className="bg-surface-lowest px-4 py-2.5 shadow-sm hover:bg-surface" onClick={() => onCreate()}>
           직접 등록하기

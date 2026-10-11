@@ -1,4 +1,3 @@
-import Badge from '@/components/Badge'
 import Card from '@/components/Card'
 import Icon from '@/components/Icon'
 import { isHandoffReady } from '@/lib/streak'
@@ -21,12 +20,11 @@ export default function Overview({ tasks }: { tasks: Task[] }) {
         </div>
         <div className="relative flex min-w-0 flex-col gap-1 pr-2">
           <div className="flex items-center gap-2">
-            <h2 className="text-headline-sm">'작업'이란 무엇인가요?</h2>
-            <Badge className="bg-surface-high text-primary">안내</Badge>
+            <h2 className="text-headline-sm">작업이 뭔가요?</h2>
           </div>
           <p className="text-body-sm leading-normal text-secondary">
-            매번 같은 설명을 다시 쓰지 않도록, 자주 하는 문서 작업의 <strong className="text-on-surface">설명과 규칙</strong>을 저장해 두는 곳이에요.
-            규칙은 AI가 글을 쓸 때 지키는 약속이고, 앱이 결과가 맞는지 판단하는 기준은 아니에요. 재료를 넣고 [실행하기]를 누르면 AI가 규칙을 지켜 글을 쓰고, 확인할 곳을 짚어 드려요.
+            자주 쓰는 문서의 <strong className="text-on-surface">설명과 규칙</strong>을 저장해 두는 곳이에요. 매번 같은 설명을 다시 쓰지 않아도 돼요.
+            규칙은 글을 쓸 때 지킬 약속이고, 앱이 결과를 판단하는 기준은 아니에요. 재료를 넣고 [실행하기]를 누르면 규칙에 맞춰 글을 쓰고 확인할 곳을 표시해 줘요.
           </p>
         </div>
       </Card>

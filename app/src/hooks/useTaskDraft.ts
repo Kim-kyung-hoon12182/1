@@ -9,8 +9,8 @@ export type Phase = 'questions' | 'rules'
 type RuleOrigin = 'ai' | 'sample' | 'blank'
 
 const EMPTY_ANSWERS: Answers = { what: '', materials: '', shape: '', example: '' }
-const SAMPLE_RULES_NOTICE = 'AI에 연결하지 못해 준비해 둔 예시 규칙을 보여드려요.'
-const BLANK_RULES_NOTICE = '규칙을 만들지 못했어요. 직접 적어주셔도 돼요.'
+const SAMPLE_RULES_NOTICE = 'AI에 연결하지 못해서 준비해 둔 예시 규칙을 넣었어요.'
+const BLANK_RULES_NOTICE = '규칙 초안을 만들지 못했어요. 직접 적어 주세요.'
 
 const blankRules = (): Rule[] => [1, 2, 3].map((n) => ({ id: `r${n}`, text: '', source: 'setup' as const }))
 

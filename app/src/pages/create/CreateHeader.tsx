@@ -50,7 +50,7 @@ export default function CreateHeader({ phase, onBack }: CreateHeaderProps) {
         eyebrow={
           <div className="flex items-center gap-2">
             <Badge pill icon="auto_awesome" className="bg-surface-high text-primary">
-              {inRules ? 'AI가 제안한 규칙 초안' : '질문에 답하면 규칙을 만들어 드려요'}
+              {inRules ? '규칙 초안' : '질문에 답하면 규칙을 만들어요'}
             </Badge>
             <span className="text-label-sm text-on-surface-variant">{PHASE_STEP[phase]} / 2단계</span>
           </div>
@@ -58,8 +58,8 @@ export default function CreateHeader({ phase, onBack }: CreateHeaderProps) {
         title={inRules ? '규칙 확인·수정' : '새 작업 등록'}
         description={
           inRules
-            ? 'AI가 제안한 규칙을 확인하고 필요한 부분을 고친 뒤 저장하세요. 저장한 규칙만 이 작업에 적용돼요.'
-            : '반복해서 하는 일을 한 번 등록해 두면, 다음부터는 재료만 넣어 실행할 수 있어요.'
+            ? '초안을 읽어 보고 고칠 곳을 고친 뒤 저장하세요. 저장한 규칙만 이 작업에 쓰여요.'
+            : '반복하는 일을 한 번 등록해 두면, 다음부터는 재료만 넣고 실행해요.'
         }
         actions={<Stepper current={PHASE_STEP[phase]} />}
       />

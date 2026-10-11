@@ -4,7 +4,7 @@ export const QUESTIONS = [
   {
     field: 'what',
     title: '1. 어떤 일을 반복하나요?',
-    hint: '반복해서 AI에게 맡기고 싶은 일을 적어 주세요.',
+    hint: '반복해서 맡기고 싶은 일을 적어 주세요.',
     placeholder: '예: 매주 팀장님께 내는 주간보고를 써요.',
   },
   {
@@ -28,20 +28,20 @@ export const RECAP_FIELDS = [
 ] as const
 
 export const QUESTIONS_TIPS = [
-  { icon: 'chat', title: '완벽한 문장이 아니어도 돼요', body: '동료에게 일을 인수인계하듯 평소 쓰는 말로 적어 주세요.' },
-  { icon: 'tune', title: '규칙은 2단계에서 고칠 수 있어요', body: '지금 쓴 내용은 초안이에요. AI가 만든 규칙을 보고 빼거나 더할 수 있어요.' },
+  { icon: 'chat', title: '평소 쓰는 말로 적어요', body: '동료에게 인수인계하듯 짧게 적으면 충분해요.' },
+  { icon: 'tune', title: '규칙은 2단계에서 고쳐요', body: '만들어진 규칙을 보고 빼거나 더할 수 있어요.' },
 ]
 
 export const AFTER_REGISTER_STEPS = [
   { title: '질문에 답하기', body: '지금 화면에서 작업을 설명해요' },
-  { title: '규칙 확인하고 저장', body: 'AI가 쓸 때 지킬 규칙을 정해요' },
-  { title: '재료 넣고 실행', body: '다음부터는 재료만 붙여 넣으면 돼요' },
+  { title: '규칙 확인하고 저장', body: '글을 쓸 때 지킬 규칙을 정해요' },
+  { title: '재료 넣고 실행', body: '다음부터는 재료만 붙여 넣어요' },
 ]
 
 export const RULE_TIPS = [
   {
     title: '"~한다"처럼 지시하듯 써요',
-    body: '"숫자는 메모에 있는 것만 쓴다"처럼 AI가 글을 쓸 때 지킬 행동을 한 문장으로 적어 주세요.',
+    body: '"숫자는 메모에 있는 것만 쓴다"처럼 지킬 행동을 한 문장으로 적어요.',
   },
   {
     title: '모호한 표현보다 구체적인 조건',
@@ -49,9 +49,9 @@ export const RULE_TIPS = [
   },
   {
     title: '저장한 규칙만 적용돼요',
-    body: 'AI가 제안한 규칙도 저장 전에 직접 확인한 것만 이 작업에 쓰여요.',
+    body: '만들어진 규칙도 저장해야 이 작업에 쓰여요.',
   },
 ]
 
 export const RULE_PLACEHOLDER = '예: 숫자는 메모에 있는 것만 쓴다'
-export const RULE_LABEL = '규칙 내용 (AI가 지킬 행동을 한 문장으로)'
+export const RULE_LABEL = '규칙 내용 (지킬 행동을 한 문장으로)'
