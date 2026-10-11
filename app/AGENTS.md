@@ -63,5 +63,6 @@ app/
 
 - 작업 후 `pnpm build`가 통과해야 한다. `tsconfig`가 쓰지 않는 변수와 매개변수를 오류로 본다
 - `rules.ts`나 `format.ts`를 고치면 `node --experimental-strip-types scripts/rules-test.ts`를 돌린다
+- `runRecord.ts`(고침 판정, 넘긴 방식)를 고치면 `node --experimental-strip-types scripts/run-record-test.ts`를 돌린다
 - `evidence.ts`나 `streak.ts`를 고치면 `node --experimental-strip-types scripts/overlap-test.ts`, `node --experimental-strip-types scripts/streak-test.ts`를 다시 돌리고, 결과가 바뀌면 `../docs/screen-spec.md` F-04 결과표를 고친다
 - `.env.local`(GEMINI_API_KEY)은 커밋하지 않는다. 키가 없어도 예시 결과로 앱이 동작해야 한다
