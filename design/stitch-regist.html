@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"primary-container":"#1d4ed8","tertiary-fixed-dim":"#6bd8cb","tertiary":"#004e47","on-background":"#0b1c30","outline":"#747686","on-secondary-container":"#5c647a","on-primary-fixed-variant":"#0039b5","on-tertiary-fixed-variant":"#005049","tertiary-container":"#00685f","tertiary-fixed":"#89f5e7","on-error":"#ffffff","secondary-fixed":"#dae2fd","secondary-container":"#dae2fd","on-tertiary":"#ffffff","surface-container":"#e5eeff","secondary":"#565e74","surface-dim":"#cbdbf5","on-error-container":"#93000a","surface-container-high":"#dce9ff","background":"#f8f9ff","on-primary-fixed":"#001551","surface-container-highest":"#d3e4fe","secondary-fixed-dim":"#bec6e0","inverse-on-surface":"#eaf1ff","surface-container-lowest":"#ffffff","surface-container-low":"#eff4ff","primary-fixed":"#dce1ff","surface-bright":"#f8f9ff","on-secondary-fixed-variant":"#3f465c","on-secondary":"#ffffff","primary-fixed-dim":"#b7c4ff","surface":"#f8f9ff","surface-tint":"#2151da","on-primary":"#ffffff","on-tertiary-container":"#7be7d9","inverse-primary":"#b7c4ff","on-tertiary-fixed":"#00201d","on-primary-container":"#cad3ff","on-surface-variant":"#434655","outline-variant":"#c4c5d7","error-container":"#ffdad6","surface-variant":"#d3e4fe","on-surface":"#0b1c30","on-secondary-fixed":"#131b2e","inverse-surface":"#213145","error":"#ba1a1a","primary":"#0037b0"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"space-sm":"0.5rem","gutter":"1rem","margin":"1rem","gutter-lg":"1.5rem","space-2xl":"2rem","margin-lg":"2rem","space-xs":"0.25rem","space-md":"0.75rem","space-xl":"1.5rem","space-lg":"1rem"},"fontFamily":{"display-lg":["Inter"],"label-md":["Inter"],"code-sm":["Inter"],"headline-lg":["Inter"],"body-lg":["Inter"],"body-sm":["Inter"],"body-md":["Inter"],"headline-sm":["Inter"],"headline-md":["Inter"],"label-sm":["Inter"]},"fontSize":{"display-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"600"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"600"}],"code-sm":["12px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"400"}],"body-sm":["13px",{"lineHeight":"20px","letterSpacing":"0.005em","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.02em","fontWeight":"500"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface min-h-screen flex flex-col antialiased"><header class="fixed top-0 left-0 w-full z-40 bg-surface-container-lowest border-b border-outline-variant"><div class="h-16 max-w-7xl mx-auto px-margin-lg flex items-center justify-between"><div class="flex items-center gap-space-2xl h-full"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-on-primary font-headline-sm text-headline-sm">믿</div><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface">믿고맡김</span></div><nav class="flex items-center gap-space-lg h-full" data-active-classes="text-on-surface border-b-2 border-primary font-headline-sm"><a class="h-full flex items-center px-space-xs font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="작업-실행" href="#">작업 실행</a>
+<a class="h-full flex items-center px-space-xs font-headline-sm text-headline-sm text-primary border-b-2 border-primary transition-colors" data-path="내-작업" href="#">내 작업</a>
+<a class="h-full flex items-center px-space-xs font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="실행-이력" href="#">실행 이력</a></nav></div><div class="flex items-center gap-space-lg"><div class="hidden md:flex items-center gap-space-xs px-space-sm py-space-xs bg-surface-container-low border border-outline-variant rounded font-label-sm text-label-sm text-tertiary"><span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span><span class="">모델: Claude 3.5 Sonnet 연동됨</span></div><button class="flex items-center gap-space-xs px-space-sm py-space-xs border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container-low transition-colors font-body-sm text-body-sm text-on-surface" type="button"><span class="material-symbols-outlined text-outline text-[16px]">domain</span><span class="">프로덕트 기획팀</span><span class="material-symbols-outlined text-outline text-[16px]">expand_more</span></button><button aria-label="Notifications" class="p-space-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><div class="flex items-center gap-space-sm pl-space-xs border-l border-outline-variant"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1WCqR__QkQz4JEl85GPzmSI90AA5RJ3gF9Lo3iNzOg_TLURCKuiQaXvFgwd9jy2d1Tmv9hC4Ax44mlYyDK0JLZ8t1nKy71qvBJZN5oy5EFfzjATum4VfBMzhz1ij1E7VqsHbTmUnBM5BF_7XaCwzDj_qOMPsPVq8mitHLHujbMDyNNoL32F1hTXpSXfy0fFmCVTJNPteMudsqOJLtVZZkF59swzzH8lz-Oqo8IFx6m2Dw036YC5sMsW0-IH"/><div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface">김민준 팀장</span><span class="font-label-sm text-label-sm text-on-surface-variant">운영 관리자</span></div></div></div></div></header><main class="w-full max-w-7xl mx-auto px-margin-lg pt-16 flex-1 bg-background"><div class="flex flex-col w-full py-space-xl">
+<!-- Breadcrumb & Back Link -->
+<div class="flex items-center justify-between mb-space-lg">
+<a class="inline-flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors py-space-xs" href="#">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span>내 작업 목록으로 돌아가기</span>
+</a>
+<div class="hidden sm:flex items-center gap-space-xs font-label-sm text-label-sm text-on-surface-variant">
+<span>내 작업</span>
+<span class="text-outline-variant">/</span>
+<span class="text-primary font-headline-sm text-headline-sm">새 작업 등록</span>
+</div>
+</div>
+<!-- Page Header & Multi-Step Stepper -->
+<header class="bg-surface-container-lowest rounded-xl p-space-xl mb-space-xl shadow-sm">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
+<div class="space-y-space-xs">
+<div class="inline-flex items-center gap-space-xs px-space-sm py-0.5 bg-surface-container text-primary rounded font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+<span>직관적인 자연어 작업 빌더</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface tracking-tight">새 작업 등록</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          반복해서 하는 일을 한 번 등록하고, 다음부터는 새 자료만 넣어 클릭 한 번으로 검증된 결과를 받아보세요.
+        </p>
+</div>
+<!-- Step Indicator Ribbon -->
+<div class="flex items-center gap-space-md self-start lg:self-center p-space-xs bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-space-xs px-space-md py-space-xs bg-primary text-on-primary rounded shadow-sm">
+<span class="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center font-label-sm text-label-sm font-semibold">1</span>
+<span class="font-label-md text-label-md font-medium">1단계: 업무 질문 작성 (현재)</span>
+</div>
+<div class="hidden md:flex items-center text-outline-variant px-1">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</div>
+<div class="flex items-center gap-space-xs px-space-md py-space-xs text-on-surface-variant">
+<span class="w-5 h-5 rounded-full bg-surface-container-high flex items-center justify-center font-label-sm text-label-sm text-on-surface-variant">2</span>
+<span class="font-label-md text-label-md">2단계: AI 추천 검토 기준 확인 및 정밀 조정</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Interactive States Switcher Tool -->
+<div class="mb-space-lg flex flex-wrap items-center justify-between gap-space-sm px-space-md py-space-xs bg-surface-container rounded-lg font-label-sm text-label-sm">
+<div class="flex items-center gap-space-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-[16px]">tune</span>
+<span class="font-semibold text-on-surface">프로토타입 상태 시뮬레이션:</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-1 bg-surface-container-lowest text-primary rounded font-medium shadow-sm transition-all hover:bg-white" id="btn-state-default" type="button">
+        일반 입력 완료 (작성형)
+      </button>
+<button class="px-space-sm py-1 text-on-surface-variant rounded hover:text-on-surface transition-all" id="btn-state-loading" type="button">
+        AI 기준 생성 중 (로딩)
+      </button>
+<button class="px-space-sm py-1 text-on-surface-variant rounded hover:text-on-surface transition-all" id="btn-state-error" type="button">
+        필수 항목 미입력 (유효성 경고)
+      </button>
+</div>
+</div>
+<!-- Main 12-Column Layout -->
+<div class="grid grid-cols-12 gap-space-xl items-start">
+<!-- Left Column: Form Section (8 Columns) -->
+<main class="col-span-12 lg:col-span-8 flex flex-col gap-space-lg">
+<!-- Primary Form Container -->
+<form class="bg-surface-container-lowest rounded-xl p-space-2xl shadow-sm flex flex-col gap-space-xl relative overflow-hidden" id="task-creation-form" onsubmit="event.preventDefault(); triggerSubmit();">
+<!-- Intro Note Banner -->
+<div class="p-space-lg bg-surface-container-low rounded-lg flex items-start gap-space-md">
+<div class="w-8 h-8 rounded bg-primary/10 flex items-center justify-center text-primary shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">프롬프트 작성법을 몰라도 괜찮습니다</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              아래 4가지 질문에 편하게 답변해 주시면, 시스템이 최적의 AI 프롬프트와 오차 없는 deterministic 검증 대조 기준을 자동으로 구성해 드립니다.
+            </p>
+</div>
+</div>
+<!-- Question 1 (Required) -->
+<div class="space-y-space-xs" id="field-q1-group">
+<div class="flex items-center justify-between">
+<label class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-1" for="q1-input">
+<span>1. 어떤 일을 반복하나요?</span>
+<span class="text-error font-bold" title="필수 입력 항목">*</span>
+</label>
+<span class="font-code-sm text-code-sm text-on-surface-variant" id="q1-counter">28 / 100자</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">반복해서 AI에게 맡기고 싶은 일을 적어주세요.</p>
+<div class="relative mt-space-xs">
+<input class="w-full h-11 px-space-md pr-10 bg-surface-container-low rounded text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all" id="q1-input" maxlength="100" placeholder="예: 매주 회의록을 요약하고 할 일을 정리해요." type="text" value="매주 월요일 전사 주간 회의록을 요약하고 할 일을 정리해요."/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-tertiary text-[20px]" id="q1-check">
+              check_circle
+            </span>
+</div>
+<!-- Quick Suggestion Chips -->
+<div class="pt-space-xs">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">bolt</span> 자주 쓰는 예시:
+              </span>
+<button class="chip-action px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-all" onclick="setQ1('주간 부서 업무 보고서 핵심 요약 및 지연 요인 추출')" type="button">
+                주간 보고서 요약
+              </button>
+<button class="chip-action px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-all" onclick="setQ1('회의록 액션 아이템 추출 및 담당자 마감일 분류')" type="button">
+                회의록 액션 아이템
+              </button>
+<button class="chip-action px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-all" onclick="setQ1('B2B 납품 계약서 독소 조항 및 법적 리스크 사전 검토')" type="button">
+                B2B 계약서 리스크 검토
+              </button>
+<button class="chip-action px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-all" onclick="setQ1('기술 블로그 릴리즈 노트 요약 및 핵심 기능 소개글 작성')" type="button">
+                기술 블로그 릴리즈 노트
+              </button>
+</div>
+</div>
+<span class="hidden text-error font-label-sm text-label-sm pt-0.5" id="q1-error-msg">반복할 업무 내용을 한 문장 이상 입력해주세요.</span>
+</div>
+<div class="h-px bg-surface-container-high w-full"></div>
+<!-- Question 2 (Required) -->
+<div class="space-y-space-xs" id="field-q2-group">
+<div class="flex items-center justify-between">
+<label class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-1" for="q2-input">
+<span>2. 어떤 자료를 사용하나요?</span>
+<span class="text-error font-bold" title="필수 입력 항목">*</span>
+</label>
+<span class="font-label-sm text-label-sm text-tertiary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">attachment</span> 다중 첨부 지원
+            </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">실행할 때마다 AI에게 전달할 자료의 종류를 적어주세요.</p>
+<div class="relative mt-space-xs">
+<input class="w-full h-11 px-space-md pr-10 bg-surface-container-low rounded text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all" id="q2-input" placeholder="예: 회의 메모, 녹취록, 업무 기록" type="text" value="Zoom 자동 녹취 스크립트 텍스트 파일, 슬랙 주간 공유 스레드 메모"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-tertiary text-[20px]" id="q2-check">
+              check_circle
+            </span>
+</div>
+<!-- Quick Material Chips -->
+<div class="pt-space-xs">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">data_array</span> 빠른 입력:
+              </span>
+<button class="chip-action px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-all" onclick="setQ2('회의 음성 녹취록 및 노션 회의록 메모')" type="button">
+                회의 메모 / 녹취록
+              </button>
+<button class="chip-action px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-all" onclick="setQ2('PDF 표준 공급 계약서 원문 및 특약사항 목록')" type="button">
+                계약서 전문
+              </button>
+<button class="chip-action px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-all" onclick="setQ2('스프레드시트 주간 KPI 수치 및 실적 보고서 초안')" type="button">
+                주간 실적 메모
+              </button>
+<button class="chip-action px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-all" onclick="setQ2('GitHub Pull Request 병합 내역 및 커밋 로그 요약')" type="button">
+                기술 PR 내역
+              </button>
+</div>
+</div>
+<span class="hidden text-error font-label-sm text-label-sm pt-0.5" id="q2-error-msg">사용할 자료 형식을 입력해주세요.</span>
+</div>
+<div class="h-px bg-surface-container-high w-full"></div>
+<!-- Question 3 (Required) -->
+<div class="space-y-space-xs" id="field-q3-group">
+<div class="flex items-center justify-between">
+<label class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-1" for="q3-input">
+<span>3. 어떤 결과물을 원하나요?</span>
+<span class="text-error font-bold" title="필수 입력 항목">*</span>
+</label>
+<span class="font-label-sm text-label-sm text-on-surface-variant">출력 포맷 지정</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">결과물의 구성과 형식을 설명해주세요.</p>
+<div class="relative mt-space-xs">
+<input class="w-full h-11 px-space-md pr-10 bg-surface-container-low rounded text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all" id="q3-input" placeholder="예: 핵심 요약, 결정 사항, 담당자별 할 일" type="text" value="3줄 핵심 요약, 확정된 결정 사항 3가지, 담당자 및 마감 기한이 적힌 액션 아이템 표"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-tertiary text-[20px]" id="q3-check">
+              check_circle
+            </span>
+</div>
+<!-- Quick Format Chips -->
+<div class="pt-space-xs">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">format_list_bulleted</span> 추천 형식:
+              </span>
+<button class="chip-action px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-all" onclick="setQ3('3줄 핵심 브리핑 + 담당자 및 기한이 명시된 액션 아이템 목록')" type="button">
+                핵심 요약 + 액션 아이템
+              </button>
+<button class="chip-action px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-all" onclick="setQ3('법률/보안 기준별 [적합 / 주의 / 반려] 3단계 판별 및 사유 명시')" type="button">
+                항목별 적합/부적합 판별
+              </button>
+<button class="chip-action px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-all" onclick="setQ3('비교 분석 표 + 주요 지표별 불렛포인트 구조화 보고서')" type="button">
+                표/불렛포인트 구조화
+              </button>
+</div>
+</div>
+<span class="hidden text-error font-label-sm text-label-sm pt-0.5" id="q3-error-msg">원하는 결과물 구성을 기재해주세요.</span>
+</div>
+<div class="h-px bg-surface-container-high w-full"></div>
+<!-- Question 4 (Optional) -->
+<div class="space-y-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2" for="q4-input">
+<span>4. 참고할 예시나 반드시 지켜야 할 규칙이 있나요?</span>
+</label>
+<span class="px-space-xs py-0.5 bg-surface-container-high text-on-surface-variant rounded font-label-sm text-label-sm">
+              선택 사항 (Optional)
+            </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            원하는 결과물의 예시나 반드시 지켜야 할 규칙, 제외해야 할 표현을 적어주세요.
+          </p>
+<div class="relative mt-space-xs">
+<textarea class="w-full p-space-md bg-surface-container-low rounded text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all resize-y" id="q4-input" placeholder="원하는 결과물의 예시나 반드시 지켜야 할 규칙을 적어주세요.
+(예: 날짜와 마감 기한은 반드시 YYYY-MM-DD 형식으로 표기하고, 불분명한 내용은 임의로 추측하지 말고 '미기재'로 표시할 것)" rows="4">1. 마감 기한과 일정은 반드시 'YYYY-MM-DD (요일)' 형태로 통일할 것.
+2. 녹취록에 언급되지 않은 사안은 절대 추측하여 지어내지 말고 [확인 필요]로 명시할 것.
+3. 담당자가 특정되지 않은 태스크는 '미지정 (논의 필요)'으로 분류할 것.</textarea>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm pt-1">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">info</span> 구체적인 제약 조건을 주실수록 AI의 오답 가능성이 낮아집니다.
+            </span>
+<span class="font-code-sm text-code-sm">184자 작성됨</span>
+</div>
+</div>
+<!-- Clarification Banner Before Submit -->
+<div class="p-space-md bg-surface-container rounded-lg flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">lightbulb</span>
+<p class="font-body-sm text-body-sm text-on-surface leading-normal">
+<strong>[검토 기준 만들기]</strong>를 누르면 입력하신 답변을 바탕으로 AI가 최적의 검토 항목 3~5개를 추천해 드립니다. 다음 단계에서 기준을 자유롭게 수정하거나 추가할 수 있습니다. <span class="text-on-surface-variant">(아직 작업이 저장되지 않은 임시 상태입니다)</span>
+</p>
+</div>
+<!-- Form Actions -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-md pt-space-sm border-t border-surface-container-high">
+<button class="w-full sm:w-auto px-space-xl py-space-sm bg-surface-container-low text-on-surface rounded font-headline-sm text-headline-sm hover:bg-surface-container transition-colors" onclick="history.back()" type="button">
+            취소 및 돌아가기
+          </button>
+<button class="w-full sm:w-auto px-space-2xl py-space-md bg-primary-container hover:bg-primary text-on-primary rounded font-headline-sm text-headline-sm flex items-center justify-center gap-space-sm shadow-md transition-all active:scale-[0.99]" id="btn-submit-main" type="submit">
+<span id="btn-submit-text">검토 기준 만들기</span>
+<span class="material-symbols-outlined text-[20px]" id="btn-submit-icon">arrow_forward</span>
+<div class="hidden w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" id="btn-submit-spinner"></div>
+</button>
+</div>
+<!-- Overlaid Loading Screen for Simulation -->
+<div class="hidden absolute inset-0 bg-surface-container-lowest/95 backdrop-blur-[2px] flex flex-col items-center justify-center p-space-2xl z-20" id="loading-overlay">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-space-lg relative">
+<span class="material-symbols-outlined text-primary text-[32px] animate-pulse">auto_awesome</span>
+<div class="absolute inset-0 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-space-xs text-center">
+            AI가 맞춤 검토 기준을 구성하고 있습니다
+          </h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-center max-w-md mb-space-xl">
+            입력하신 4가지 답변을 정밀 분석하여, 실행 시 신뢰도를 보장할 deterministic 대조 기준 4개를 수립 중입니다. (약 3초 소요)
+          </p>
+<div class="w-full max-w-sm bg-surface-container rounded-full h-2 overflow-hidden mb-space-md">
+<div class="bg-primary h-full rounded-full w-2/3 transition-all duration-1000 animate-pulse"></div>
+</div>
+<span class="font-code-sm text-code-sm text-outline">Claude 3.5 Sonnet 연동 분석 진행 중...</span>
+<button class="mt-space-xl text-primary font-body-sm text-body-sm underline underline-offset-4" onclick="resetToDefaultState()" type="button">
+            로딩 시뮬레이션 취소
+          </button>
+</div>
+</form>
+<!-- Bottom Sample Visualizer: Output Preview Card -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm">
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[20px]">verified</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">작업 등록 후 생성될 검증 프로세스 미리보기</span>
+</div>
+<span class="px-space-sm py-0.5 bg-surface-container font-label-sm text-label-sm text-on-surface-variant rounded">사전 시뮬레이션</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div class="p-space-md bg-surface-container-low rounded-lg space-y-1">
+<span class="font-label-sm text-label-sm text-primary font-bold">대조 기준 01</span>
+<div class="font-headline-sm text-headline-sm text-on-surface">출처 문장 1:1 증거 매칭</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">요약된 모든 결정 사항에 원본 녹취록 타임스탬프와 문장을 각주로 부착합니다.</p>
+</div>
+<div class="p-space-md bg-surface-container-low rounded-lg space-y-1">
+<span class="font-label-sm text-label-sm text-primary font-bold">대조 기준 02</span>
+<div class="font-headline-sm text-headline-sm text-on-surface">마감일 형식 무결성 검사</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">YYYY-MM-DD 형식이 아니거나 불명확한 일정은 '확인 필요' 플래그로 격리합니다.</p>
+</div>
+<div class="p-space-md bg-surface-container-low rounded-lg space-y-1">
+<span class="font-label-sm text-label-sm text-primary font-bold">대조 기준 03</span>
+<div class="font-headline-sm text-headline-sm text-on-surface">환각(Hallucination) 방지</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">자료에 없는 참석자나 합의되지 않은 예산 언급을 원천 필터링합니다.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Right Column: Guidance & Onboarding Sidebar (4 Columns) -->
+<aside class="col-span-12 lg:col-span-4 flex flex-col gap-space-lg lg:sticky lg:top-20">
+<!-- Card 1: Beginner Guide -->
+<div class="bg-surface-container-lowest rounded-xl p-space-xl shadow-sm space-y-space-md">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[22px]">light</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">초보자를 위한 작성 가이드</h3>
+</div>
+<div class="space-y-space-md pt-space-xs">
+<!-- Tip 1 -->
+<div class="flex items-start gap-space-sm">
+<div class="w-6 h-6 rounded bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+</div>
+<div class="space-y-0.5">
+<h4 class="font-label-md text-label-md text-on-surface font-semibold">완벽한 프롬프트가 아니어도 됩니다</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                복잡한 AI 명령어 문법을 신경 쓰실 필요가 없습니다. 평소 팀 동료에게 일할 내용을 인수인계하듯 자연스러운 한국어 문장으로 적어주세요.
+              </p>
+</div>
+</div>
+<div class="h-px bg-surface-container-high w-full"></div>
+<!-- Tip 2 -->
+<div class="flex items-start gap-space-sm">
+<div class="w-6 h-6 rounded bg-tertiary/10 text-tertiary flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+</div>
+<div class="space-y-0.5">
+<h4 class="font-label-md text-label-md text-on-surface font-semibold">2단계에서 자유롭게 수정 가능</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                지금 작성한 내용은 초안 역할을 합니다. 다음 2단계 화면에서 AI가 제시한 검토 기준과 프롬프트 세부 매개변수를 직접 가감할 수 있습니다.
+              </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Workflow Lifecycle Diagram -->
+<div class="bg-surface-container-lowest rounded-xl p-space-xl shadow-sm space-y-space-md">
+<div class="flex items-center gap-space-xs text-on-surface">
+<span class="material-symbols-outlined text-primary text-[20px]">timeline</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">등록 후 어떻게 쓰이나요?</h3>
+</div>
+<!-- Visual Flow Graphic -->
+<div class="p-space-md bg-surface-container-low rounded-lg space-y-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded bg-primary text-on-primary flex items-center justify-center font-label-sm text-label-sm font-semibold shrink-0">1</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface font-semibold">질문 답변 등록</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">현재 화면에서 업무 성격 4개 정의</div>
+</div>
+</div>
+<div class="w-0.5 h-3 bg-outline-variant ml-3.5"></div>
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded bg-surface-container-high text-primary flex items-center justify-center font-label-sm text-label-sm font-semibold shrink-0">2</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface font-semibold">AI 맞춤 검토 기준 제안</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">출처 대조 및 오답 방지 규칙 확정</div>
+</div>
+</div>
+<div class="w-0.5 h-3 bg-outline-variant ml-3.5"></div>
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded bg-tertiary text-on-tertiary flex items-center justify-center font-label-sm text-label-sm font-semibold shrink-0">3</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface font-semibold">새 자료 넣고 1초 실행</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">다음부터는 문서만 올리면 자동 완결</div>
+</div>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          한 번 등록해 두면, 앞으로는 <strong>[내 작업]</strong> 탭에서 <strong>[실행하기]</strong> 버튼 하나로 동일한 신뢰 품질의 검토 보고서를 반복 생성할 수 있습니다.
+        </p>
+</div>
+<!-- Card 3: Security & Privacy Compliance Notice -->
+<div class="bg-surface-container rounded-xl p-space-lg shadow-sm space-y-space-xs">
+<div class="flex items-center gap-space-xs text-on-surface">
+<span class="material-symbols-outlined text-outline text-[18px]">verified_user</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">보안 및 개인정보 유의사항</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          사내 비밀유지 협약(NDA)에 저촉되는 핵심 계좌 정보, 주민등록번호, 미공개 보안 키 등 불필요한 민감 정보는 등록 내용에 직접 기재하지 마세요.
+        </p>
+<div class="pt-space-xs flex items-center gap-space-xs text-tertiary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span>입력된 모든 프롬프트는 안전한 격리 컨테이너에 암호화 보관됩니다.</span>
+</div>
+</div>
+</aside>
+</div>
+</div>
+<script>
+  // Helper functions for chip buttons
+  function setQ1(val) {
+    const el = document.getElementById('q1-input');
+    if (!el) return;
+    el.value = val;
+    el.focus();
+    updateCounter('q1-input', 'q1-counter', 100);
+    resetFieldError('field-q1-group', 'q1-error-msg', 'q1-check');
+  }
+
+  function setQ2(val) {
+    const el = document.getElementById('q2-input');
+    if (!el) return;
+    el.value = val;
+    el.focus();
+    resetFieldError('field-q2-group', 'q2-error-msg', 'q2-check');
+  }
+
+  function setQ3(val) {
+    const el = document.getElementById('q3-input');
+    if (!el) return;
+    el.value = val;
+    el.focus();
+    resetFieldError('field-q3-group', 'q3-error-msg', 'q3-check');
+  }
+
+  function updateCounter(inputId, counterId, max) {
+    const inp = document.getElementById(inputId);
+    const cnt = document.getElementById(counterId);
+    if (inp && cnt) {
+      cnt.innerText = inp.value.length + " / " + max + "자";
+    }
+  }
+
+  function resetFieldError(groupId, msgId, checkId) {
+    const grp = document.getElementById(groupId);
+    const msg = document.getElementById(msgId);
+    const chk = document.getElementById(checkId);
+    if (grp) grp.classList.remove('text-error');
+    if (msg) msg.classList.add('hidden');
+    if (chk) {
+      chk.innerText = 'check_circle';
+      chk.className = 'material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-tertiary text-[20px]';
+    }
+  }
+
+  function setFieldError(groupId, msgId, checkId) {
+    const grp = document.getElementById(groupId);
+    const msg = document.getElementById(msgId);
+    const chk = document.getElementById(checkId);
+    if (msg) msg.classList.remove('hidden');
+    if (chk) {
+      chk.innerText = 'error';
+      chk.className = 'material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-error text-[20px]';
+    }
+  }
+
+  // Input listeners
+  const q1Input = document.getElementById('q1-input');
+  if (q1Input) {
+    q1Input.addEventListener('input', function() {
+      updateCounter('q1-input', 'q1-counter', 100);
+      if (this.value.trim().length > 0) {
+        resetFieldError('field-q1-group', 'q1-error-msg', 'q1-check');
+      }
+    });
+  }
+
+  const q2Input = document.getElementById('q2-input');
+  if (q2Input) {
+    q2Input.addEventListener('input', function() {
+      if (this.value.trim().length > 0) {
+        resetFieldError('field-q2-group', 'q2-error-msg', 'q2-check');
+      }
+    });
+  }
+
+  const q3Input = document.getElementById('q3-input');
+  if (q3Input) {
+    q3Input.addEventListener('input', function() {
+      if (this.value.trim().length > 0) {
+        resetFieldError('field-q3-group', 'q3-error-msg', 'q3-check');
+      }
+    });
+  }
+
+  // Interactive Prototype States Simulation
+  const btnStateDefault = document.getElementById('btn-state-default');
+  const btnStateLoading = document.getElementById('btn-state-loading');
+  const btnStateError = document.getElementById('btn-state-error');
+  const loadingOverlay = document.getElementById('loading-overlay');
+
+  function setActiveStatePill(activeBtn) {
+    [btnStateDefault, btnStateLoading, btnStateError].forEach(btn => {
+      if (btn === activeBtn) {
+        btn.className = "px-space-sm py-1 bg-surface-container-lowest text-primary rounded font-medium shadow-sm transition-all hover:bg-white";
+      } else {
+        btn.className = "px-space-sm py-1 text-on-surface-variant rounded hover:text-on-surface transition-all";
+      }
+    });
+  }
+
+  function resetToDefaultState() {
+    setActiveStatePill(btnStateDefault);
+    if (loadingOverlay) loadingOverlay.classList.add('hidden');
+    if (q1Input) q1Input.value = "매주 월요일 전사 주간 회의록을 요약하고 할 일을 정리해요.";
+    if (q2Input) q2Input.value = "Zoom 자동 녹취 스크립트 텍스트 파일, 슬랙 주간 공유 스레드 메모";
+    if (q3Input) q3Input.value = "3줄 핵심 요약, 확정된 결정 사항 3가지, 담당자 및 마감 기한이 적힌 액션 아이템 표";
+    resetFieldError('field-q1-group', 'q1-error-msg', 'q1-check');
+    resetFieldError('field-q2-group', 'q2-error-msg', 'q2-check');
+    resetFieldError('field-q3-group', 'q3-error-msg', 'q3-check');
+    updateCounter('q1-input', 'q1-counter', 100);
+  }
+
+  if (btnStateDefault) {
+    btnStateDefault.addEventListener('click', resetToDefaultState);
+  }
+
+  if (btnStateLoading) {
+    btnStateLoading.addEventListener('click', function() {
+      setActiveStatePill(btnStateLoading);
+      if (loadingOverlay) loadingOverlay.classList.remove('hidden');
+    });
+  }
+
+  if (btnStateError) {
+    btnStateError.addEventListener('click', function() {
+      setActiveStatePill(btnStateError);
+      if (loadingOverlay) loadingOverlay.classList.add('hidden');
+      if (q1Input) { q1Input.value = ""; }
+      if (q2Input) { q2Input.value = ""; }
+      if (q3Input) { q3Input.value = ""; }
+      setFieldError('field-q1-group', 'q1-error-msg', 'q1-check');
+      setFieldError('field-q2-group', 'q2-error-msg', 'q2-check');
+      setFieldError('field-q3-group', 'q3-error-msg', 'q3-check');
+      updateCounter('q1-input', 'q1-counter', 100);
+    });
+  }
+
+  function triggerSubmit() {
+    let hasError = false;
+    if (!q1Input || !q1Input.value.trim()) {
+      setFieldError('field-q1-group', 'q1-error-msg', 'q1-check');
+      hasError = true;
+    }
+    if (!q2Input || !q2Input.value.trim()) {
+      setFieldError('field-q2-group', 'q2-error-msg', 'q2-check');
+      hasError = true;
+    }
+    if (!q3Input || !q3Input.value.trim()) {
+      setFieldError('field-q3-group', 'q3-error-msg', 'q3-check');
+      hasError = true;
+    }
+
+    if (hasError) {
+      setActiveStatePill(btnStateError);
+      return;
+    }
+
+    // Trigger loading view
+    setActiveStatePill(btnStateLoading);
+    if (loadingOverlay) {
+      loadingOverlay.classList.remove('hidden');
+      // Simulated redirect / continuation
+      setTimeout(() => {
+        // Simulating transition to Step 2
+        loadingOverlay.classList.add('hidden');
+        setActiveStatePill(btnStateDefault);
+        alert("2단계(AI 추천 검토 기준 확인 및 정밀 조정)로 이동합니다. 입력하신 데이터를 바탕으로 4개의 deterministic 대조 기준이 생성되었습니다.");
+      }, 2500);
+    }
+  }
+</script></main><footer class="w-full border-t border-outline-variant bg-surface-container-lowest py-space-md"><div class="max-w-7xl mx-auto px-margin-lg flex flex-col sm:flex-row items-center justify-between gap-space-sm text-on-surface-variant"><div class="flex items-center gap-space-xs font-body-sm text-body-sm"><span class="material-symbols-outlined text-outline text-[16px]">shield_with_heart</span><span class="">믿고맡김은 생성된 결과의 근거 확인을 보조하며, 최종 검토 및 책임은 사용자에게 있습니다.</span></div><div class="font-label-sm text-label-sm text-outline">© 2025 믿고맡김 AI Assistant. Deterministic Audit Architecture.</div></div></footer>
+</body></html>

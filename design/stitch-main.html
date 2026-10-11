@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"primary-container":"#1d4ed8","tertiary-fixed-dim":"#6bd8cb","tertiary":"#004e47","on-background":"#0b1c30","outline":"#747686","on-secondary-container":"#5c647a","on-primary-fixed-variant":"#0039b5","on-tertiary-fixed-variant":"#005049","tertiary-container":"#00685f","tertiary-fixed":"#89f5e7","on-error":"#ffffff","secondary-fixed":"#dae2fd","secondary-container":"#dae2fd","on-tertiary":"#ffffff","surface-container":"#e5eeff","secondary":"#565e74","surface-dim":"#cbdbf5","on-error-container":"#93000a","surface-container-high":"#dce9ff","background":"#f8f9ff","on-primary-fixed":"#001551","surface-container-highest":"#d3e4fe","secondary-fixed-dim":"#bec6e0","inverse-on-surface":"#eaf1ff","surface-container-lowest":"#ffffff","surface-container-low":"#eff4ff","primary-fixed":"#dce1ff","surface-bright":"#f8f9ff","on-secondary-fixed-variant":"#3f465c","on-secondary":"#ffffff","primary-fixed-dim":"#b7c4ff","surface":"#f8f9ff","surface-tint":"#2151da","on-primary":"#ffffff","on-tertiary-container":"#7be7d9","inverse-primary":"#b7c4ff","on-tertiary-fixed":"#00201d","on-primary-container":"#cad3ff","on-surface-variant":"#434655","outline-variant":"#c4c5d7","error-container":"#ffdad6","surface-variant":"#d3e4fe","on-surface":"#0b1c30","on-secondary-fixed":"#131b2e","inverse-surface":"#213145","error":"#ba1a1a","primary":"#0037b0"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"space-sm":"0.5rem","gutter":"1rem","margin":"1rem","gutter-lg":"1.5rem","space-2xl":"2rem","margin-lg":"2rem","space-xs":"0.25rem","space-md":"0.75rem","space-xl":"1.5rem","space-lg":"1rem"},"fontFamily":{"display-lg":["Inter"],"label-md":["Inter"],"code-sm":["Inter"],"headline-lg":["Inter"],"body-lg":["Inter"],"body-sm":["Inter"],"body-md":["Inter"],"headline-sm":["Inter"],"headline-md":["Inter"],"label-sm":["Inter"]},"fontSize":{"display-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"600"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"600"}],"code-sm":["12px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"400"}],"body-sm":["13px",{"lineHeight":"20px","letterSpacing":"0.005em","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.02em","fontWeight":"500"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface min-h-screen flex flex-col antialiased"><header class="fixed top-0 left-0 w-full z-40 bg-surface-container-lowest border-b border-outline-variant"><div class="h-16 max-w-7xl mx-auto px-margin-lg flex items-center justify-between"><div class="flex items-center gap-space-2xl h-full"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-on-primary font-headline-sm text-headline-sm">믿</div><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface">믿고맡김</span></div><nav class="flex items-center gap-space-lg h-full" data-active-classes="text-on-surface border-b-2 border-primary font-headline-sm"><a aria-current="page" class="h-full flex items-center px-space-xs transition-colors text-on-surface border-b-2 border-primary font-headline-sm" data-path="작업-실행-및-검토" href="#">작업 실행 및 검토</a><a class="h-full flex items-center px-space-xs font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="작업-템플릿-보관함" href="#">작업 템플릿 보관함</a><a class="h-full flex items-center px-space-xs font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="검토-기준-설정" href="#">검토 기준 설정</a><a class="h-full flex items-center px-space-xs font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="실행-이력" href="#">실행 이력</a></nav></div><div class="flex items-center gap-space-lg"><div class="hidden md:flex items-center gap-space-xs px-space-sm py-space-xs bg-surface-container-low border border-outline-variant rounded font-label-sm text-label-sm text-tertiary"><span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span><span>모델: Claude 3.5 Sonnet 연동됨</span></div><button class="flex items-center gap-space-xs px-space-sm py-space-xs border border-outline-variant rounded bg-surface-container-lowest hover:bg-surface-container-low transition-colors font-body-sm text-body-sm text-on-surface" type="button"><span class="material-symbols-outlined text-outline text-[16px]">domain</span><span>프로덕트 기획팀</span><span class="material-symbols-outlined text-outline text-[16px]">expand_more</span></button><button aria-label="Notifications" class="p-space-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><div class="flex items-center gap-space-sm pl-space-xs border-l border-outline-variant"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1WCqR__QkQz4JEl85GPzmSI90AA5RJ3gF9Lo3iNzOg_TLURCKuiQaXvFgwd9jy2d1Tmv9hC4Ax44mlYyDK0JLZ8t1nKy71qvBJZN5oy5EFfzjATum4VfBMzhz1ij1E7VqsHbTmUnBM5BF_7XaCwzDj_qOMPsPVq8mitHLHujbMDyNNoL32F1hTXpSXfy0fFmCVTJNPteMudsqOJLtVZZkF59swzzH8lz-Oqo8IFx6m2Dw036YC5sMsW0-IH"/><div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface">김민준 팀장</span><span class="font-label-sm text-label-sm text-on-surface-variant">운영 관리자</span></div></div></div></div></header><main class="w-full max-w-7xl mx-auto px-margin-lg pt-16 flex-1 bg-background"><div class="flex flex-col w-full pb-16">
+<!-- Task Header & Meta Context Bar -->
+<section class="w-full bg-surface-container-lowest rounded-xl shadow-sm p-space-xl mb-space-xl">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg mb-space-lg">
+<div class="space-y-space-xs max-w-4xl">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[13px]">verified</span>
+            결과 검토 보조 진행 중
+          </span>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[13px]">folder_open</span>
+            템플릿: 법무·제휴 사전검토 v1.4
+          </span>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-low text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[13px]">schedule</span>
+            최근 실행: 방금 전
+          </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 font-label-sm text-label-sm font-semibold">
+<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+            확인 대기 2건 (주의 1 / 미확인 1)
+          </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+          신규 B2B 파트너십 제휴 제안서 요약 및 리스크 분석
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          원문 제안서에서 핵심 협약 조건, 수익 배분 구조, 의무 조항을 추출하고 검토 기준에 부합하지 않거나 확인이 필요한 지점을 탐색합니다.
+        </p>
+</div>
+<!-- Quick Actions -->
+<div class="flex items-center gap-space-sm shrink-0 self-start lg:self-center">
+<button class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded bg-surface-container text-on-surface font-body-sm text-body-sm hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[17px] text-secondary">tune</span>
+          검토 기준 변경
+        </button>
+<button class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded bg-primary text-on-primary font-body-sm text-body-sm hover:bg-primary-container shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[17px]">restart_alt</span>
+          새 작업으로 재실행
+        </button>
+</div>
+</div>
+<!-- Core Governance Alert Banner -->
+<div class="flex items-start gap-3 p-3.5 rounded-lg bg-surface-container-low text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">policy</span>
+<div class="flex-1">
+<span class="font-semibold text-on-surface">사용자 최종 검토 원칙 안내:</span>
+        본 시스템은 사용자의 원문 대조 및 리스크 확인 시간을 단축하도록 돕는 보조 도구입니다. AI 결과가 법적·계약적 완전성을 보증하지 않으므로, 중요한 의사결정 전 반드시 원문 근거와 하이라이트된 확인 지점을 직접 점검해 주세요.
+      </div>
+</div>
+</section><div class="w-full bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm p-space-lg mb-space-xl"><div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md pb-space-md border-b border-outline-variant"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[22px]">explore</span><h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">검토 진행 3단계 가이드</h2><span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">처음 오셨나요?</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">왼쪽 원본 문서를 바탕으로 AI가 추출한 오른쪽 근거를 대조하고, 최종 승인을 완료하는 프로세스입니다.</p></div><div class="grid grid-cols-1 md:grid-cols-3 gap-space-md pt-space-md"><div class="flex items-start gap-3 p-3 rounded-lg bg-surface-container-low border border-outline-variant"><div class="w-7 h-7 rounded-full bg-primary text-on-primary font-headline-sm text-label-md flex items-center justify-center font-bold shrink-0">1</div><div class="space-y-0.5"><div class="font-headline-sm text-label-md text-on-surface font-semibold">1단계: 원본 문서 입력</div><p class="font-body-sm text-label-sm text-on-surface-variant">검토할 계약서나 문서를 직접 붙여넣거나 샘플을 로드합니다.</p></div></div><div class="flex items-start gap-3 p-3 rounded-lg bg-surface-container-low border border-outline-variant"><div class="w-7 h-7 rounded-full bg-primary text-on-primary font-headline-sm text-label-md flex items-center justify-center font-bold shrink-0">2</div><div class="space-y-0.5"><div class="font-headline-sm text-label-md text-on-surface font-semibold">2단계: AI 검토 기준 적용</div><p class="font-body-sm text-label-sm text-on-surface-variant">사전 등록된 규칙(수익배분, 보관기간, 위약벌 등)으로 자동 대조합니다.</p></div></div><div class="flex items-start gap-3 p-3 rounded-lg bg-primary/10 border border-primary/30"><div class="w-7 h-7 rounded-full bg-primary text-on-primary font-headline-sm text-label-md flex items-center justify-center font-bold shrink-0">3</div><div class="space-y-0.5"><div class="font-headline-sm text-label-md text-primary font-semibold flex items-center gap-1.5"><span>3단계: 근거 확인 &amp; 최종 승인</span><span class="px-1.5 py-0.2 rounded bg-primary text-on-primary font-label-sm text-[10px]">현재 단계</span></div><p class="font-body-sm text-label-sm text-on-surface-variant">표시된 원문 위치를 직접 대조하여 확인 후 리포트를 생성합니다.</p></div></div></div><div class="mt-space-md p-3 rounded-lg bg-surface-container-high/60 flex items-start sm:items-center justify-between gap-3 text-body-sm font-body-sm text-on-surface-variant"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[18px] shrink-0">lightbulb</span><span><strong>초보자 안내 팁:</strong> 믿고맡김은 AI가 100% 정답을 보증하는 대신, 사람이 반드시 확인해야 할 원문 위치와 누락 조항을 집어주는 업무 보조 도구입니다.</span></div><span class="font-label-sm text-label-sm text-secondary bg-surface-container px-2 py-0.5 rounded whitespace-nowrap">안내 숙지 권장</span></div></div>
+<!-- Split Pane Workspace (Source Left ~42% | AI Results Right ~58%) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter-lg items-start">
+<!-- LEFT COLUMN: Source Document Area -->
+<div class="xl:col-span-5 flex flex-col gap-space-lg">
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col h-full">
+<!-- Panel Header -->
+<div class="flex items-center justify-between pb-space-md mb-space-md">
+<div class="space-y-0.5"><div class="flex items-center gap-2"><span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">1단계</span><span class="material-symbols-outlined text-primary text-[20px]">description</span><h2 class="font-headline-sm text-headline-sm text-on-surface">자료 입력 (원본 소스)</h2></div><p class="font-label-sm text-label-sm text-on-surface-variant">분석할 원문 텍스트나 기획서, 계약서 조항을 붙여넣으세요.</p></div>
+<div class="flex items-center gap-2">
+<span class="font-code-sm text-code-sm px-2 py-1 rounded bg-surface-container font-medium text-secondary">
+              총 3,420자
+            </span>
+</div>
+</div>
+<!-- Toolbar Utility -->
+<div class="flex items-center justify-between py-2 px-3 rounded-lg bg-surface-container-low mb-space-sm text-body-sm font-body-sm">
+<div class="flex items-center gap-1 text-on-surface-variant"><button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container-high font-medium text-primary hover:bg-surface-container transition-colors shadow-xs" title="체험용 계약서 즉시 입력" type="button"><span class="material-symbols-outlined text-[16px]">history_edu</span><span>샘플 계약서 불러오기 (체험하기)</span></button><button class="inline-flex items-center gap-1 px-2 py-1 rounded hover:bg-surface-container-high transition-colors text-secondary hover:text-on-surface" type="button"><span class="material-symbols-outlined text-[16px]">upload_file</span><span>파일 첨부 (.txt, .pdf)</span></button></div>
+<button class="inline-flex items-center gap-1 px-2 py-1 rounded text-outline hover:text-error hover:bg-error-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">delete_outline</span>
+            텍스트 지우기
+          </button>
+</div>
+<!-- Source Content Area with Paragraph Anchors -->
+<div class="relative bg-surface rounded-lg p-space-md font-body-sm text-body-sm text-on-surface leading-relaxed max-h-[740px] overflow-y-auto space-y-space-md select-text focus-within:ring-2 focus-within:ring-primary/20">
+<!-- Document Header Tag -->
+<div class="text-center py-2 px-3 bg-surface-container-high rounded text-on-surface-variant font-medium">
+            [제휴 기본 협약서 초안 - (주)넥스트커머스 x (주)알파소프트]
+          </div>
+<!-- Paragraph 1 -->
+<div class="group transition-colors p-2 rounded hover:bg-surface-container-low" id="para-1">
+<span class="font-code-sm text-code-sm text-outline font-semibold select-none mr-1.5">[문단 1]</span>
+<span class="font-semibold text-on-surface">제1조 (목적)</span>
+            본 협약은 (주)넥스트커머스(이하 "갑")와 (주)알파소프트(이하 "을")가 상호 제공하는 B2B 마켓플레이스 연동 및 솔루션 공동 마케팅에 관한 기본 권리와 의무를 규정함을 목적으로 한다.
+          </div>
+<!-- Paragraph 2 (Highlighted Anchor) -->
+<div class="group transition-colors p-2 rounded bg-tertiary-fixed/30 hover:bg-tertiary-fixed/50" id="para-2">
+<div class="flex items-center justify-between mb-1">
+<span class="font-code-sm text-code-sm text-tertiary font-bold select-none">[문단 2] 제4조 1항 (수익 분배 및 정산 주기)</span>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container-lowest text-tertiary font-semibold shadow-xs">
+<span class="material-symbols-outlined text-[12px]">link</span>
+                결과 1과 연결됨
+              </span>
+</div>
+<p class="text-on-surface">
+              "파트너사는 발생한 순매출의 70%를 배분받으며, 정산은 매월 말일 마감 후 익월 10영업일 이내에 지정 계좌로 송금한다. 세부 정산 내역은 익월 5일 영업일까지 정산 시스템 관리자 콘솔을 통해 상호 확인을 완료해야 한다."
+            </p>
+</div>
+<!-- Paragraph 3 -->
+<div class="group transition-colors p-2 rounded hover:bg-surface-container-low" id="para-3">
+<span class="font-code-sm text-code-sm text-outline font-semibold select-none mr-1.5">[문단 3]</span>
+<span class="font-semibold text-on-surface">제5조 (시스템 연동 및 SLA)</span>
+            "을"은 본 제휴 솔루션의 월간 가용률을 최소 99.8% 이상 유지하여야 하며, 정기 점검 48시간 전 "갑"에게 사전 공지하여 업무 차질을 최소화한다.
+          </div>
+<!-- Paragraph 4 -->
+<div class="group transition-colors p-2 rounded hover:bg-surface-container-low" id="para-4">
+<span class="font-code-sm text-code-sm text-outline font-semibold select-none mr-1.5">[문단 4]</span>
+<span class="font-semibold text-on-surface">제6조 (비밀유지 의무)</span>
+            양 당사자는 본 협약과 관련하여 취득한 상대방의 기술 정보, 사업 전략 및 영업 기밀을 본 협약의 목적 외에 사용할 수 없으며 제3자에게 누설해서는 아니 된다.
+          </div>
+<!-- Paragraph 5 (Highlighted Anchor for Warning) -->
+<div class="group transition-colors p-2 rounded bg-amber-100/60 hover:bg-amber-100/80" id="para-5">
+<div class="flex items-center justify-between mb-1">
+<span class="font-code-sm text-code-sm text-amber-900 font-bold select-none">[문단 5] 제7조 3항 (데이터 보안 및 고객 정보 위탁)</span>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container-lowest text-amber-800 font-semibold shadow-xs">
+<span class="material-symbols-outlined text-[12px]">warning</span>
+                결과 2 검토 필요
+              </span>
+</div>
+<p class="text-on-surface">
+              "양 당사자는 계약 종료 시 제공된 고객 식별 정보를 지체 없이 복구 불가능한 방법으로 파기하여야 한다. <mark class="bg-amber-200 text-amber-950 px-1 py-0.5 rounded">단, 파트너사의 내부 감사 및 분쟁 대비를 위해 관련 로그 및 결제 이력은 최대 3년까지 별도 암호화 보관할 수 있다.</mark>"
+            </p>
+</div>
+<!-- Paragraph 6 -->
+<div class="group transition-colors p-2 rounded hover:bg-surface-container-low" id="para-6">
+<span class="font-code-sm text-code-sm text-outline font-semibold select-none mr-1.5">[문단 6]</span>
+<span class="font-semibold text-on-surface">제9조 (지식재산권의 귀속)</span>
+            공동 개발된 커스텀 모듈 및 연동 API 규격에 대한 저작권은 양사가 공동 소유하며, 단독 상용화 시 상대방의 서면 동의를 얻어야 한다.
+          </div>
+<!-- Paragraph 7 -->
+<div class="group transition-colors p-2 rounded hover:bg-surface-container-low" id="para-7">
+<span class="font-code-sm text-code-sm text-outline font-semibold select-none mr-1.5">[문단 7]</span>
+<span class="font-semibold text-on-surface">제11조 (계약의 해지)</span>
+            당사자 일방이 본 협약상의 의무를 불이행하고 상대방의 시정 요구를 받은 날로부터 14일 이내에 이를 시정하지 아니하는 경우 상대방은 서면 통지로써 본 계약을 해지할 수 있다. 그 외 일방의 귀책사유 없는 해지의 경우 30일 전 사전 서면 통보로 효력이 발생한다. (※ 위약벌 산정 조항 누락됨)
+          </div>
+<!-- Paragraph 8 -->
+<div class="group transition-colors p-2 rounded bg-tertiary-fixed/30 hover:bg-tertiary-fixed/50" id="para-8">
+<div class="flex items-center justify-between mb-1">
+<span class="font-code-sm text-code-sm text-tertiary font-bold select-none">[문단 8] 제12조 1항 (계약 기간 및 갱신)</span>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container-lowest text-tertiary font-semibold shadow-xs">
+<span class="material-symbols-outlined text-[12px]">link</span>
+                결과 4와 연결됨
+              </span>
+</div>
+<p class="text-on-surface">
+              "본 협약은 서명 날인된 날로부터 1년간 유효하다. 만료 30일 전까지 어느 일방으로부터 서면에 의한 갱신 거절 또는 계약 조건 변경의 통지가 없는 한, 동일한 조건으로 1년 단위로 자동 연장된다."
+            </p>
+</div>
+</div>
+<!-- Action Button Section at bottom of Left Panel -->
+<div class="mt-space-lg pt-space-md flex flex-col sm:flex-row items-center gap-space-sm"><div class="w-full flex flex-col gap-2"><button class="w-full py-3.5 px-4 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-headline-sm flex flex-col sm:flex-row items-center justify-center gap-2 shadow-sm transition-all group" type="button"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[22px] group-hover:scale-110 transition-transform">bolt</span><span>AI 작업 실행 및 검토 분석</span><kbd class="hidden md:inline font-code-sm text-code-sm px-1.5 py-0.5 rounded bg-on-primary/20 text-on-primary">Ctrl + Enter</kbd></div></button><div class="flex items-center justify-between text-label-sm text-label-sm text-on-surface-variant px-1"><span>사전 등록된 법무·제휴 검토 기준 4개 항목 자동 대조 실행</span><button class="text-secondary hover:text-on-surface hover:underline font-label-sm text-label-sm" type="button">검토 기준 변경</button></div></div></div>
+</div>
+</div>
+<!-- RIGHT COLUMN: AI Generated Results & Verification Review Deck -->
+<div class="xl:col-span-7 flex flex-col gap-space-lg">
+<!-- Top Sticky Review Toolbar & Statistics Matrix -->
+<div class="sticky top-20 z-20 bg-surface-container-lowest rounded-xl shadow-md p-space-md"><div class="flex flex-col gap-space-sm"><div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pb-space-sm border-b border-outline-variant"><div class="flex items-center gap-2"><span class="px-2 py-0.5 rounded bg-primary text-on-primary font-label-sm text-label-sm font-semibold">2·3단계</span><h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">AI 분석 결과 및 원문 근거 대조</h3></div><div class="flex items-center gap-1"><button class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="전체 근거 하이라이트 토글" type="button"><span class="material-symbols-outlined text-[19px]">highlight</span></button><button class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="결과 복사" type="button"><span class="material-symbols-outlined text-[19px]">content_copy</span></button><button class="p-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Markdown 다운로드" type="button"><span class="material-symbols-outlined text-[19px]">download</span></button><button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors font-semibold" type="button">보고서 생성</button></div></div><div class="flex items-center gap-1.5 flex-wrap"><span class="px-2.5 py-1 rounded bg-surface-container text-on-surface font-label-md text-label-md font-semibold">전체 항목 4개</span><span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-teal-50 text-teal-800 font-label-md text-label-md font-semibold"><span class="material-symbols-outlined text-[15px] text-teal-600">check_circle</span>근거 확인 완료 2개</span><span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-amber-50 text-amber-900 font-label-md text-label-md font-semibold"><span class="material-symbols-outlined text-[15px] text-amber-600">warning</span>확인이 필요해요 1개</span><span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-rose-50 text-rose-900 font-label-md text-label-md font-semibold"><span class="material-symbols-outlined text-[15px] text-rose-600">error_outline</span>입력 자료 근거 없음 1개</span></div><div class="p-2.5 rounded-lg bg-surface-container-low border border-outline-variant text-label-sm text-label-sm space-y-1"><div class="font-semibold text-on-surface flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-primary">help</span><span>상태 범례 및 판독 가이드 (어떻게 읽어야 하나요?)</span></div><div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-on-surface-variant"><div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-teal-600 shrink-0"></span><span><strong>근거 확인 완료:</strong> 원문 조항과 일치</span></div><div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span><span><strong>확인이 필요해요:</strong> 법적 리스크·검토 권장</span></div><div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-600 shrink-0"></span><span><strong>근거 미발견:</strong> 필수 조항 본문 누락</span></div></div></div></div></div>
+<!-- Warning Disclaimer Box for Compliance -->
+<div class="rounded-xl bg-amber-50/80 p-space-md flex items-center gap-3">
+<span class="material-symbols-outlined text-amber-600 text-[22px] shrink-0">info</span>
+<div class="font-body-sm text-body-sm text-amber-950 flex-1">
+<strong class="font-semibold">초안 검토 주의사항:</strong> AI 생성 결과는 요약 초안입니다. 아래 각 항목의 <span class="underline decoration-amber-400 font-medium">검토 기준</span>과 <span class="underline decoration-amber-400 font-medium">원문 근거</span> 인용구를 직접 대조하여 타당성을 최종 확정해 주시기 바랍니다.
+        </div>
+</div>
+<!-- RESULT CARD 1: Core Terms & Revenue Share (Verified) -->
+<article class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md transition-shadow hover:shadow-md">
+<!-- Header -->
+<div class="flex items-start justify-between gap-2">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container text-secondary font-semibold">01</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">
+                핵심 제휴 조건 및 수익 배분 비율
+              </h3>
+</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-tertiary">rule</span>
+              검토 기준: 수익 배분율 명시 여부 및 정산 지급 기한(영업일 15일 이내) 충족 여부
+            </div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-teal-50 text-teal-800 font-label-md text-label-md font-semibold shrink-0">
+<span class="material-symbols-outlined text-[15px] text-teal-600">verified</span>
+            근거 확인 완료
+          </span>
+</div>
+<!-- AI Generated Synthesis -->
+<div class="p-3.5 rounded-lg bg-surface text-on-surface font-body-md text-body-md leading-relaxed">
+          기본 정산 비율은 순매출의 <strong class="text-primary font-semibold">70:30 (파트너사:당사)</strong>으로 매월 말일 정산 후 <strong class="text-primary font-semibold">익월 10영업일 이내 지급</strong>하도록 규정되어 있어 사내 권고 기준(15영업일 이내)을 충족합니다.
+        </div>
+<!-- Supporting Evidence Accordion / Box -->
+<div class="p-3.5 rounded-lg bg-surface-container-low space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-tertiary font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+              원문 근거: [문단 2] 제4조 1항
+            </div>
+<a class="font-label-sm text-label-sm text-primary hover:underline flex items-center gap-0.5" href="#para-2">
+              원문 위치 바로가기
+              <span class="material-symbols-outlined text-[13px]">arrow_outward</span>
+</a>
+</div>
+<blockquote class="font-body-sm text-body-sm text-on-surface-variant italic pl-3 border-l-2 border-tertiary">
+            “파트너사는 발생한 순매출의 70%를 배분받으며, 정산은 매월 말일 마감 후 익월 10영업일 이내에 지정 계좌로 송금한다.”
+          </blockquote>
+</div>
+<!-- Card Footprint Actions -->
+<div class="flex items-center justify-between pt-2 text-label-md font-label-md text-secondary"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-tertiary-fixed/30 text-tertiary font-label-sm text-label-sm font-semibold"><span class="material-symbols-outlined text-[13px]">pin_drop</span>좌측 [문단 2] 연결</span><span class="text-outline font-label-sm text-label-sm">일치도 98%</span></div><div class="flex items-center gap-1.5"><button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-teal-50 hover:bg-teal-100 text-teal-800 font-label-md text-label-md font-semibold transition-colors" type="button"><span class="material-symbols-outlined text-[15px]">check</span>확인 완료 처리</button><button class="px-2.5 py-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface font-label-md text-label-md transition-colors" type="button">수정 제안 작성</button><button class="px-2 py-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface font-label-md text-label-md transition-colors" type="button">복사</button></div></div>
+</article>
+<!-- RESULT CARD 2: Data Retention & Security Scope (Needs Attention) -->
+<article class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md transition-shadow hover:shadow-md">
+<!-- Header -->
+<div class="flex items-start justify-between gap-2">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container text-secondary font-semibold">02</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">
+                데이터 보관 기간 및 보안 책임 범위
+              </h3>
+</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-amber-700">rule</span>
+              검토 기준: 개인정보보호법 준수 및 계약 종료 후 보관 예외 사유의 적법성 검토
+            </div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-50 text-amber-900 font-label-md text-label-md font-semibold shrink-0">
+<span class="material-symbols-outlined text-[15px] text-amber-600">warning</span>
+            확인이 필요해요
+          </span>
+</div>
+<!-- AI Generated Synthesis -->
+<div class="p-3.5 rounded-lg bg-surface text-on-surface font-body-md text-body-md leading-relaxed">
+          파트너사는 수탁받은 고객 데이터를 계약 종료 후 즉시 파기해야 하나, 감사 목적으로 <strong class="text-amber-800 underline decoration-amber-400 font-semibold">최대 3년간 사내 안전 서버에 별도 보관</strong>할 수 있다고 명시되어 있습니다.
+        </div>
+<!-- Attention Reason Callout (The Core Differentiator of SaaS) -->
+<div class="p-3.5 rounded-lg bg-amber-50 text-amber-950 flex items-start gap-2.5">
+<span class="material-symbols-outlined text-amber-600 text-[19px] shrink-0 mt-0.5">notification_important</span>
+<div class="font-body-sm text-body-sm leading-snug">
+<strong class="font-semibold text-amber-900">사용자 확인 필요 지점:</strong> 원문에는 '법정 의무 보관(예: 전자상거래법)'에 관한 구체적 근거 법령 없이 단순 '사내 감사 목적'으로만 기재되어 있어, 개인정보보호법 위반 소지가 발생할 수 있습니다. <strong>법무팀 추가 수정안 제시가 권장됩니다.</strong>
+</div>
+</div>
+<!-- Supporting Evidence -->
+<div class="p-3.5 rounded-lg bg-surface-container-low space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-amber-900 font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+              원문 근거: [문단 5] 제7조 3항
+            </div>
+<a class="font-label-sm text-label-sm text-primary hover:underline flex items-center gap-0.5" href="#para-5">
+              원문 위치 바로가기
+              <span class="material-symbols-outlined text-[13px]">arrow_outward</span>
+</a>
+</div>
+<blockquote class="font-body-sm text-body-sm text-on-surface-variant italic pl-3 border-l-2 border-amber-500">
+            “단, 파트너사의 내부 감사 및 분쟁 대비를 위해 관련 로그 및 결제 이력은 최대 3년까지 별도 암호화 보관할 수 있다.”
+          </blockquote>
+</div>
+<!-- Card Footprint Actions -->
+<div class="flex items-center justify-between pt-2"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-label-sm text-label-sm font-semibold"><span class="material-symbols-outlined text-[13px]">pin_drop</span>좌측 [문단 5] 연결</span><span class="text-amber-800 font-label-sm text-label-sm font-medium">법무팀 확인 필수</span></div><div class="flex items-center gap-1.5"><button class="inline-flex items-center gap-1 px-3 py-1.5 rounded bg-amber-600 text-white font-label-md text-label-md hover:bg-amber-700 transition-colors shadow-xs font-semibold" type="button"><span class="material-symbols-outlined text-[15px]">done</span>확인 완료 처리</button><button class="px-2.5 py-1.5 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" type="button">수정 제안 작성</button><button class="px-2 py-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface font-label-md text-label-md transition-colors" type="button">복사</button></div></div>
+</article>
+<!-- RESULT CARD 3: Liquidated Damages on Unilateral Termination (Missing Source / Red Accent) -->
+<article class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md transition-shadow hover:shadow-md">
+<!-- Header -->
+<div class="flex items-start justify-between gap-2">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container text-secondary font-semibold">03</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">
+                일방적 해지 통보 시 위약벌 규정
+              </h3>
+</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-rose-700">rule</span>
+              검토 기준: 중도 해지 시 위약벌 및 손해배상 산정식 존재 여부
+            </div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-rose-50 text-rose-900 font-label-md text-label-md font-semibold shrink-0">
+<span class="material-symbols-outlined text-[15px] text-rose-600">error_outline</span>
+            입력 자료에서 근거를 찾지 못했어요
+          </span>
+</div>
+<!-- AI Generated Synthesis -->
+<div class="p-3.5 rounded-lg bg-surface text-on-surface font-body-md text-body-md leading-relaxed">
+          상대방의 중대한 귀책사유 없이 30일 전 서면 통보만으로 계약을 해지할 경우 발생하는 <span class="text-rose-800 font-semibold underline decoration-rose-300">별도의 위약벌이나 손해배상 산정 기준이 본문에 명시되지 않음.</span>
+</div>
+<!-- Missing Evidence Alert Box (Clear Diagnostic of hallucination prevention) -->
+<div class="p-4 rounded-lg bg-rose-50 text-rose-950 flex flex-col gap-2">
+<div class="flex items-center gap-2 font-headline-sm text-headline-sm text-rose-900 font-semibold">
+<span class="material-symbols-outlined text-rose-600 text-[20px]">search_off</span>
+            원문 근거 미발견 진단
+          </div>
+<p class="font-body-sm text-body-sm text-rose-900 leading-relaxed">
+            입력 자료에서 근거를 찾지 못했습니다. 본문 전체(제1조~제12조)에서 <strong class="underline">'중도 해지 위약금'</strong> 또는 <strong class="underline">'손해배상 예정액'</strong>에 대한 구체 조항이 누락되어 있습니다. 별도의 부속 합의서가 누락되었는지 확인하거나 특약 조항 신설을 검토하세요.
+          </p>
+</div>
+<!-- Card Footprint Actions -->
+<div class="flex items-center justify-between pt-2"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-rose-100 text-rose-900 font-label-sm text-label-sm font-semibold"><span class="material-symbols-outlined text-[13px]">warning</span>원문 조항 미발견</span><span class="text-outline font-label-sm text-label-sm">특약 신설 검토 대상</span></div><div class="flex items-center gap-1.5"><button class="inline-flex items-center gap-1 px-3 py-1.5 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" type="button"><span class="material-symbols-outlined text-[16px]">edit_note</span>직접 메모 추가</button><button class="px-2.5 py-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface font-label-md text-label-md transition-colors" type="button">원문 재탐색</button><button class="px-2 py-1.5 rounded hover:bg-surface-container text-secondary hover:text-on-surface font-label-md text-label-md transition-colors" type="button">복사</button></div></div>
+</article>
+<!-- RESULT CARD 4: Validity & Renewal (Verified) -->
+<article class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md transition-shadow hover:shadow-md">
+<!-- Header -->
+<div class="flex items-start justify-between gap-2">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="font-code-sm text-code-sm px-2 py-0.5 rounded bg-surface-container text-secondary font-semibold">04</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">
+                계약 유효 기간 및 자동 갱신
+              </h3>
+</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-tertiary">rule</span>
+              검토 기준: 계약 기간 및 자동 갱신 사전 통지 기간(최소 30일) 적정성
+            </div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-teal-50 text-teal-800 font-label-md text-label-md font-semibold shrink-0">
+<span class="material-symbols-outlined text-[15px] text-teal-600">verified</span>
+            근거 확인 완료
+          </span>
+</div>
+<!-- AI Generated Synthesis -->
+<div class="p-3.5 rounded-lg bg-surface text-on-surface font-body-md text-body-md leading-relaxed">
+          계약 체결일로부터 <strong class="text-primary font-semibold">1년간 유효</strong>하며, 만료 30일 전까지 서면 해지 의사가 없을 시 <strong class="text-primary font-semibold">동일 조건으로 1년 단위 자동 연장</strong>됩니다.
+        </div>
+<!-- Supporting Evidence -->
+<div class="p-3.5 rounded-lg bg-surface-container-low space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-tertiary font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+              원문 근거: [문단 8] 제12조 1항
+            </div>
+<a class="font-label-sm text-label-sm text-primary hover:underline flex items-center gap-0.5" href="#para-8">
+              원문 위치 바로가기
+              <span class="material-symbols-outlined text-[13px]">arrow_outward</span>
+</a>
+</div>
+<blockquote class="font-body-sm text-body-sm text-on-surface-variant italic pl-3 border-l-2 border-tertiary">
+            “본 협약은 서명 날인된 날로부터 1년간 유효하다. 만료 30일 전까지 ... 1년 단위로 자동 연장된다.”
+          </blockquote>
+</div>
+<!-- Card Footprint Actions -->
+<div class="flex items-center justify-between pt-2 text-label-md font-label-md text-secondary"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-tertiary-fixed/30 text-tertiary font-label-sm text-label-sm font-semibold"><span class="material-symbols-outlined text-[13px]">pin_drop</span>좌측 [문단 8] 연결</span><span class="text-outline font-label-sm text-label-sm">사내 기준 일치</span></div><div class="flex items-center gap-1.5"><button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-teal-50 hover:bg-teal-100 text-teal-800 font-label-md text-label-md font-semibold transition-colors" type="button"><span class="material-symbols-outlined text-[15px]">check</span>확인 완료 처리</button><button class="px-2.5 py-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface font-label-md text-label-md transition-colors" type="button">수정 제안 작성</button><button class="px-2 py-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface font-label-md text-label-md transition-colors" type="button">복사</button></div></div>
+</article>
+<!-- Bottom Completion Checklist Banner -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[24px]">assignment_turned_in</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">검토 완료 및 사내 공유 준비</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">AI 결과는 완전한 정답을 보장하지 않으며 최종 검토 및 의사결정 책임은 사용자에게 있습니다. 모든 미확인 항목을 점검하셨다면 최종 승인 리포트를 확정하세요.</p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0 w-full md:w-auto justify-end">
+<button class="px-4 py-2.5 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-body-sm text-body-sm transition-colors" type="button">
+            임시 저장
+          </button>
+<button class="px-4 py-2.5 rounded bg-primary text-on-primary font-body-sm text-body-sm hover:bg-primary-container shadow-sm transition-colors" type="button">
+            최종 검토 완료 및 확정
+          </button>
+</div>
+</section>
+</div>
+</div>
+</div>
+<script>
+  // Simple interaction for highlighting source text when clicking anchor links
+  document.querySelectorAll('a[href^="#para-"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        targetElement.classList.add('ring-2', 'ring-primary');
+        setTimeout(() => {
+          targetElement.classList.remove('ring-2', 'ring-primary');
+        }, 2200);
+      }
+    });
+  });
+</script></main><footer class="w-full border-t border-outline-variant bg-surface-container-lowest py-space-md"><div class="max-w-7xl mx-auto px-margin-lg flex flex-col sm:flex-row items-center justify-between gap-space-sm text-on-surface-variant"><div class="flex items-center gap-space-xs font-body-sm text-body-sm"><span class="material-symbols-outlined text-outline text-[16px]">shield_with_heart</span><span>믿고맡김은 생성된 결과의 근거 확인을 보조하며, 최종 검토 및 책임은 사용자에게 있습니다.</span></div><div class="font-label-sm text-label-sm text-outline">© 2025 믿고맡김 AI Assistant. Deterministic Audit Architecture.</div></div></footer></body></html>
