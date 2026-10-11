@@ -10,6 +10,7 @@ export const LEGEND = [
   { status: 'has_source', name: '짚은 곳', body: 'AI가 근거라고 짚은 재료 위치예요. 뜻이 맞는지는 확인하지 않았어요.' },
   { status: 'needs_check', name: '근거 확인 필요', body: '짚은 재료가 없거나, 겹치는 낱말이 적거나, 뒤집는 말이 재료에 없어요.' },
   { status: 'not_in_input', name: '재료에 없음', body: '줄의 숫자·날짜·이름이 재료에서 보이지 않아요.' },
+  { status: 'heading', name: '제목', body: '[제목]처럼 구분용으로 쓴 짧은 글이에요. 내용이 아니라서 재료와 맞춰 보지 않아요.' },
 ] as const
 
 export const SCOPE_NOTE =

@@ -40,6 +40,11 @@ export default function ResultSummary({ session }: { session: RunSession }) {
           <Badge size="md" tone="muted" icon="link">
             짚은 곳 {countByStatus(lines, 'has_source')}줄
           </Badge>
+          {countByStatus(lines, 'heading') > 0 && (
+            <Badge size="md" icon="title">
+              제목 {countByStatus(lines, 'heading')}줄
+            </Badge>
+          )}
           <Badge size="md" tone="flagSoft" icon="warning">
             근거 확인 필요 {countByStatus(lines, 'needs_check')}줄
           </Badge>
@@ -55,7 +60,7 @@ export default function ResultSummary({ session }: { session: RunSession }) {
           표시는 이렇게 읽어요
           <Icon name="expand_more" className="ml-auto text-[18px] transition-transform group-open:rotate-180" />
         </summary>
-        <ul className="mt-2 grid gap-2 text-on-surface-variant sm:grid-cols-3">
+        <ul className="mt-2 grid gap-2 text-on-surface-variant sm:grid-cols-2 lg:grid-cols-4">
           {LEGEND.map((item) => (
             <li key={item.status}>
               <strong className="text-on-surface">{item.name}:</strong> {item.body}

@@ -19,6 +19,7 @@ export const buildRunPrompt = (answers: Answers, rules: Rule[], sentences: strin
     '',
     '- 재료에 없는 숫자, 이름, 사실은 쓰지 마세요. 모르는 부분은 "[확인 필요]"라고 쓰세요.',
     '- 결과는 줄 단위로 쓰고, 한 줄에는 하나의 내용만 담으세요.',
+    '- 소제목이 필요하면 "[완료한 일]"처럼 대괄호로 감싼 짧은 줄로만 쓰세요. "여기까지예요" 같은 맺음 문장은 쓰지 마세요.',
     '- 줄마다 근거가 된 재료 번호(sourceIds)와 지킨 규칙 번호(ruleIds)를 붙이세요. 근거가 없으면 빈 배열로 두세요.',
     '- 응답은 JSON만 출력하세요. 형식: {"lines":[{"text":"줄 내용","sourceIds":[1],"ruleIds":["r1"]}]}',
   ].join('\n')

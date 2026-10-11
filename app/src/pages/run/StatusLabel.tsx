@@ -19,6 +19,13 @@ export default function StatusLabel({ status, sourceIds, missingTokens }: Status
       </Badge>
     )
   }
+  if (status === 'heading') {
+    return (
+      <Badge size="md" pill icon="title" title="내용이 아니라 구분용 제목이라 재료와 맞춰 보지 않았어요">
+        제목
+      </Badge>
+    )
+  }
   if (status === 'not_in_input') {
     return (
       <Badge tone="flag" size="md" pill icon="error">

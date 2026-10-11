@@ -239,6 +239,7 @@ node --experimental-strip-types scripts/overlap-test.ts
 node --experimental-strip-types scripts/run-record-test.ts
 node --experimental-strip-types scripts/handoff-test.ts
 node --experimental-strip-types scripts/run-prompt-test.ts
+node --experimental-strip-types scripts/heading-test.ts
 pnpm dev          # 화면 흐름은 http://localhost:5173 에서 위 3절 순서대로
 ```
 
@@ -294,4 +295,5 @@ pnpm dev          # 화면 흐름은 http://localhost:5173 에서 위 3절 순�
 | AI-10 | 실제 Gemini로 실행(재료 5문장) | 통과: 1.5초, 8줄, 줄별 근거 번호가 재료와 맞음. 소제목 줄 3개는 "근거 확인 필요" |
 | AI-11 | 실제 응답이 `{"lines"}`가 아닌 줄 배열로 옴 | 처음엔 실패(JSON 글자가 줄로 표시됨) → 파서가 배열도 읽도록 고치고 통과. 깨진 JSON은 줄로 자르지 않고 실패 안내 |
 | AI-13 | 근거 번호 정확도: 예시 재료 10개(기본 4 + 추가 6)를 실제 Gemini로 실행, 줄마다 사람이 대조 | 재료 단위 7/10, 줄 단위 43/49. 틀린 줄 6개는 모두 앱이 "근거 확인 필요"로 표시 |
+| AI-14 | 소제목 줄 처리: `scripts/heading-test.ts` 19개 통과. 실제 Gemini 응답(재료 5문장)에서 "[완료한 일]", "[예정된 일]"가 "제목"으로 표시, 확인할 곳 0개, 요약 줄 "제목 2줄" | 통과 |
 | AI-12 | 8,000자 재료, `gemini-3.8-flash`(503·응답 없음 반복) | **미검증** |
