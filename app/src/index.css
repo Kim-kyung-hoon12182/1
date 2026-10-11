@@ -32,6 +32,10 @@
   --color-neutral-line: #94a3b8;
   --color-neutral-text: #475569;
 
+  /* 지시문처럼 그대로 복사할 글을 보여 주는 어두운 상자 */
+  --color-inverse-surface: #213145;
+  --color-inverse-on-surface: #eaf1ff;
+
   /* 재료에서 근거 문장을 강조할 때 */
   --color-mark: #fef9c3;
   --color-mark-line: #fde047;

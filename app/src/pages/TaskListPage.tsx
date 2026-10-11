@@ -1,5 +1,8 @@
+import { useState } from 'react'
 import Badge from '@/components/Badge'
 import Button from '@/components/Button'
+import Dialog from '@/components/Dialog'
+import HandoffPanel from '@/components/HandoffPanel'
 import PageContainer from '@/components/PageContainer'
 import PageHeader from '@/components/PageHeader'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
@@ -18,6 +21,7 @@ type TaskListPageProps = {
 
 // S1 내 작업: 등록한 작업과 예시 작업을 보여 주고 실행으로 이어 준다
 export default function TaskListPage({ tasks, demo, onCreate, onRun, onResetDemo }: TaskListPageProps) {
+  const [handoffTask, setHandoffTask] = useState<Task | null>(null)
   useDocumentTitle('내 작업')
   const newestFirst = [...tasks].reverse()
 
@@ -50,7 +54,7 @@ export default function TaskListPage({ tasks, demo, onCreate, onRun, onResetDemo
       ) : (
         <section aria-label="등록한 작업" className="flex flex-col gap-3">
           {newestFirst.map((task) => (
-            <TaskCard key={task.id} task={task} onRun={onRun} />
+            <TaskCard key={task.id} task={task} onRun={onRun} onHandoff={setHandoffTask} />
           ))}
         </section>
       )}
@@ -62,8 +66,14 @@ export default function TaskListPage({ tasks, demo, onCreate, onRun, onResetDemo
             체험 초기화
           </Button>
         </div>
-        <TaskCard task={demo} onRun={onRun} />
+        <TaskCard task={demo} onRun={onRun} onHandoff={setHandoffTask} />
       </section>
+
+      {handoffTask && (
+        <Dialog title="맡겨볼 만한 때" onClose={() => setHandoffTask(null)}>
+          <HandoffPanel task={handoffTask} defaultOpen onClose={() => setHandoffTask(null)} />
+        </Dialog>
+      )}
     </PageContainer>
   )
 }

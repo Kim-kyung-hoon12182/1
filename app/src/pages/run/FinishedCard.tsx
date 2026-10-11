@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import Badge from '@/components/Badge'
 import Button from '@/components/Button'
 import Card from '@/components/Card'
 import { TextArea } from '@/components/Field'
+import HandoffPanel from '@/components/HandoffPanel'
 import Icon from '@/components/Icon'
 import Notice from '@/components/Notice'
 import RunChips from '@/components/RunChips'
@@ -28,6 +30,7 @@ const describeStreak = (run: Run, streak: number) => {
 
 // [복사하고 끝내기] 뒤에 보이는 카드. 기록한 결과와 다음 행동을 알려 준다 (S3-8, F-06).
 export default function FinishedCard({ task, run, session, onGoToTasks }: FinishedCardProps) {
+  const [handoffClosed, setHandoffClosed] = useState(false)
   const streak = countStreak(task.runs)
   const ready = isHandoffReady(task.runs)
 
@@ -58,12 +61,6 @@ export default function FinishedCard({ task, run, session, onGoToTasks }: Finish
           </div>
         </div>
 
-        {ready && (
-          <Notice tone="primary" icon="lightbulb" role="status">
-            <strong>맡겨볼 만한 때예요.</strong> 최근 {streak}번 연속으로 안 고치고 썼어요. 안 고친 기록이 쌓였다는 뜻이지, 결과가 정확하다는 뜻은 아니에요. 맡길지는 직접 정하세요.
-          </Notice>
-        )}
-
         <div className="flex flex-wrap items-center gap-2 pt-1">
           <Button variant="primary" icon="replay" onClick={session.backToInput}>
             한 번 더 실행하기
@@ -77,6 +74,12 @@ export default function FinishedCard({ task, run, session, onGoToTasks }: Finish
         </div>
         <p className="text-label-sm text-outline">기록한 뒤에는 이 결과를 고칠 수 없어요. 다시 실행하면 새 기록이 돼요.</p>
       </Card>
+
+      {ready && !handoffClosed && (
+        <Card as="section" bordered className="bg-gradient-to-r from-surface-low via-surface-lowest to-surface-low">
+          <HandoffPanel task={task} onClose={() => setHandoffClosed(true)} />
+        </Card>
+      )}
 
       {session.copyState === 'done' && (
         <p role="status" className="text-body-sm font-semibold text-primary">

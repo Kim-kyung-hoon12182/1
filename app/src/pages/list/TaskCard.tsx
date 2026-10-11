@@ -19,10 +19,12 @@ const SHOWN_RULES = 3
 type TaskCardProps = {
   task: Task
   onRun: (task: Task) => void
+  /** "맡겨볼 만한 때예요"를 눌렀을 때 (S1-5) */
+  onHandoff: (task: Task) => void
 }
 
 // 내 작업 한 줄 (S1-3): 이름, 규칙, 최근 기록, 상태, 실행하기
-export default function TaskCard({ task, onRun }: TaskCardProps) {
+export default function TaskCard({ task, onRun, onHandoff }: TaskCardProps) {
   const ready = isHandoffReady(task.runs)
   const shownRules = task.rules.slice(0, SHOWN_RULES)
   const hiddenCount = task.rules.length - shownRules.length
@@ -46,9 +48,16 @@ export default function TaskCard({ task, onRun }: TaskCardProps) {
             )}
             <Badge>규칙 {task.rules.length}개</Badge>
             {ready && (
-              <Badge tone="solid" className="font-semibold">
-                맡겨볼 만한 때예요
-              </Badge>
+              <button
+                type="button"
+                title="다른 곳에 맡기는 방법 보기"
+                onClick={() => onHandoff(task)}
+                className="rounded transition-opacity hover:opacity-80"
+              >
+                <Badge tone="solid" icon="handshake" className="font-semibold">
+                  맡겨볼 만한 때예요
+                </Badge>
+              </button>
             )}
             {task.handsOff && <Badge tone="muted">확인 생략 중</Badge>}
           </div>

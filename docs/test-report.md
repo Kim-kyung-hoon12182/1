@@ -236,6 +236,8 @@ pnpm build
 node --experimental-strip-types scripts/streak-test.ts
 node --experimental-strip-types scripts/rules-test.ts
 node --experimental-strip-types scripts/overlap-test.ts
+node --experimental-strip-types scripts/run-record-test.ts
+node --experimental-strip-types scripts/handoff-test.ts
 pnpm dev          # 화면 흐름은 http://localhost:5173 에서 위 3절 순서대로
 ```
 
@@ -259,3 +261,16 @@ pnpm dev          # 화면 흐름은 http://localhost:5173 에서 위 3절 순�
 | REC-12 | [체험 초기화] | 통과 | 체험 기록이 2건으로 돌아감 |
 
 발견해서 바로 고친 것: 연속 3번일 때 안내가 "0번 더 이어지면…"으로 나오던 문구 오류(3번 이상이면 횟수만 말한다).
+
+## 10. 추가 테스트: S5 맡겨볼 만한 때 + 지시문 복사 (2026-10-11)
+
+로직 테스트 `scripts/handoff-test.ts` 14개 통과(조사 을/를, 이름 뒤 괄호 제거, 지시문 구성, 금지 표현). 화면은 1280×800에서 35개 점검 모두 통과했다. 클립보드는 테스트용으로 대체했다.
+
+| 구분 | 확인한 것 | 결과 |
+| --- | --- | --- |
+| S3 완료 카드 | 연속 3번째 기록에서 처음 뜸(1·2번째엔 없음), 기록 칩 전체, 지시문 보기·접기·복사, 복사 실패 안내, [나중에] | 통과 |
+| S1 창 | 태그 클릭으로 열림(지시문 펼친 채), 창 안 복사가 화면의 지시문과 동일, X·Esc(실제 키)·바깥 클릭(실제 클릭)·[나중에]로 닫힘, 여러 번 다시 열기 | 통과 |
+| 실제 작업(회의록) | 직접 고친 규칙이 지시문 1번에 반영, 이름 조사 "회의록 정리를", 결과 모양·재료가 작업 답변에서 옴, `mitgo:tasks`에 3건 저장, S1 카드 태그 | 통과 |
+| 접근성 | 창 제목 `aria-labelledby`, 닫기 버튼 `aria-label` | 통과 |
+
+발견해서 고친 것: 창을 닫았다가 다시 열면 바로 닫히던 문제(StrictMode에서 정리 단계의 `close()`가 닫힘 이벤트를 다시 냄), 이 패널에서 Esc가 안 먹던 문제(Esc를 직접 처리).
