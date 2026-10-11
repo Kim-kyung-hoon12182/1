@@ -17,10 +17,10 @@ export default function OnboardingDialog({ onTour, onSkip }: OnboardingDialogPro
         height="192"
         className="mx-auto mb-4 h-32 w-auto"
       />
+      <p className="mb-4 text-center text-body-md font-semibold text-on-surface">
+        고친 내용은 규칙으로 남고, 안 고친 기록이 쌓이면 맡겨볼 만한 때를 알려 줘요.
+      </p>
       <div className="space-y-3 text-body-sm leading-relaxed text-on-surface-variant">
-        <p>
-          고친 내용은 다음부터 반영돼요. 안 고치고 쓴 기록이 쌓이면 맡겨볼 만한 때를 알려 줘요.
-        </p>
         <p>작업과 기록은 이 브라우저에만 저장돼요. 다른 기기에서는 보이지 않아요.</p>
         <p>
           작업을 등록하거나 실행할 때 입력한 답변·자료·규칙은 Google Gemini로 보내져요. 무료 이용 조건이라 보낸 내용을 Google이 서비스 개선에 쓰거나 사람이 볼 수 있어요. 저장되는 곳(이 브라우저)과 보내지는 곳은 달라요.
