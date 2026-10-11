@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const APP_NAME = '믿고맡김'
+const APP_NAME = '또시켰네'
 
 // 브라우저 탭 제목을 화면에 맞게 바꾼다
 export function useDocumentTitle(title: string) {

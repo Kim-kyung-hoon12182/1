@@ -33,12 +33,7 @@ export default function AppHeader({ current, runAvailable, onNavigate, onStartTo
     <header className="sticky top-0 z-40 border-b border-outline-variant bg-surface-lowest">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-8">
         <div className="flex h-full items-center gap-4 sm:gap-8">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-headline-sm text-on-primary">
-              믿
-            </div>
-            <span className="whitespace-nowrap text-headline-sm tracking-tight">믿고맡김</span>
-          </div>
+          <img src="/logo-header.png" alt="또시켰네" width="120" height="48" className="h-12 w-auto shrink-0" />
           <nav aria-label="주 메뉴" className="flex h-full items-center gap-4">
             {NAV_ITEMS.map((item) => {
               const isCurrent = item.id === current

@@ -10,6 +10,13 @@ type OnboardingDialogProps = {
 export default function OnboardingDialog({ onTour, onSkip }: OnboardingDialogProps) {
   return (
     <Dialog title="AI가 쓴 글, 확인할 곳을 표시해 줘요" onClose={onSkip}>
+      <img
+        src="/logo-full.png"
+        alt="또시켰네 - 시키는 건 한 번, 반복은 그만."
+        width="480"
+        height="192"
+        className="mx-auto mb-4 h-32 w-auto"
+      />
       <div className="space-y-3 text-body-sm leading-relaxed text-on-surface-variant">
         <p>
           고친 내용은 다음부터 반영돼요. 안 고치고 쓴 기록이 쌓이면 맡겨볼 만한 때를 알려 줘요.
