@@ -35,7 +35,7 @@ export default function RunHeader({ task, session }: RunHeaderProps) {
           )}
           {hasResult && (
             <Badge pill tone="primary">
-              예시 결과예요
+              {session.isSampleResult ? '예시 결과예요' : 'AI가 쓴 결과예요'}
             </Badge>
           )}
         </div>

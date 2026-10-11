@@ -10,7 +10,7 @@ export default function DataNotice() {
         <span className="text-headline-sm">저장과 전송 안내</span>
       </div>
       <p className="text-body-sm leading-relaxed text-on-surface-variant">
-        작성한 작업과 규칙은 이 브라우저에만 저장돼요. 규칙을 만들 때 입력한 답변은 Google Gemini API로 전송돼요. 무료 이용 조건이라 입력 내용이 Google 서비스 개선에 쓰일 수 있고, 사람이 검토할 수도 있어요.
+        작성한 작업과 규칙은 이 브라우저에만 저장돼요. 규칙을 만들 때 입력한 답변과, 실행할 때 넣은 재료와 규칙은 Google Gemini API로 전송돼요. 무료 이용 조건이라 입력 내용이 Google 서비스 개선에 쓰일 수 있고, 사람이 검토할 수도 있어요.
       </p>
       <p className="text-body-sm font-semibold leading-relaxed">회사 기밀이나 개인정보는 넣지 마세요.</p>
     </Card>

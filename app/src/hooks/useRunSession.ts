@@ -1,13 +1,20 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { getSample } from '@/data/sampleTasks'
+import { generateRun, type ApiErrorCode } from '@/lib/api'
 import { buildSampleResult, finalTextOf, flaggedIndexes, type RunResult } from '@/lib/run'
 import { buildRunRecord } from '@/lib/runRecord'
 import type { OutputLine, Run, Task } from '@/types/task'
 
 type CopyState = 'idle' | 'done' | 'failed'
 
-const NO_SAMPLE_NOTICE = 'AI 연결 전이라 이 작업은 아직 실행할 수 없어요. 예시 작업은 바로 실행해 볼 수 있어요.'
-const SAMPLE_ONLY_NOTICE = 'AI 연결 전이라 지금은 예시 재료로만 실행할 수 있어요.'
+// 실패해도 재료는 그대로 남아 있다 (F-03)
+const RUN_FAILURE_NOTICE: Record<ApiErrorCode, string> = {
+  no_key: 'AI 연결 키가 없어서 이 재료는 실행할 수 없어요. 예시 작업의 예시 재료는 키 없이도 실행할 수 있어요.',
+  rate_limit: '지금 사용하는 사람이 많아요. 1분 뒤에 다시 실행해 주세요. 재료는 그대로 남아 있어요.',
+  upstream: 'AI 응답을 받지 못했어요. 잠시 뒤 다시 실행해 주세요. 재료는 그대로 남아 있어요.',
+  bad_request: '재료가 너무 길거나 형식이 맞지 않아요. 재료를 줄여서 다시 실행해 주세요.',
+  network: '연결에 실패했어요. 인터넷 연결을 확인하고 다시 실행해 주세요. 재료는 그대로 남아 있어요.',
+}
 
 // 작업 하나를 실행하는 동안의 상태와 동작 (S3). [복사하고 끝내기]를 누르면 onRecord로 실행 기록을 넘긴다 (F-06).
 export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (run: Run) => void) {
@@ -15,6 +22,8 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
   const [input, setInput] = useState(prefillMaterial && sample ? sample.material : '')
   const [result, setResult] = useState<RunResult | null>(null)
   const [notice, setNotice] = useState('')
+  const [running, setRunning] = useState(false)
+  const [isSampleResult, setIsSampleResult] = useState(false)
   const [selected, setSelected] = useState<number | null>(null)
   const [editing, setEditing] = useState<number | null>(null)
   const [copyState, setCopyState] = useState<CopyState>('idle')
@@ -75,14 +84,25 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     setNotice('')
   }
 
-  function run() {
-    if (!input.trim()) return
-    if (!sample) return setNotice(NO_SAMPLE_NOTICE)
-    if (input.trim() !== sample.material) return setNotice(SAMPLE_ONLY_NOTICE)
+  function showResult(next: RunResult, isSample: boolean) {
     setNotice('')
-    setResult(buildSampleResult(sample, input.trim()))
+    setResult(next)
+    setIsSampleResult(isSample)
     shownAt.current = Date.now()
     resetView()
+  }
+
+  // 체험용 작업의 예시 재료는 AI 없이 예시 결과를 보여 주고(F-09), 그 밖의 재료는 AI에 보낸다(F-03)
+  async function run() {
+    const material = input.trim()
+    if (!material || running) return
+    if (sample && material === sample.material) return showResult(buildSampleResult(sample, material), true)
+    setRunning(true)
+    setNotice('')
+    const outcome = await generateRun(task, material)
+    setRunning(false)
+    if (outcome.result) showResult(outcome.result, false)
+    else setNotice(RUN_FAILURE_NOTICE[outcome.code])
   }
 
   function backToInput() {
@@ -146,7 +166,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
       elapsedMs: Date.now() - shownAt.current,
       copied,
       finalText,
-      isSample: true,
+      isSample: isSampleResult,
       createdAt: new Date().toISOString(),
     })
     onRecord(record)
@@ -159,6 +179,8 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     setInput,
     result,
     notice,
+    running,
+    isSampleResult,
     lines,
     sentences,
     flagged,

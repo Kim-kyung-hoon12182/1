@@ -1,6 +1,7 @@
 import type { Sample } from '@/data/sampleTasks'
 import { checkLine, hasUnbackedFlip, type LineStatus } from '@/lib/evidence'
 import { splitSentences } from '@/lib/material'
+import type { RawLine } from '@/lib/runPrompt'
 import type { OutputLine } from '@/types/task'
 
 export type RunResult = {
@@ -19,6 +20,12 @@ export const buildSampleResult = (sample: Sample, material: string): RunResult =
   })
   return { sentences, lines }
 }
+
+// AI가 준 줄에도 같은 검사를 붙인다. AI가 붙인 번호는 짚은 곳일 뿐 검증이 아니다 (F-04)
+export const buildAiResult = (rawLines: RawLine[], sentences: string[]): RunResult => ({
+  sentences,
+  lines: rawLines.map((line) => ({ ...line, ...checkLine(line.text, line.sourceIds, sentences) })),
+})
 
 export const isFlagged = (line: OutputLine) => line.status !== 'has_source'
 

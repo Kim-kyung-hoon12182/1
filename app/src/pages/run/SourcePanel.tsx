@@ -75,7 +75,7 @@ function SentenceList({ session }: { session: RunSession }) {
 }
 
 function MaterialInput({ task, session }: SourcePanelProps) {
-  const { sample, input, notice } = session
+  const { sample, input, notice, running } = session
   return (
     <>
       <div className="mb-2 flex items-center justify-between rounded-lg bg-surface-low px-3 py-2">
@@ -93,6 +93,7 @@ function MaterialInput({ task, session }: SourcePanelProps) {
       <TextArea
         tone="paper"
         value={input}
+        readOnly={running}
         maxLength={MAX_MATERIAL_CHARS}
         onChange={(event) => session.setInput(event.target.value)}
         onKeyDown={(event) => {
@@ -117,11 +118,11 @@ function MaterialInput({ task, session }: SourcePanelProps) {
           fullWidth
           className="group rounded-xl py-3.5"
           onClick={session.run}
-          disabled={!input.trim()}
+          disabled={!input.trim() || running}
         >
-          <Icon name="bolt" className="text-[22px] transition-transform group-hover:scale-110" />
-          실행하기
-          <kbd className="hidden rounded bg-on-primary/20 px-1.5 py-0.5 text-label-sm md:inline">Ctrl + Enter</kbd>
+          <Icon name={running ? 'hourglass_top' : 'bolt'} className="text-[22px] transition-transform group-hover:scale-110" />
+          {running ? '결과를 쓰고 있어요' : '실행하기'}
+          {!running && <kbd className="hidden rounded bg-on-primary/20 px-1.5 py-0.5 text-label-sm md:inline">Ctrl + Enter</kbd>}
         </Button>
         <p className="px-1 text-label-sm text-on-surface-variant">이 작업의 규칙 {task.rules.length}개를 지키며 글을 써요.</p>
       </div>

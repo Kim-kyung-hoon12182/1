@@ -44,7 +44,6 @@ export default function App() {
         current={view.screen === 'run' ? 'run' : 'tasks'}
         runAvailable={lastRun !== null && findTask(lastRun.taskId) !== undefined}
         onNavigate={navigate}
-        isSampleMode
       />
       {saveFailed && (
         <Notice tone="flag" icon="warning" role="alert" className="justify-center rounded-none">

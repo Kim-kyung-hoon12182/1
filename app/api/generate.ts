@@ -1,5 +1,6 @@
 const MODEL = 'gemini-3.8-flash'
-const MAX_INPUT_CHARS = 8000
+// 재료 8,000자에 규칙·질문 답변·지시 문장이 더해진 요청 전체의 한도
+const MAX_INPUT_CHARS = 14000
 
 type GenerateBody = {
   prompt?: unknown
@@ -35,7 +36,7 @@ export async function POST(request: Request): Promise<Response> {
     return fail(400, 'bad_request', '내용을 입력해 주세요.')
   }
   if (prompt.length > MAX_INPUT_CHARS) {
-    return fail(400, 'bad_request', `입력은 ${MAX_INPUT_CHARS}자까지 가능해요.`)
+    return fail(400, 'bad_request', '입력이 너무 길어요. 재료를 줄여 주세요.')
   }
 
   const upstream = await fetch(

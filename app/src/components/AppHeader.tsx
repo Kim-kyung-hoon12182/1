@@ -1,4 +1,3 @@
-import Icon from '@/components/Icon'
 
 export type Screen = 'run' | 'tasks' | 'history'
 
@@ -17,7 +16,6 @@ type AppHeaderProps = {
   current: Screen
   runAvailable: boolean
   onNavigate: (screen: Screen) => void
-  isSampleMode: boolean
 }
 
 // 화면이 없는 메뉴는 눌리지 않게 둔다. 작업 실행은 실행 중인 작업이 있을 때만 쓸 수 있다.
@@ -27,7 +25,7 @@ const disabledReason = (id: Screen, runAvailable: boolean) => {
   return null
 }
 
-export default function AppHeader({ current, runAvailable, onNavigate, isSampleMode }: AppHeaderProps) {
+export default function AppHeader({ current, runAvailable, onNavigate }: AppHeaderProps) {
   return (
     <header className="sticky top-0 z-40 border-b border-outline-variant bg-surface-lowest">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-8">
@@ -74,12 +72,6 @@ export default function AppHeader({ current, runAvailable, onNavigate, isSampleM
             })}
           </nav>
         </div>
-        {isSampleMode && (
-          <div className="hidden items-center gap-1.5 rounded-lg border border-outline-variant bg-surface-low px-2 py-1 text-label-sm text-on-surface-variant md:flex">
-            <Icon name="science" className="text-[14px]" />
-            예시 모드 · AI에 연결하지 않았어요
-          </div>
-        )}
       </div>
     </header>
   )

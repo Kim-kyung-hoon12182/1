@@ -1,0 +1,69 @@
+import type { Answers, Rule } from '@/types/task'
+
+export type RawLine = { text: string; sourceIds: number[]; ruleIds: string[] }
+
+const MAX_LINES = 40
+
+// F-03 요청: 번호 붙은 재료와 규칙을 주고, 줄마다 근거 재료 번호와 적용한 규칙 번호를 JSON으로 받는다
+export const buildRunPrompt = (answers: Answers, rules: Rule[], sentences: string[]) =>
+  [
+    `다음 일을 하는 글을 써 주세요: ${answers.what}`,
+    `결과 모양: ${answers.shape}`,
+    '',
+    '[지킬 규칙]',
+    ...rules.filter((rule) => rule.text.trim()).map((rule) => `${rule.id}. ${rule.text.trim()}`),
+    '',
+    '[재료] 문장마다 번호가 붙어 있습니다.',
+    ...sentences.map((sentence, index) => `${index + 1}. ${sentence}`),
+    ...(answers.example?.trim() ? ['', '[예전에 잘 나온 결과: 말투와 모양만 참고하세요]', answers.example.trim()] : []),
+    '',
+    '- 재료에 없는 숫자, 이름, 사실은 쓰지 마세요. 모르는 부분은 "[확인 필요]"라고 쓰세요.',
+    '- 결과는 줄 단위로 쓰고, 한 줄에는 하나의 내용만 담으세요.',
+    '- 줄마다 근거가 된 재료 번호(sourceIds)와 지킨 규칙 번호(ruleIds)를 붙이세요. 근거가 없으면 빈 배열로 두세요.',
+    '- 응답은 JSON만 출력하세요. 형식: {"lines":[{"text":"줄 내용","sourceIds":[1],"ruleIds":["r1"]}]}',
+  ].join('\n')
+
+const stripFence = (text: string) => text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim()
+
+const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null
+
+// 존재하지 않는 번호는 버린다
+const cleanIds = (value: unknown, valid: (id: number) => boolean) =>
+  Array.isArray(value)
+    ? [...new Set(value.filter((id): id is number => Number.isInteger(id) && valid(id)))]
+    : []
+
+const cleanRuleIds = (value: unknown, ruleIds: string[]) =>
+  Array.isArray(value) ? [...new Set(value.filter((id): id is string => typeof id === 'string' && ruleIds.includes(id)))] : []
+
+// JSON이 깨지면 글로 받아 줄 단위로 자르고 근거 번호는 비운다
+const splitPlainText = (text: string): RawLine[] =>
+  text
+    .split('\n')
+    .map((line) => line.replace(/^\s*(?:[-*•]|\d+[.)])\s+/, '').trim())
+    .filter(Boolean)
+    .slice(0, MAX_LINES)
+    .map((line) => ({ text: line, sourceIds: [], ruleIds: [] }))
+
+export const parseRunResponse = (text: string, sentenceCount: number, rules: Rule[]): RawLine[] => {
+  try {
+    const parsed: unknown = JSON.parse(stripFence(text))
+    const list = isRecord(parsed) && Array.isArray(parsed.lines) ? parsed.lines : null
+    if (!list) return splitPlainText(text)
+    const ruleIds = rules.map((rule) => rule.id)
+    return list
+      .flatMap((item): RawLine[] => {
+        if (!isRecord(item) || typeof item.text !== 'string' || !item.text.trim()) return []
+        return [
+          {
+            text: item.text.trim(),
+            sourceIds: cleanIds(item.sourceIds, (id) => id >= 1 && id <= sentenceCount),
+            ruleIds: cleanRuleIds(item.ruleIds, ruleIds),
+          },
+        ]
+      })
+      .slice(0, MAX_LINES)
+  } catch {
+    return splitPlainText(text)
+  }
+}

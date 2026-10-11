@@ -1,7 +1,10 @@
+import { splitSentences } from '@/lib/material'
+import { buildAiResult, type RunResult } from '@/lib/run'
+import { buildRunPrompt, parseRunResponse } from '@/lib/runPrompt'
 import { buildRulePrompt, parseRules } from '@/lib/rules'
-import type { Answers } from '@/types/task'
+import type { Answers, Task } from '@/types/task'
 
-type ApiErrorCode = 'no_key' | 'rate_limit' | 'upstream' | 'bad_request' | 'network'
+export type ApiErrorCode = 'no_key' | 'rate_limit' | 'upstream' | 'bad_request' | 'network'
 
 class ApiError extends Error {
   code: ApiErrorCode
@@ -44,5 +47,19 @@ export async function generateRules(answers: Answers): Promise<RuleResult> {
     return texts.length > 0 ? { texts, failed: false } : { texts: [], failed: true, code: 'upstream' }
   } catch (error) {
     return { texts: [], failed: true, code: error instanceof ApiError ? error.code : 'network' }
+  }
+}
+
+type RunOutcome = { result: RunResult; code?: undefined } | { result?: undefined; code: ApiErrorCode }
+
+// F-03: 실패하면 호출한 쪽이 재료를 그대로 두고 안내한다.
+export async function generateRun(task: Task, material: string): Promise<RunOutcome> {
+  const sentences = splitSentences(material)
+  try {
+    const text = await requestGenerate(buildRunPrompt(task.answers, task.rules, sentences), { json: true })
+    const lines = parseRunResponse(text, sentences.length, task.rules)
+    return lines.length > 0 ? { result: buildAiResult(lines, sentences) } : { code: 'upstream' }
+  } catch (error) {
+    return { code: error instanceof ApiError ? error.code : 'network' }
   }
 }

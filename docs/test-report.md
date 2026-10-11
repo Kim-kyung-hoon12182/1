@@ -238,6 +238,7 @@ node --experimental-strip-types scripts/rules-test.ts
 node --experimental-strip-types scripts/overlap-test.ts
 node --experimental-strip-types scripts/run-record-test.ts
 node --experimental-strip-types scripts/handoff-test.ts
+node --experimental-strip-types scripts/run-prompt-test.ts
 pnpm dev          # 화면 흐름은 http://localhost:5173 에서 위 3절 순서대로
 ```
 
@@ -274,3 +275,19 @@ pnpm dev          # 화면 흐름은 http://localhost:5173 에서 위 3절 순�
 | 접근성 | 창 제목 `aria-labelledby`, 닫기 버튼 `aria-label` | 통과 |
 
 발견해서 고친 것: 창을 닫았다가 다시 열면 바로 닫히던 문제(StrictMode에서 정리 단계의 `close()`가 닫힘 이벤트를 다시 냄), 이 패널에서 Esc가 안 먹던 문제(Esc를 직접 처리).
+
+## 11. 추가 테스트: F-03 AI 실행 (2026-10-11)
+
+로직 테스트 `scripts/run-prompt-test.ts` 17개 통과(프롬프트 구성, 없는 번호 버리기, 코드 블록 JSON, 깨진 JSON을 글로 받기, 40줄 상한). **실제 Gemini 응답은 키가 없어 확인하지 못했다.** 아래는 브라우저에서 `/api/generate` 응답을 가짜로 바꿔 확인했다(키 없음만 실제 서버 응답).
+
+| ID | 시나리오 | 결과 |
+| --- | --- | --- |
+| AI-01 | 실제 서버(키 없음) | 통과: "AI 연결 키가 없어서…" 안내, 재료 유지, 버튼 다시 활성 |
+| AI-02 | 429, 502, 네트워크 실패 | 통과: 원인별 안내, 재료 유지 |
+| AI-03 | 실행 중 상태(900ms 지연) | 통과: 버튼 "결과를 쓰고 있어요"+비활성, 재료 읽기 전용 |
+| AI-04 | 성공 응답, 재료에 없는 숫자("5건") 포함 줄 | 통과: "재료에 없음: 5건", 근거 번호 없는 줄은 "근거 확인 필요", 머리말 "AI가 쓴 결과예요" |
+| AI-05 | 없는 규칙 번호("x")가 든 응답 | 통과: 버려지고 줄은 그대로 표시 |
+| AI-06 | JSON이 아닌 글 응답 | 통과: 줄로 잘리고 모두 "근거 확인 필요" |
+| AI-07 | [복사하고 끝내기](실제 클릭) | 통과: 기록 `isSample: false`, 복사 성공, 줄 상태 저장 |
+| AI-08 | 체험 작업의 예시 재료 | 통과: AI 호출 0번, "예시 결과예요" |
+| AI-09 | 실제 Gemini 응답, 8,000자 재료, 모델명 | **미검증** |
