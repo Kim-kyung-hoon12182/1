@@ -1,6 +1,6 @@
 import type { Answers, OutputLine, Rule, SampleKey, Run, Task } from '@/types/task'
 
-export type SampleLine = Pick<OutputLine, 'text' | 'sourceIds' | 'ruleIds'>
+type SampleLine = Pick<OutputLine, 'text' | 'sourceIds' | 'ruleIds'>
 
 export type Sample = {
   key: SampleKey

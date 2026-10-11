@@ -1,9 +1,9 @@
 import { buildRulePrompt, parseRules } from '@/lib/rules'
 import type { Answers } from '@/types/task'
 
-export type ApiErrorCode = 'no_key' | 'rate_limit' | 'upstream' | 'bad_request' | 'network'
+type ApiErrorCode = 'no_key' | 'rate_limit' | 'upstream' | 'bad_request' | 'network'
 
-export class ApiError extends Error {
+class ApiError extends Error {
   code: ApiErrorCode
 
   constructor(code: ApiErrorCode, message: string) {
@@ -34,7 +34,7 @@ export async function requestGenerate(prompt: string, options: { json?: boolean 
   return data.text ?? ''
 }
 
-export type RuleResult = { texts: string[]; failed: boolean; code?: ApiErrorCode }
+type RuleResult = { texts: string[]; failed: boolean; code?: ApiErrorCode }
 
 // F-02: 실패하면 호출한 쪽이 예시 규칙이나 빈 규칙으로 대신한다.
 export async function generateRules(answers: Answers): Promise<RuleResult> {

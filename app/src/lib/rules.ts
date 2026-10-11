@@ -1,6 +1,6 @@
 import type { Answers, Rule } from '@/types/task'
 
-export const MAX_RULES = 8
+const MAX_RULES = 8
 
 export const buildRulePrompt = (answers: Answers) =>
   [
