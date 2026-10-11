@@ -21,7 +21,7 @@ app/
     App.tsx             화면 전환만 담당
     index.css           Tailwind import, 전역 스타일
     pages/              화면 단위 컴포넌트 (TaskListPage.tsx 등)
-    components/         여러 화면에서 쓰는 UI (Button.tsx, StatusLabel.tsx 등)
+    components/         여러 화면에서 쓰는 UI (AppHeader.tsx, RunChips.tsx, Icon.tsx 등)
     lib/                React와 무관한 로직 (storage.ts, evidence.ts, api.ts 등)
     hooks/              React 훅 (useTasks.ts 등)
     types/              공용 타입 (task.ts)

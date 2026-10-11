@@ -3,7 +3,10 @@ const MAX_INPUT_CHARS = 8000
 
 type GenerateBody = {
   prompt?: unknown
+  json?: unknown
 }
+
+type ErrorCode = 'no_key' | 'rate_limit' | 'upstream' | 'bad_request'
 
 function json(status: number, body: unknown): Response {
   return new Response(JSON.stringify(body), {
@@ -12,25 +15,27 @@ function json(status: number, body: unknown): Response {
   })
 }
 
+const fail = (status: number, code: ErrorCode, error: string) => json(status, { error, code })
+
 export async function POST(request: Request): Promise<Response> {
   const apiKey = process.env.GEMINI_API_KEY
   if (!apiKey) {
-    return json(500, { error: 'GEMINI_API_KEY가 설정되지 않았어요.' })
+    return fail(500, 'no_key', 'GEMINI_API_KEY가 설정되지 않았어요.')
   }
 
   let body: GenerateBody
   try {
     body = (await request.json()) as GenerateBody
   } catch {
-    return json(400, { error: '요청 형식이 올바르지 않아요.' })
+    return fail(400, 'bad_request', '요청 형식이 올바르지 않아요.')
   }
 
   const prompt = typeof body.prompt === 'string' ? body.prompt.trim() : ''
   if (!prompt) {
-    return json(400, { error: '내용을 입력해 주세요.' })
+    return fail(400, 'bad_request', '내용을 입력해 주세요.')
   }
   if (prompt.length > MAX_INPUT_CHARS) {
-    return json(400, { error: `입력은 ${MAX_INPUT_CHARS}자까지 가능해요.` })
+    return fail(400, 'bad_request', `입력은 ${MAX_INPUT_CHARS}자까지 가능해요.`)
   }
 
   const upstream = await fetch(
@@ -43,17 +48,18 @@ export async function POST(request: Request): Promise<Response> {
       },
       body: JSON.stringify({
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        ...(body.json === true && { generationConfig: { responseMimeType: 'application/json' } }),
       }),
     },
   )
 
   if (upstream.status === 429) {
-    return json(429, { error: '지금 사용하는 사람이 많아요. 1분 뒤에 다시 시도해 주세요.' })
+    return fail(429, 'rate_limit', '지금 사용하는 사람이 많아요. 1분 뒤에 다시 시도해 주세요.')
   }
   if (!upstream.ok) {
     const detail = await upstream.text()
     console.error('Gemini error', upstream.status, detail)
-    return json(502, { error: 'AI 응답을 받지 못했어요. 잠시 뒤 다시 시도해 주세요.' })
+    return fail(502, 'upstream', 'AI 응답을 받지 못했어요. 잠시 뒤 다시 시도해 주세요.')
   }
 
   const data = (await upstream.json()) as {
