@@ -20,7 +20,7 @@ const ok = JSON.stringify({
 
 const parsed = parseRunResponse(ok, 2, rules)
 const plain = parseRunResponse('- 첫 줄입니다.\n\n2. 둘째 줄입니다.', 2, rules)
-const many = JSON.stringify({ lines: Array.from({ length: 60 }, (_, i) => ({ text: `줄${i}` })) })
+const many = JSON.stringify({ lines: Array.from({ length: 400 }, (_, i) => ({ text: `줄${i}` })) })
 
 const CASES: { name: string; actual: unknown; expected: unknown }[] = [
   { name: '프롬프트에 재료 번호가 붙는다', actual: prompt.includes('1. 가입자 120명이다.\n2. 결제 오류 2건을 고쳤다.'), expected: true },
@@ -41,7 +41,8 @@ const CASES: { name: string; actual: unknown; expected: unknown }[] = [
   { name: 'lines가 없는 JSON은 실패로 본다', actual: parseRunResponse('{"a":1}', 2, rules).length, expected: 0 },
   { name: '깨진 JSON은 줄로 자르지 않고 실패로 본다', actual: parseRunResponse('[{"text": "가", ', 2, rules).length, expected: 0 },
   { name: '빈 응답은 줄이 없다', actual: parseRunResponse('  ', 2, rules).length, expected: 0 },
-  { name: '줄은 40개까지만 받는다', actual: parseRunResponse(many, 2, rules).length, expected: 40 },
+  { name: '줄은 300개까지만 받는다', actual: parseRunResponse(many, 2, rules).length, expected: 300 },
+  { name: '재료 문장 수만큼 긴 응답(141줄)도 자르지 않는다', actual: parseRunResponse(JSON.stringify({ lines: Array.from({ length: 141 }, (_, i) => ({ text: `줄${i}` })) }), 2, rules).length, expected: 141 },
 ]
 
 let failed = 0

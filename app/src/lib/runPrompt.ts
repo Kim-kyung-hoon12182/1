@@ -2,7 +2,8 @@ import type { Answers, Rule } from '@/types/task'
 
 export type RawLine = { text: string; sourceIds: number[]; ruleIds: string[] }
 
-const MAX_LINES = 40
+// 재료 8,000자를 문장마다 한 줄로 옮겨도 넘지 않는 정도. 응답이 끝없이 길어지는 경우만 막는다
+const MAX_LINES = 300
 
 // F-03 요청: 번호 붙은 재료와 규칙을 주고, 줄마다 근거 재료 번호와 적용한 규칙 번호를 JSON으로 받는다
 export const buildRunPrompt = (answers: Answers, rules: Rule[], sentences: string[]) =>
