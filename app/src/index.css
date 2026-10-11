@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 
 @theme {
+  /* 브랜드·표면 (Stitch 팔레트) */
   --color-background: #f8f9ff;
   --color-primary: #0037b0;
   --color-primary-container: #1d4ed8;
@@ -17,6 +18,24 @@
   --color-outline: #747686;
   --color-outline-variant: #c4c5d7;
 
+  /* 확인할 곳 표시. 정확하다는 뜻의 색(초록 등)은 만들지 않는다 */
+  --color-flag-soft: #fff7ed;
+  --color-flag-tint: #ffedd5;
+  --color-flag-line: #fed7aa;
+  --color-flag-bar: #fb923c;
+  --color-flag-icon: #ea580c;
+  --color-flag-text: #7c2d12;
+  --color-flag-ink: #431407;
+
+  /* 중립 표시 (짚은 곳, 안 고침 등) */
+  --color-neutral-soft: #f1f5f9;
+  --color-neutral-line: #94a3b8;
+  --color-neutral-text: #475569;
+
+  /* 재료에서 근거 문장을 강조할 때 */
+  --color-mark: #fef9c3;
+  --color-mark-line: #fde047;
+
   --radius-lg: 0.25rem;
   --radius-xl: 0.5rem;
 
@@ -24,6 +43,10 @@
   --text-headline-lg--line-height: 32px;
   --text-headline-lg--letter-spacing: -0.015em;
   --text-headline-lg--font-weight: 600;
+  --text-headline-md: 20px;
+  --text-headline-md--line-height: 28px;
+  --text-headline-md--letter-spacing: -0.01em;
+  --text-headline-md--font-weight: 600;
   --text-headline-sm: 16px;
   --text-headline-sm--line-height: 24px;
   --text-headline-sm--letter-spacing: -0.005em;
@@ -43,24 +66,65 @@
   --text-label-sm--line-height: 14px;
   --text-label-sm--letter-spacing: 0.02em;
   --text-label-sm--font-weight: 500;
+
+  --animate-page-in: page-in 180ms ease-out;
+
+  @keyframes page-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
-html {
-  font-family:
-    Pretendard,
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Apple SD Gothic Neo',
-    'Noto Sans KR',
-    sans-serif;
-}
+@layer base {
+  html {
+    font-family:
+      'Pretendard Variable',
+      Pretendard,
+      Inter,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Apple SD Gothic Neo',
+      'Noto Sans KR',
+      sans-serif;
+    scroll-behavior: smooth;
+  }
 
-body {
-  margin: 0;
-  background-color: var(--color-background);
-  color: var(--color-on-surface);
-  -webkit-font-smoothing: antialiased;
+  body {
+    margin: 0;
+    background-color: var(--color-background);
+    color: var(--color-on-surface);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-primary-fixed);
+  }
+
+  /* 키보드로 이동할 때만 포커스 위치를 보여 준다 */
+  :focus-visible {
+    outline: 2px solid var(--color-primary-container);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 .material-symbols-outlined {
@@ -74,4 +138,5 @@ body {
   white-space: nowrap;
   direction: ltr;
   font-feature-settings: 'liga';
+  user-select: none;
 }

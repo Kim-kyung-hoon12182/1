@@ -1,3 +1,4 @@
+import Badge from '@/components/Badge'
 import type { Run } from '@/types/task'
 
 type RunChipsProps = {
@@ -9,15 +10,10 @@ export default function RunChips({ runs }: RunChipsProps) {
   return (
     <div className="flex flex-wrap items-center gap-1">
       {runs.slice(-5).map((run, index) => (
-        <span
-          key={index}
-          className={`rounded px-2 py-0.5 text-label-sm ${
-            run.edited ? 'bg-orange-100 text-orange-900' : 'bg-slate-100 text-slate-600'
-          }`}
-        >
+        <Badge key={index} tone={run.edited ? 'flag' : 'muted'}>
           {run.edited ? '고침' : '안 고침'}
           {run.passState === 'quick_pass' ? ' · 빠르게 넘김' : ''}
-        </span>
+        </Badge>
       ))}
     </div>
   )
