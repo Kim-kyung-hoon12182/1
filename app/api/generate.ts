@@ -1,6 +1,11 @@
 const MODEL = 'gemini-3.8-flash'
 // 재료 8,000자에 규칙·질문 답변·지시 문장이 더해진 요청 전체의 한도
 const MAX_INPUT_CHARS = 14000
+// 구글이 느릴 때 화면이 계속 기다리지 않도록, 재시도까지 합쳐 이 시간 안에 끝낸다
+const TOTAL_TIMEOUT_MS = 30_000
+// 수요가 몰려서(503) 또는 한도에 걸려서(429) 실패하면 잠깐 쉬었다가 다시 보낸다
+const RETRY_STATUSES = [503, 429]
+const RETRY_DELAYS_MS = [1000, 2000]
 
 type GenerateBody = {
   prompt?: unknown
@@ -39,20 +44,29 @@ export async function POST(request: Request): Promise<Response> {
     return fail(400, 'bad_request', '입력이 너무 길어요. 재료를 줄여 주세요.')
   }
 
-  const upstream = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': apiKey,
-      },
-      body: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        ...(body.json === true && { generationConfig: { responseMimeType: 'application/json' } }),
-      }),
-    },
-  )
+  const deadline = Date.now() + TOTAL_TIMEOUT_MS
+  const requestBody = JSON.stringify({
+    contents: [{ role: 'user', parts: [{ text: prompt }] }],
+    ...(body.json === true && { generationConfig: { responseMimeType: 'application/json' } }),
+  })
+
+  let upstream: Response
+  try {
+    for (let attempt = 0; ; attempt++) {
+      upstream = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
+        body: requestBody,
+        signal: AbortSignal.timeout(Math.max(deadline - Date.now(), 1)),
+      })
+      const delay = RETRY_DELAYS_MS[attempt]
+      if (!RETRY_STATUSES.includes(upstream.status) || delay === undefined || Date.now() + delay >= deadline) break
+      console.warn(`Gemini ${upstream.status}, retry ${attempt + 1} in ${delay}ms`)
+      await new Promise((resolve) => setTimeout(resolve, delay))
+    }
+  } catch {
+    return fail(504, 'upstream', 'AI 응답이 너무 늦어요. 잠시 뒤 다시 시도해 주세요.')
+  }
 
   if (upstream.status === 429) {
     return fail(429, 'rate_limit', '지금 사용하는 사람이 많아요. 1분 뒤에 다시 시도해 주세요.')
@@ -63,8 +77,11 @@ export async function POST(request: Request): Promise<Response> {
     return fail(502, 'upstream', 'AI 응답을 받지 못했어요. 잠시 뒤 다시 시도해 주세요.')
   }
 
-  const data = (await upstream.json()) as {
-    candidates?: { content?: { parts?: { text?: string }[] } }[]
+  let data: { candidates?: { content?: { parts?: { text?: string }[] } }[] }
+  try {
+    data = (await upstream.json()) as typeof data
+  } catch {
+    return fail(504, 'upstream', 'AI 응답이 너무 늦어요. 잠시 뒤 다시 시도해 주세요.')
   }
   const text =
     data.candidates?.[0]?.content?.parts

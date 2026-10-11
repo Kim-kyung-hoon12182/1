@@ -38,7 +38,9 @@ function localApi(): Plugin {
 }
 
 export default defineConfig(({ mode }) => {
-  Object.assign(process.env, loadEnv(mode, process.cwd(), ''))
+  // 키는 저장소 맨 위의 .env에 둔다. app/.env.local이 있으면 그 값이 우선한다.
+  const rootDir = path.resolve(import.meta.dirname, '..')
+  Object.assign(process.env, loadEnv(mode, rootDir, ''), loadEnv(mode, process.cwd(), ''))
 
   return {
     plugins: [react(), tailwindcss(), localApi()],
