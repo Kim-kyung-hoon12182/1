@@ -37,7 +37,9 @@ const CASES: { name: string; actual: unknown; expected: unknown }[] = [
   { name: '코드 블록으로 감싼 JSON도 읽는다', actual: parseRunResponse('```json\n{"lines":[{"text":"가","sourceIds":[1]}]}\n```', 2, rules).length, expected: 1 },
   { name: 'JSON이 깨지면 글로 받아 줄로 자른다', actual: plain.map((line) => line.text), expected: ['첫 줄입니다.', '둘째 줄입니다.'] },
   { name: '글로 받은 줄은 근거 번호를 비운다', actual: plain.every((line) => line.sourceIds.length === 0), expected: true },
-  { name: 'lines가 없는 JSON도 글로 취급한다', actual: parseRunResponse('{"a":1}', 2, rules).length, expected: 1 },
+  { name: '줄 배열만 와도 읽는다', actual: parseRunResponse('[{"text":"가","sourceIds":[1,7],"ruleIds":["r1"]},{"text":"나"}]', 2, rules), expected: [{ text: '가', sourceIds: [1], ruleIds: ['r1'] }, { text: '나', sourceIds: [], ruleIds: [] }] },
+  { name: 'lines가 없는 JSON은 실패로 본다', actual: parseRunResponse('{"a":1}', 2, rules).length, expected: 0 },
+  { name: '깨진 JSON은 줄로 자르지 않고 실패로 본다', actual: parseRunResponse('[{"text": "가", ', 2, rules).length, expected: 0 },
   { name: '빈 응답은 줄이 없다', actual: parseRunResponse('  ', 2, rules).length, expected: 0 },
   { name: '줄은 40개까지만 받는다', actual: parseRunResponse(many, 2, rules).length, expected: 40 },
 ]

@@ -48,8 +48,9 @@ const splitPlainText = (text: string): RawLine[] =>
 export const parseRunResponse = (text: string, sentenceCount: number, rules: Rule[]): RawLine[] => {
   try {
     const parsed: unknown = JSON.parse(stripFence(text))
-    const list = isRecord(parsed) && Array.isArray(parsed.lines) ? parsed.lines : null
-    if (!list) return splitPlainText(text)
+    // 모델이 {"lines": [...]} 대신 줄 배열만 줄 때도 읽는다
+    const list = Array.isArray(parsed) ? parsed : isRecord(parsed) && Array.isArray(parsed.lines) ? parsed.lines : null
+    if (!list) return []
     const ruleIds = rules.map((rule) => rule.id)
     return list
       .flatMap((item): RawLine[] => {
@@ -64,6 +65,7 @@ export const parseRunResponse = (text: string, sentenceCount: number, rules: Rul
       })
       .slice(0, MAX_LINES)
   } catch {
-    return splitPlainText(text)
+    // JSON처럼 보이는데 깨진 글은 줄로 자르지 않는다(괄호와 따옴표가 결과로 보이므로)
+    return /^\s*[[{]/.test(stripFence(text)) ? [] : splitPlainText(text)
   }
 }

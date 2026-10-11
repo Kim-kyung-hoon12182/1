@@ -1,4 +1,4 @@
-const MODEL = 'gemini-3.8-flash'
+const MODEL = 'gemini-3.5-flash-lite'
 // 재료 8,000자에 규칙·질문 답변·지시 문장이 더해진 요청 전체의 한도
 const MAX_INPUT_CHARS = 14000
 // 구글이 느릴 때 화면이 계속 기다리지 않도록, 재시도까지 합쳐 이 시간 안에 끝낸다
