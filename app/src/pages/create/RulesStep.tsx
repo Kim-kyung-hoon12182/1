@@ -82,7 +82,11 @@ export default function RulesStep({ draft }: { draft: TaskDraft }) {
         <RulesAside ruleCount={ruleCount} />
       </div>
 
-      <Card as="section" elevation="md" className="flex flex-col items-center justify-between gap-3 p-5 md:flex-row">
+      <Card
+        as="section"
+        elevation="md"
+        className="sticky bottom-3 z-30 flex flex-col items-center justify-between gap-3 p-5 shadow-lg ring-1 ring-outline-variant md:flex-row"
+      >
         <Button icon="arrow_back" className="w-full md:w-auto" onClick={() => draft.setPhase('questions')}>
           질문으로 돌아가기
         </Button>

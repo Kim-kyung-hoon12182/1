@@ -21,7 +21,7 @@ export default function QuestionsStep({ draft, onCancel }: QuestionsStepProps) {
 
   return (
     <div className="grid items-start gap-6 lg:grid-cols-12">
-      <Card as="section" padding="lg" className="relative flex flex-col gap-6 overflow-hidden lg:col-span-8">
+      <Card as="section" padding="lg" className="relative flex flex-col gap-6 overflow-clip lg:col-span-8">
         <div className="flex flex-wrap items-center gap-2 rounded-lg bg-surface-low p-3">
           <span className="flex items-center gap-1 text-label-sm text-on-surface-variant">
             <Icon name="bolt" className="text-[14px]" />
@@ -95,7 +95,7 @@ export default function QuestionsStep({ draft, onCancel }: QuestionsStepProps) {
           <strong>[규칙 만들기]</strong>를 누르면 답한 내용으로 규칙 5~8개를 만들어요. 다음 단계에서 고치거나 추가할 수 있고, 아직 작업이 저장된 건 아니에요.
         </Notice>
 
-        <div className="flex flex-col items-center justify-between gap-3 border-t border-surface-high pt-3 sm:flex-row">
+        <div className="sticky bottom-0 z-10 -mb-2 flex flex-col items-center justify-between gap-3 border-t border-surface-high bg-surface-lowest pb-2 pt-3 sm:flex-row">
           <Button size="lg" className="w-full px-6 py-2 sm:w-auto" onClick={onCancel}>
             취소하고 돌아가기
           </Button>
