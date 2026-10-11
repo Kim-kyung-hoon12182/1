@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary-container":"#1d4ed8","on-primary":"#ffffff","surface-container-highest":"#d3e4fe","on-error-container":"#93000a","tertiary":"#004e47","on-surface":"#0b1c30","surface":"#f8f9ff","on-secondary":"#ffffff","inverse-on-surface":"#eaf1ff","outline-variant":"#c4c5d7","on-primary-container":"#cad3ff","inverse-primary":"#b7c4ff","on-tertiary-container":"#7be7d9","secondary":"#565e74","error":"#ba1a1a","secondary-fixed":"#dae2fd","primary-fixed":"#dce1ff","on-tertiary-fixed-variant":"#005049","secondary-container":"#dae2fd","on-tertiary-fixed":"#00201d","on-surface-variant":"#434655","outline":"#747686","primary-fixed-dim":"#b7c4ff","on-error":"#ffffff","on-secondary-fixed-variant":"#3f465c","surface-variant":"#d3e4fe","on-primary-fixed-variant":"#0039b5","inverse-surface":"#213145","surface-container-high":"#dce9ff","background":"#f8f9ff","on-tertiary":"#ffffff","primary":"#0037b0","tertiary-container":"#00685f","surface-container":"#e5eeff","surface-tint":"#2151da","on-secondary-fixed":"#131b2e","surface-dim":"#cbdbf5","surface-container-low":"#eff4ff","on-primary-fixed":"#001551","surface-bright":"#f8f9ff","tertiary-fixed":"#89f5e7","surface-container-lowest":"#ffffff","on-secondary-container":"#5c647a","on-background":"#0b1c30","tertiary-fixed-dim":"#6bd8cb","error-container":"#ffdad6","secondary-fixed-dim":"#bec6e0"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"margin-lg":"2rem","margin":"1rem","space-xl":"1.5rem","space-sm":"0.5rem","gutter":"1rem","space-md":"0.75rem","gutter-lg":"1.5rem","space-2xl":"2rem","space-xs":"0.25rem","space-lg":"1rem"},fontFamily:{"label-sm":["Inter"],"body-sm":["Inter"],"body-md":["Inter"],"label-md":["Inter"],"display-lg":["Inter"],"headline-sm":["Inter"],"body-lg":["Inter"],"headline-md":["Inter"],"code-sm":["Inter"],"headline-lg":["Inter"]},fontSize:{"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.02em","fontWeight":"500"}],"body-sm":["13px",{"lineHeight":"20px","letterSpacing":"0.005em","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"600"}],"display-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"400"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"code-sm":["12px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest border-b border-surface-container shadow-[0_1px_8px_rgba(0,0,0,0.03)]"><div class="h-16 w-full px-gutter-lg flex items-center justify-between"><div class="flex items-center gap-space-2xl"><a class="flex items-center gap-space-sm text-primary" data-path="task-execution" href="#"><div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[20px]">verified_user</span></div><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">믿고맡김</span></a><nav class="flex items-center gap-space-lg h-16" data-active-classes="text-primary border-b-2 border-primary-container font-headline-sm"><a class="h-16 flex items-center px-space-xs font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="task-execution" href="#">작업 실행</a><a class="h-16 flex items-center px-space-xs font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="my-tasks" href="#">내 작업</a><a aria-current="page" class="h-16 flex items-center px-space-xs transition-colors text-primary border-b-2 border-primary-container font-headline-sm" data-path="execution-history" href="#">실행 이력</a></nav></div><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-low border border-surface-container rounded-lg"><span class="w-2 h-2 rounded-full bg-tertiary-container"></span><span class="font-code-sm text-code-sm text-on-surface-variant">모델: Claude 3.5 Sonnet 연동됨</span></div><button class="flex items-center gap-space-xs px-space-sm py-1.5 bg-surface-container-lowest border border-surface-container rounded-lg text-on-surface hover:bg-surface-container-low transition-colors"><span class="font-label-md text-label-md">프로덕트 기획팀</span><span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span></button><button aria-label="Notifications" class="relative p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><div class="flex items-center gap-space-sm pl-space-sm border-l border-surface-container"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface leading-tight">김민준 팀장</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">운영 관리자</span></div></div></div></div></header><main class="w-full pt-16 bg-surface min-h-[calc(100vh-80px)]"><div class="flex flex-col w-full">
+<!-- Top Utility Context Bar & Title Area -->
+<div class="w-full px-gutter-lg pt-space-xl pb-space-lg">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-space-sm mb-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface tracking-tight">실행 이력</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-primary font-label-sm text-label-sm">로그 보관 주기 90일</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          이전 실행 결과와 수정 여부를 확인하고, 반복 작업의 자동화 가능성을 살펴보세요.
+        </p>
+</div>
+<!-- Right Utility Note -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center gap-space-sm">
+<div class="flex items-center gap-space-xs px-space-sm py-1.5 rounded-lg bg-surface-container-low text-on-surface">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-on-surface">실행 로그 자동 기록 중</span>
+</div>
+<div class="flex items-center gap-space-xs px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-outline">info</span>
+<span class="font-label-sm text-label-sm">안내: 무수정 복사가 100% 결과 정합성을 보증하는 것은 아닙니다.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Content Container -->
+<div class="w-full px-gutter-lg pb-space-2xl space-y-space-xl">
+<!-- 1. Metric Summary Cards -->
+<div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Card 1 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-md text-label-md text-secondary">총 실행 횟수</span>
+<span class="material-symbols-outlined text-[18px] text-outline">sync</span>
+</div>
+<div class="my-space-sm flex items-baseline gap-space-xs">
+<span class="font-display-lg text-display-lg text-on-surface font-semibold tracking-tight">24회</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">/ 30일 누적</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1 overflow-hidden mt-space-xs">
+<div class="bg-primary h-full w-[80%]"></div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-md text-label-md text-secondary">수정 없이 복사한 횟수</span>
+<span class="material-symbols-outlined text-[18px] text-tertiary">content_copy</span>
+</div>
+<div class="my-space-sm flex items-baseline gap-space-xs">
+<span class="font-display-lg text-display-lg text-tertiary font-semibold tracking-tight">14회</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">(비율 58.3%)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1 overflow-hidden mt-space-xs">
+<div class="bg-tertiary h-full w-[58.3%]"></div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-md text-label-md text-secondary">자동화 제안 대상 작업</span>
+<span class="material-symbols-outlined text-[18px] text-primary">auto_mode</span>
+</div>
+<div class="my-space-sm flex items-baseline gap-space-xs">
+<span class="font-display-lg text-display-lg text-primary font-semibold tracking-tight">1건</span>
+<span class="font-code-sm text-code-sm text-tertiary">3회 연속 무수정 달성</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1 overflow-hidden mt-space-xs">
+<div class="bg-primary-container h-full w-full"></div>
+</div>
+</div>
+</div>
+<!-- Legal & Algorithmic Disclaimer Note -->
+<div class="mt-space-sm px-space-xs">
+<p class="font-label-sm text-label-sm text-outline">
+          ※ '수정 없음' 상태는 사용자가 결과를 변경하지 않고 그대로 클립보드에 복사했음을 기록한 것이며, AI 결과의 무결성이나 객관적 완전성을 법적으로 보증하지 않습니다.
+        </p>
+</div>
+</div>
+<!-- 2. Automation Suggestion Section -->
+<div class="relative overflow-hidden p-space-xl rounded-xl bg-surface-container-low shadow-sm">
+<div class="absolute -right-12 -top-12 w-48 h-48 bg-surface-container-highest rounded-full opacity-60 pointer-events-none"></div>
+<div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
+<div class="space-y-space-xs max-w-3xl">
+<div class="flex flex-wrap items-center gap-space-sm">
+<span class="inline-flex items-center gap-space-xs px-space-sm py-0.5 rounded-lg bg-surface-container-highest text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-primary">auto_awesome</span>
+              자동화 제안 조건 충족 (3회 연속 무수정 복사)
+            </span>
+<span class="font-code-sm text-code-sm text-secondary">식별번호: TASK-REC-0824</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-semibold pt-space-xs">
+            주간 업무 보고서 작성 및 핵심 성과 추출
+          </h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            최근 3회 연속으로 결과 수정 없이 복사되었습니다. <span class="font-code-sm text-code-sm text-on-surface bg-surface-container px-1 py-0.5 rounded">2025.02.24</span>, <span class="font-code-sm text-code-sm text-on-surface bg-surface-container px-1 py-0.5 rounded">2025.02.17</span>, <span class="font-code-sm text-code-sm text-on-surface bg-surface-container px-1 py-0.5 rounded">2025.02.10</span>에 동일 패턴으로 완료되었습니다. 이 작업은 외부 스케줄러(ChatGPT Tasks, Claude Projects, Zapier 등)에 프롬프트로 이관하여 정기 구동하기 적합합니다.
+          </p>
+<p class="font-label-sm text-label-sm text-outline pt-space-xs">
+            ※ '믿고맡김'에서 외부 서비스로 자동 직접 발송되거나 스케줄러가 임의 연동되는 것은 아닙니다. 생성된 프롬프트를 확인하신 뒤 선호하는 정기 워크플로우에 직접 등록해 안전하게 운용하세요.
+          </p>
+</div>
+<div class="flex flex-col sm:flex-row lg:flex-col items-stretch lg:items-end gap-space-sm shrink-0">
+<button class="flex items-center justify-center gap-space-xs px-space-lg py-space-sm rounded-lg bg-primary text-on-primary hover:bg-primary-container font-headline-sm text-headline-sm transition-all shadow-sm" id="openPromptPanelBtn">
+<span>자동화 프롬프트 확인 및 복사</span>
+<span class="material-symbols-outlined text-[18px]">arrow_outward</span>
+</button>
+<div class="px-space-sm py-1 rounded bg-surface-container text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">조건 진행 중: </span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">'회의록 요약 및 할 일' (2/3회 달성 중)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. Prompt Slide-over Modal / Inspection Overlay -->
+<div class="hidden fixed inset-0 z-50 overflow-y-auto bg-inverse-surface/40 flex items-center justify-center p-space-md" id="promptModal">
+<div class="relative w-full max-w-2xl bg-surface-container-lowest rounded-xl shadow-xl overflow-hidden flex flex-col">
+<!-- Modal Header -->
+<div class="px-space-xl py-space-lg bg-surface-container-lowest flex items-start justify-between">
+<div>
+<div class="flex items-center gap-space-xs text-primary mb-1">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+<span class="font-label-md text-label-md">추출된 최적화 프롬프트 템플릿</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface font-semibold">
+              주간 업무 보고서 자동화용 프롬프트
+            </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+              사용 중인 정기 스케줄러(ChatGPT, Claude, Notion AI 등)에 붙여넣어 활용할 수 있도록 신뢰성 검증 규칙이 포함된 초안입니다.
+            </p>
+</div>
+<button class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" id="closeModalCross">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Modal Body: Prompt Card -->
+<div class="p-space-xl bg-surface-container-low space-y-space-md">
+<div class="relative rounded-lg bg-inverse-surface text-inverse-on-surface p-space-lg shadow-inner">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm">
+<span class="font-code-sm text-code-sm text-outline-variant">SYSTEM PROMPT DRAFT (Deterministic Mode)</span>
+<span class="font-label-sm text-label-sm text-tertiary-fixed bg-tertiary-container/30 px-space-xs py-0.5 rounded">검증 규칙 내장</span>
+</div>
+<pre class="font-code-sm text-code-sm whitespace-pre-wrap leading-relaxed select-all text-inverse-on-surface/90" id="promptText">[역할 정의]
+당신은 주간 업무 보고서 및 핵심 성과를 객관적으로 요약·검증하는 전문 PM 어시스턴트입니다.
+
+[입력 데이터]
+첨부된 한 주간의 업무 메모, 지라(Jira) 티켓 번호, 슬랙 회의 스레드 전문
+
+[필수 준수 규칙]
+1. 핵심 성과와 진행 중인 이슈를 엄격히 분리하고 마감일을 'YYYY-MM-DD' 형식으로 표기하세요.
+2. 원문에 명확한 근거가 없는 추정 수치나 성과는 기재하지 말고, 불명확한 항목은 [확인 필요]로 별도 명시하세요.
+3. 3줄 핵심 요약 및 3개 핵심 액션 아이템 표 형식으로 산출하세요.</pre>
+</div>
+<div class="flex items-start gap-space-xs p-space-sm rounded-lg bg-surface-container text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px] text-tertiary shrink-0">verified</span>
+<p class="font-label-sm text-label-sm">
+              원문 대조 원칙이 프롬프트 규칙 2번에 자동 반영되었습니다. 정기 실행 워크플로우에 등록하기 전 조직의 보안 정책에 부합하는지 최종 확인하십시오.
+            </p>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="px-space-xl py-space-md bg-surface-container-lowest flex items-center justify-between">
+<div class="font-label-sm text-label-sm text-tertiary flex items-center gap-1 opacity-0 transition-opacity" id="copyAlert">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+            클립보드에 복사되었습니다!
+          </div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-lg py-space-sm rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-headline-sm text-headline-sm transition-colors" id="closeModalBtn">
+              닫기
+            </button>
+<button class="flex items-center gap-space-xs px-space-lg py-space-sm rounded-lg bg-primary text-on-primary hover:bg-primary-container font-headline-sm text-headline-sm transition-colors" id="copyPromptBtn">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+<span>프롬프트 복사</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- 4. Execution History Filter & Table Module -->
+<div class="rounded-xl bg-surface-container-lowest shadow-sm overflow-hidden">
+<!-- Toolbar -->
+<div class="p-space-lg flex flex-col lg:flex-row lg:items-center justify-between gap-space-md bg-surface-container-lowest">
+<!-- Search & Filter Tags -->
+<div class="flex flex-wrap items-center gap-space-sm flex-1">
+<div class="relative w-full sm:w-64">
+<span class="material-symbols-outlined absolute left-2.5 top-2 text-[18px] text-outline">search</span>
+<input class="w-full h-9 pl-9 pr-space-sm rounded-lg bg-surface-container-low text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary transition-all" id="taskSearchInput" placeholder="작업명, 원본 자료 검색..." type="text"/>
+</div>
+<div class="flex flex-wrap items-center gap-space-xs">
+<button class="filter-tab active-filter px-space-sm py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md transition-colors" data-filter="all">
+              전체 (24)
+            </button>
+<button class="filter-tab px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" data-filter="unmodified">
+              수정 없이 복사 (14)
+            </button>
+<button class="filter-tab px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" data-filter="modified">
+              수정 후 복사 (6)
+            </button>
+<button class="filter-tab px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" data-filter="not_copied">
+              복사하지 않음 (3)
+            </button>
+<button class="filter-tab px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" data-filter="skipped">
+              확인 생략 (1)
+            </button>
+</div>
+</div>
+<!-- Sort Option Dropdown Simulation -->
+<div class="flex items-center gap-space-xs shrink-0 self-end lg:self-auto">
+<span class="font-label-sm text-label-sm text-on-surface-variant">정렬:</span>
+<button class="flex items-center gap-space-xs px-space-sm py-1.5 rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md hover:bg-surface-container transition-colors">
+<span>최신 실행순</span>
+<span class="material-symbols-outlined text-[16px] text-outline">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Scannable Compact Table -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm">
+<th class="py-space-md px-space-lg font-semibold">작업명</th>
+<th class="py-space-md px-space-lg font-semibold whitespace-nowrap">실행 일시</th>
+<th class="py-space-md px-space-lg font-semibold">사용된 원본 자료</th>
+<th class="py-space-md px-space-lg font-semibold whitespace-nowrap">결과 상태</th>
+<th class="py-space-md px-space-lg font-semibold whitespace-nowrap">연속 무수정 현황</th>
+<th class="py-space-md px-space-lg font-semibold text-right whitespace-nowrap">상세 분석</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm" id="historyTableBody">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors" data-status="unmodified">
+<td class="py-space-md px-space-lg">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">주간 업무 보고서 작성</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container font-code-sm text-code-sm text-primary">#WR-2401</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">핵심 성과 지표 추출 및 지라 이슈 매핑</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap font-code-sm text-code-sm text-on-surface-variant">
+                2025-02-24 09:30:12
+              </td>
+<td class="py-space-md px-space-lg text-on-surface-variant">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-outline">chat</span>
+<span>슬랙 스레드 12건, 지라 4건</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded bg-tertiary/10 text-tertiary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                  수정 없이 복사
+                </span>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap">
+<span class="inline-flex items-center gap-1 font-label-md text-label-md text-primary bg-primary-fixed/40 px-space-xs py-0.5 rounded">
+<span class="material-symbols-outlined text-[14px]">stars</span>
+                  3회 연속 달성
+                </span>
+</td>
+<td class="py-space-md px-space-lg text-right whitespace-nowrap">
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md">
+                  로그 확인
+                </button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors" data-status="modified">
+<td class="py-space-md px-space-lg">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">신규 B2B 파트너십 제휴 제안서 검토</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container font-code-sm text-code-sm text-secondary">#PR-1190</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">독점 조항 및 SLA 리스크 포인트 점검</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap font-code-sm text-code-sm text-on-surface-variant">
+                2025-02-23 16:15:40
+              </td>
+<td class="py-space-md px-space-lg text-on-surface-variant">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-outline">description</span>
+<span>파트너십 제안서 PDF 전문 (28p)</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded bg-secondary-container/50 text-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[14px]">edit</span>
+                  수정 후 복사 (1건 수정)
+                </span>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap font-code-sm text-code-sm text-outline">
+                -
+              </td>
+<td class="py-space-md px-space-lg text-right whitespace-nowrap">
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md">
+                  로그 확인
+                </button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors" data-status="unmodified">
+<td class="py-space-md px-space-lg">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">회의록 요약 및 할 일 정리</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container font-code-sm text-code-sm text-primary">#MT-8842</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">스프린트 24차 백로그 우선순위 조율 회의</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap font-code-sm text-code-sm text-on-surface-variant">
+                2025-02-21 14:00:22
+              </td>
+<td class="py-space-md px-space-lg text-on-surface-variant">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-outline">mic</span>
+<span>Zoom 녹취록 45분 텍스트</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded bg-tertiary/10 text-tertiary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                  수정 없이 복사
+                </span>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap">
+<span class="font-label-md text-label-md text-on-surface bg-surface-container px-space-xs py-0.5 rounded">
+                  2회 연속
+                </span>
+</td>
+<td class="py-space-md px-space-lg text-right whitespace-nowrap">
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md">
+                  로그 확인
+                </button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors" data-status="not_copied">
+<td class="py-space-md px-space-lg">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">기술 블로그 초안 작성</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container font-code-sm text-code-sm text-secondary">#BL-0931</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">PostgreSQL 성능 최적화 튜닝 사례 정리</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap font-code-sm text-code-sm text-on-surface-variant">
+                2025-02-20 11:20:05
+              </td>
+<td class="py-space-md px-space-lg text-on-surface-variant">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-outline">code</span>
+<span>PR #142 코드 변경 내역</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded bg-surface-container text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-[14px]">block</span>
+                  복사하지 않음
+                </span>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap font-code-sm text-code-sm text-outline">
+                -
+              </td>
+<td class="py-space-md px-space-lg text-right whitespace-nowrap">
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md">
+                  로그 확인
+                </button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors" data-status="unmodified">
+<td class="py-space-md px-space-lg">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">주간 업무 보고서 작성</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container font-code-sm text-code-sm text-primary">#WR-2390</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">전사 운영 지표 및 VOC 현황 정리</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap font-code-sm text-code-sm text-on-surface-variant">
+                2025-02-17 09:15:33
+              </td>
+<td class="py-space-md px-space-lg text-on-surface-variant">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-outline">chat</span>
+<span>슬랙 주간 실적 메모 6건</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded bg-tertiary/10 text-tertiary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                  수정 없이 복사
+                </span>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap">
+<span class="font-label-md text-label-md text-on-surface bg-surface-container px-space-xs py-0.5 rounded">
+                  2회 연속
+                </span>
+</td>
+<td class="py-space-md px-space-lg text-right whitespace-nowrap">
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md">
+                  로그 확인
+                </button>
+</td>
+</tr>
+<!-- Row 6 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors" data-status="modified">
+<td class="py-space-md px-space-lg">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">분기 실적 보고서 검토</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container font-code-sm text-code-sm text-secondary">#QT-0412</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">사업부별 공헌이익 산출표 교차검증</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap font-code-sm text-code-sm text-on-surface-variant">
+                2025-02-15 18:00:49
+              </td>
+<td class="py-space-md px-space-lg text-on-surface-variant">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-outline">table_chart</span>
+<span>재무 결산 엑셀 요약 (CSV)</span>
+</div>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded bg-secondary-container/50 text-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[14px]">edit</span>
+                  수정 후 복사 (수치 보정)
+                </span>
+</td>
+<td class="py-space-md px-space-lg whitespace-nowrap font-code-sm text-code-sm text-outline">
+                -
+              </td>
+<td class="py-space-md px-space-lg text-right whitespace-nowrap">
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md">
+                  로그 확인
+                </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="px-space-lg py-space-md bg-surface-container-lowest flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">총 24개 작업 중 1 - 6건 표시</span>
+<div class="flex items-center gap-space-xs">
+<button class="p-1 rounded bg-surface-container text-outline hover:text-on-surface disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<span class="font-label-md text-label-md px-space-xs text-primary">1</span>
+<span class="font-label-md text-label-md px-space-xs text-on-surface-variant">2</span>
+<span class="font-label-md text-label-md px-space-xs text-on-surface-variant">3</span>
+<span class="font-label-md text-label-md px-space-xs text-on-surface-variant">4</span>
+<button class="p-1 rounded bg-surface-container text-outline hover:text-on-surface">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 5. Interactive Edge State Sandbox & Compliance Callout -->
+<div class="p-space-lg rounded-xl bg-surface-container-low shadow-sm">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="space-y-space-xs">
+<div class="flex items-center gap-space-xs text-on-surface font-headline-sm text-headline-sm">
+<span class="material-symbols-outlined text-[18px] text-primary">analytics</span>
+<span>데이터 거버넌스 및 독립성 원칙 안내</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-4xl">
+            기록된 사용자 행동(클립보드 복사 여부, 수정 여부)은 조작자의 실무 판단을 통계화한 보조 지표입니다. AI 모델의 연역적 추론 정합성과는 독립적이며, 조직 내 최종 보고서의 책임과 검토 권한은 담당자에게 귀속됩니다.
+          </p>
+</div>
+<!-- Prototype State Preview Trigger Buttons -->
+<div class="flex items-center gap-space-xs shrink-0 bg-surface-container-lowest p-1 rounded-lg">
+<button class="px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" id="toggleEmptyStateBtn">
+            빈 상태 미리보기
+          </button>
+<button class="px-space-sm py-1 rounded bg-primary text-on-primary font-label-sm text-label-sm transition-colors" id="resetStateBtn">
+            기본 화면
+          </button>
+</div>
+</div>
+<!-- Edge Empty View Template (Hidden by default, triggered by toggle) -->
+<div class="hidden mt-space-md p-space-2xl rounded-lg bg-surface-container-lowest text-center" id="emptyStatePlaceholder">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mx-auto mb-space-sm text-outline">
+<span class="material-symbols-outlined text-[24px]">history_toggle_off</span>
+</div>
+<h5 class="font-headline-sm text-headline-sm text-on-surface font-semibold">실행 이력이 존재하지 않습니다</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+          신규 작업을 실행하면 검증 로그 및 수정 여부가 이곳에 시계열로 축적됩니다.
+        </p>
+<div class="mt-space-md">
+<button class="px-space-lg py-space-sm rounded-lg bg-primary text-on-primary font-label-md text-label-md">
+            새 작업 실행하기
+          </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Slide-over Modal Controls
+  const modal = document.getElementById('promptModal');
+  const openBtn = document.getElementById('openPromptPanelBtn');
+  const closeBtn = document.getElementById('closeModalBtn');
+  const closeCross = document.getElementById('closeModalCross');
+  const copyBtn = document.getElementById('copyPromptBtn');
+  const promptText = document.getElementById('promptText');
+  const copyAlert = document.getElementById('copyAlert');
+
+  function openModal() {
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+    copyAlert.classList.add('opacity-0');
+  }
+
+  if (openBtn) openBtn.addEventListener('click', openModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (closeCross) closeCross.addEventListener('click', closeModal);
+
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+  }
+
+  // Copy Prompt Functionality
+  if (copyBtn) {
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(promptText.innerText.trim());
+        copyAlert.classList.remove('opacity-0');
+        setTimeout(() => {
+          copyAlert.classList.add('opacity-0');
+        }, 3000);
+      } catch (err) {
+        alert('프롬프트 복사에 실패했습니다. 텍스트를 직접 드래그하여 복사하세요.');
+      }
+    });
+  }
+
+  // Filter Toolbar Interaction
+  const filterTabs = document.querySelectorAll('.filter-tab');
+  const tableRows = document.querySelectorAll('#historyTableBody tr');
+
+  filterTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      filterTabs.forEach((t) => {
+        t.classList.remove('bg-primary', 'text-on-primary');
+        t.classList.add('bg-surface-container', 'text-on-surface-variant');
+      });
+      tab.classList.remove('bg-surface-container', 'text-on-surface-variant');
+      tab.classList.add('bg-primary', 'text-on-primary');
+
+      const filterVal = tab.getAttribute('data-filter');
+      tableRows.forEach((row) => {
+        if (filterVal === 'all') {
+          row.style.display = '';
+        } else {
+          const rowStatus = row.getAttribute('data-status');
+          row.style.display = rowStatus === filterVal ? '' : 'none';
+        }
+      });
+    });
+  });
+
+  // Client-side Search Interaction
+  const searchInput = document.getElementById('taskSearchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase().trim();
+      tableRows.forEach((row) => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(term) ? '' : 'none';
+      });
+    });
+  }
+
+  // Edge State Prototype Toggle
+  const emptyToggle = document.getElementById('toggleEmptyStateBtn');
+  const resetToggle = document.getElementById('resetStateBtn');
+  const emptyPlaceholder = document.getElementById('emptyStatePlaceholder');
+  const historyBody = document.getElementById('historyTableBody');
+
+  if (emptyToggle && resetToggle && emptyPlaceholder) {
+    emptyToggle.addEventListener('click', () => {
+      emptyPlaceholder.classList.remove('hidden');
+      if (historyBody) historyBody.parentElement.parentElement.classList.add('opacity-40');
+      emptyToggle.classList.add('bg-primary', 'text-on-primary');
+      emptyToggle.classList.remove('text-on-surface-variant');
+      resetToggle.classList.remove('bg-primary', 'text-on-primary');
+      resetToggle.classList.add('text-on-surface-variant');
+    });
+
+    resetToggle.addEventListener('click', () => {
+      emptyPlaceholder.classList.add('hidden');
+      if (historyBody) historyBody.parentElement.parentElement.classList.remove('opacity-40');
+      resetToggle.classList.add('bg-primary', 'text-on-primary');
+      resetToggle.classList.remove('text-on-surface-variant');
+      emptyToggle.classList.remove('bg-primary', 'text-on-primary');
+      emptyToggle.classList.add('text-on-surface-variant');
+    });
+  }
+</script></main><footer class="w-full bg-surface-container-lowest border-t border-surface-container py-space-lg"><div class="w-full px-gutter-lg flex flex-col md:flex-row items-center justify-between gap-space-sm"><p class="font-body-sm text-body-sm text-on-surface-variant">믿고맡김은 생성된 결과의 근거 확인을 보조하며, 최종 검토 및 책임은 사용자에게 있습니다.</p><p class="font-code-sm text-code-sm text-outline">© 2025 믿고맡김 AI Assistant. Deterministic Audit Architecture.</p></div></footer></body></html>
