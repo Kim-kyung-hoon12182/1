@@ -242,6 +242,7 @@ node --experimental-strip-types scripts/run-prompt-test.ts
 node --experimental-strip-types scripts/heading-test.ts
 node --experimental-strip-types scripts/route-test.ts
 node --experimental-strip-types scripts/highlight-test.ts
+node --experimental-strip-types scripts/tour-test.ts
 pnpm dev          # 화면 흐름은 http://localhost:5173 에서 위 3절 순서대로
 ```
 
@@ -317,3 +318,21 @@ pnpm dev          # 화면 흐름은 http://localhost:5173 에서 위 3절 순�
 | UX-06 | 규칙 단계, 결과 화면, 질문 단계의 아래 고정 버튼 | 통과: 맨 위에서도 맨 아래에서도 화면 안에 보임 |
 | UX-07 | 비활성 버튼 이유 안내 | 통과: 질문 번호별 안내, 이름·규칙 안내, `aria-describedby`, `aria-required` |
 | UX-08 | 자료 입력 칸 자동 커서 | 통과: 화면에 들어올 때, [자료 다시 입력] 뒤에도 |
+
+## 13. 추가 테스트: 첫 방문 안내와 안내 모드 (2026-10-11)
+
+로직 테스트 `scripts/tour-test.ts` 통과(6단계, 요소 이름이 화면에 실제로 있는지, 문구 금지어). 화면은 1280×800에서 실제 클릭으로 확인했다.
+
+| ID | 시나리오 | 결과 |
+| --- | --- | --- |
+| TUR-01 | 처음 방문(저장 없음) | 통과: 첫 방문 안내 창, 저장·전송·기밀 주의 문구 포함 |
+| TUR-02 | [바로 시작] | 통과: 창 닫힘, `mitgo:onboarded`=skipped, 새로고침해도 안 뜸 |
+| TUR-03 | 저장된 작업이 있고 안내 기록이 없음 | 통과: 자동으로 안 뜸, [사용 안내] 버튼은 있음 |
+| TUR-04 | [안내 따라 해 보기] → 6단계를 실제로 눌러 끝까지 | 통과: 1/6~6/6 순서대로 진행, 마무리 카드, [닫기] → done 저장 |
+| TUR-05 | 밝은 곳 밖 클릭 | 통과: 덮개가 가로챔(새 작업 등록이 눌리지 않음). 밝은 곳 안은 실제 버튼이 눌림 |
+| TUR-06 | 안내 중 체험용 작업 | 통과: 자료 칸이 비어 있어 [예시 자료 넣기]를 눌러야 3단계로 넘어감 |
+| TUR-07 | 안내가 남기는 기록 | 통과: 체험용(`mitgo:demo`)에만 1건, `mitgo:tasks`는 없음 |
+| TUR-08 | Esc, 안내 중 뒤로가기 | 통과: Esc는 skipped 저장, 뒤로가기로 내 작업에 가면 안내가 끝남 |
+| TUR-09 | [사용 안내] 다시 시작 | 통과: 내 작업 화면에서 1/6부터 |
+| TUR-10 | 다음 단계 요소가 3초 넘게 안 보일 때 "안내를 이어 갈 수 없어요" 카드 | **미검증**(그렇게 되는 경로를 만들지 못함) |
+| TUR-11 | 좁은 화면(390), 키보드만으로 안내 진행, 화면 읽기 도구 | **미검증** |

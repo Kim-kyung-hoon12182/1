@@ -26,7 +26,7 @@ export default function ResultSummary({ session }: { session: RunSession }) {
               <span className="mr-1 text-label-md text-on-surface-variant">
                 {flaggedPosition > 0 ? `확인할 곳 ${flaggedPosition} / ${flagged.length}` : `확인할 곳 ${flagged.length}개`}
               </span>
-              <Button size="sm" onClick={() => session.goToFlagged('first')}>
+              <Button size="sm" data-tour="goto-first" onClick={() => session.goToFlagged('first')}>
                 첫 번째로 이동
               </Button>
               <Button size="sm" onClick={() => session.goToFlagged('next')}>

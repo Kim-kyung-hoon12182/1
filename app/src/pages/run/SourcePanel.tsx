@@ -80,7 +80,14 @@ function MaterialInput({ task, session }: SourcePanelProps) {
     <>
       <div className="mb-2 flex items-center justify-between rounded-lg bg-surface-low px-3 py-2">
         {sample ? (
-          <Button size="sm" variant="soft" icon="history_edu" title="예시 자료를 바로 입력해요" onClick={session.loadSample}>
+          <Button
+            data-tour="load-sample"
+            size="sm"
+            variant="soft"
+            icon="history_edu"
+            title="예시 자료를 바로 입력해요"
+            onClick={session.loadSample}
+          >
             예시 자료 넣기
           </Button>
         ) : (
@@ -114,6 +121,7 @@ function MaterialInput({ task, session }: SourcePanelProps) {
       )}
       <div className="mt-4 flex flex-col gap-2">
         <Button
+          data-tour="run-button"
           variant="primary"
           size="lg"
           fullWidth

@@ -2,6 +2,7 @@ import type { Task } from '@/types/task'
 
 const TASKS_KEY = 'mitgo:tasks'
 const DEMO_KEY = 'mitgo:demo'
+const ONBOARDED_KEY = 'mitgo:onboarded'
 
 export const STORAGE_FULL_MESSAGE = '저장 공간이 가득 찼어요. 오래된 실행 기록을 지워주세요.'
 
@@ -36,3 +37,12 @@ export const loadDemo = (): Task | null => {
 }
 
 export const saveDemo = (task: Task) => write(DEMO_KEY, task)
+
+export type Onboarded = 'done' | 'skipped'
+
+export const loadOnboarded = (): Onboarded | null => {
+  const value = read(ONBOARDED_KEY)
+  return value === 'done' || value === 'skipped' ? value : null
+}
+
+export const saveOnboarded = (value: Onboarded) => write(ONBOARDED_KEY, value)

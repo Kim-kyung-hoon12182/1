@@ -31,7 +31,12 @@ export default function TaskListPage({ tasks, demo, onCreate, onRun, onResetDemo
         description="자주 쓰는 문서를 한 번 등록해 두면, 다음부터는 자료만 붙여 넣고 실행해요. 안 고치고 쓴 기록이 쌓이면 맡겨볼 만한 때를 알려 줘요."
         actions={
           <>
-            <Button icon="science" className="bg-surface-lowest shadow-sm hover:bg-surface" onClick={() => onRun(demo)}>
+            <Button
+              data-tour="try-demo"
+              icon="science"
+              className="bg-surface-lowest shadow-sm hover:bg-surface"
+              onClick={() => onRun(demo)}
+            >
               예시로 체험해 보기
             </Button>
             <Button variant="primary" icon="add" className="bg-primary-container text-headline-sm hover:bg-primary" onClick={() => onCreate()}>

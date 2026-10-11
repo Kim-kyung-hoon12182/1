@@ -1,3 +1,5 @@
+import Icon from '@/components/Icon'
+
 
 export type Screen = 'run' | 'tasks' | 'history'
 
@@ -16,6 +18,7 @@ type AppHeaderProps = {
   current: Screen
   runAvailable: boolean
   onNavigate: (screen: Screen) => void
+  onStartTour: () => void
 }
 
 // 화면이 없는 메뉴는 눌리지 않게 둔다. 작업 실행은 실행 중인 작업이 있을 때만 쓸 수 있다.
@@ -25,7 +28,7 @@ const disabledReason = (id: Screen, runAvailable: boolean) => {
   return null
 }
 
-export default function AppHeader({ current, runAvailable, onNavigate }: AppHeaderProps) {
+export default function AppHeader({ current, runAvailable, onNavigate, onStartTour }: AppHeaderProps) {
   return (
     <header className="sticky top-0 z-40 border-b border-outline-variant bg-surface-lowest">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-8">
@@ -72,6 +75,14 @@ export default function AppHeader({ current, runAvailable, onNavigate }: AppHead
             })}
           </nav>
         </div>
+        <button
+          type="button"
+          onClick={onStartTour}
+          className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-body-sm font-semibold text-primary hover:bg-surface"
+        >
+          <Icon name="explore" className="text-[18px]" />
+          사용 안내
+        </button>
       </div>
     </header>
   )

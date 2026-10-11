@@ -117,6 +117,7 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
           {cited.length > 0 && (
             <button
               type="button"
+              data-tour="source-link"
               onClick={(event) => {
                 event.stopPropagation()
                 session.select(index)

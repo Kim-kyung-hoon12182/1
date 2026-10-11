@@ -1,0 +1,50 @@
+import { useEffect, useState } from 'react'
+import { loadOnboarded, saveOnboarded, type Onboarded } from '@/lib/storage'
+import { TOUR_LOST_MS, TOUR_STEPS, type TourScreen } from '@/lib/tour'
+
+// 안내 모드의 진행 상태. index가 null이면 꺼짐, 단계 수와 같으면 마무리 카드.
+export function useTour(screen: TourScreen | 'create') {
+  const [status, setStatus] = useState<Onboarded | null>(() => loadOnboarded())
+  const [index, setIndex] = useState<number | null>(null)
+  const running = index !== null
+  const step = index !== null ? (TOUR_STEPS[index] ?? null) : null
+  const atEnd = index === TOUR_STEPS.length
+
+  const start = () => setIndex(0)
+
+  const stop = (result: Onboarded) => {
+    setIndex(null)
+    setStatus(result)
+    saveOnboarded(result)
+  }
+
+  // 지금 단계의 요소를 사용자가 누르면 다음 단계로. 화면의 누름 동작이 끝난 뒤에 넘어간다.
+  useEffect(() => {
+    if (!step) return
+    const onClick = (event: MouseEvent) => {
+      if (event.target instanceof Element && event.target.closest(step.target)) {
+        window.setTimeout(() => setIndex((i) => (i === null ? null : i + 1)), 0)
+      }
+    }
+    document.addEventListener('click', onClick, true)
+    return () => document.removeEventListener('click', onClick, true)
+  }, [step])
+
+  useEffect(() => {
+    if (!running) return
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') stop('skipped')
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [running])
+
+  // 안내하는 화면이 아닌 곳에 오래 있으면(뒤로가기, 주소 바꾸기) 안내를 끝낸다
+  useEffect(() => {
+    if (!step || screen === step.screen) return
+    const timer = window.setTimeout(() => stop('skipped'), TOUR_LOST_MS / 2)
+    return () => window.clearTimeout(timer)
+  }, [step, screen])
+
+  return { status, running, step, atEnd, index, total: TOUR_STEPS.length, start, stop }
+}

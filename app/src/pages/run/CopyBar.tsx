@@ -21,7 +21,13 @@ export default function CopyBar({ session }: { session: RunSession }) {
           </p>
         </div>
       </div>
-      <Button variant="primary" icon="content_copy" className="w-full md:w-auto" onClick={session.copyAndFinish}>
+      <Button
+        data-tour="copy-finish"
+        variant="primary"
+        icon="content_copy"
+        className="w-full md:w-auto"
+        onClick={session.copyAndFinish}
+      >
         복사하고 끝내기
       </Button>
     </Card>

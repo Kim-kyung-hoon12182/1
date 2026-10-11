@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react'
 import AppFooter from '@/components/AppFooter'
 import AppHeader, { type Screen } from '@/components/AppHeader'
 import Notice from '@/components/Notice'
+import OnboardingDialog from '@/components/OnboardingDialog'
+import TourOverlay from '@/components/TourOverlay'
 import { useRoute } from '@/hooks/useRoute'
 import { useScrollToTop } from '@/hooks/useScrollToTop'
 import { useTasks } from '@/hooks/useTasks'
+import { useTour } from '@/hooks/useTour'
 import { STORAGE_FULL_MESSAGE } from '@/lib/storage'
 import RunPage from '@/pages/RunPage'
 import TaskCreatePage from '@/pages/TaskCreatePage'
@@ -14,12 +17,26 @@ import type { Task } from '@/types/task'
 export default function App() {
   const { tasks, demo, saveFailed, addTask, addRun, resetDemo, findTask } = useTasks()
   const [view, go] = useRoute()
+  const tour = useTour(view.screen)
+  // 처음 오는 사람(저장한 작업도, 안내를 본 기록도 없음)에게만 첫 방문 안내(S0)를 보여 준다
+  const [onboardingOpen, setOnboardingOpen] = useState(() => tour.status === null && tasks.length === 0)
   const [lastRun, setLastRun] = useState<{ taskId: string; prefill: boolean } | null>(null)
 
   const runTask = (task: Task, prefill: boolean, options: { replace?: boolean } = {}) => {
     const target = { taskId: task.id, prefill }
     setLastRun(target)
     go({ screen: 'run', ...target }, options)
+  }
+
+  const startTour = () => {
+    setOnboardingOpen(false)
+    go({ screen: 'tasks' })
+    tour.start()
+  }
+
+  const skipOnboarding = () => {
+    setOnboardingOpen(false)
+    tour.stop('skipped')
   }
 
   const navigate = (screen: Screen) => {
@@ -47,6 +64,7 @@ export default function App() {
         current={view.screen === 'run' ? 'run' : 'tasks'}
         runAvailable={currentRun !== null && findTask(currentRun.taskId) !== undefined}
         onNavigate={navigate}
+        onStartTour={startTour}
       />
       {saveFailed && (
         <Notice tone="flag" icon="warning" role="alert" className="justify-center rounded-none">
@@ -58,7 +76,7 @@ export default function App() {
           tasks={tasks}
           demo={demo}
           onCreate={(sampleKey) => go({ screen: 'create', sampleKey })}
-          onRun={(task) => runTask(task, task.isDemo === true)}
+          onRun={(task) => runTask(task, task.isDemo === true && !tour.running)}
           onResetDemo={resetDemo}
         />
       )}
@@ -83,6 +101,17 @@ export default function App() {
         />
       )}
       <AppFooter />
+      {onboardingOpen && <OnboardingDialog onTour={startTour} onSkip={skipOnboarding} />}
+      {tour.running && tour.index !== null && (
+        <TourOverlay
+          step={tour.step}
+          atEnd={tour.atEnd}
+          index={tour.index}
+          total={tour.total}
+          onSkip={() => tour.stop('skipped')}
+          onFinish={() => tour.stop('done')}
+        />
+      )}
     </div>
   )
 }
