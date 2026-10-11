@@ -1,5 +1,8 @@
 import { useState } from 'react'
+import AppFooter from '@/components/AppFooter'
 import AppHeader, { type Screen } from '@/components/AppHeader'
+import Notice from '@/components/Notice'
+import { useScrollToTop } from '@/hooks/useScrollToTop'
 import { useTasks } from '@/hooks/useTasks'
 import { STORAGE_FULL_MESSAGE } from '@/lib/storage'
 import RunPage from '@/pages/RunPage'
@@ -30,6 +33,11 @@ export default function App() {
 
   const runningTask = view.screen === 'run' ? findTask(view.taskId) : undefined
 
+  useScrollToTop(
+    view.screen,
+    view.screen === 'run' ? `${view.taskId}-${view.prefill}` : view.screen === 'create' ? view.sampleKey : undefined,
+  )
+
   return (
     <div className="flex min-h-screen flex-col">
       <AppHeader
@@ -39,9 +47,9 @@ export default function App() {
         isSampleMode
       />
       {saveFailed && (
-        <p role="alert" className="bg-orange-50 px-4 py-2 text-center text-body-sm text-orange-900">
+        <Notice tone="flag" icon="warning" role="alert" className="justify-center rounded-none">
           {STORAGE_FULL_MESSAGE}
-        </p>
+        </Notice>
       )}
       {view.screen === 'tasks' && (
         <TaskListPage
@@ -66,6 +74,7 @@ export default function App() {
       {view.screen === 'run' && runningTask && (
         <RunPage key={`${runningTask.id}-${view.prefill}`} task={runningTask} prefillMaterial={view.prefill} />
       )}
+      <AppFooter />
     </div>
   )
 }
