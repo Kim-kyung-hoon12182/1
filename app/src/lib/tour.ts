@@ -7,6 +7,8 @@ export type TourStep = {
   advanceOn?: string
   /** 누를 곳과 함께 밝게 보여 주는 곳(눌러도 아무 일 없음). 앞 단계 동작의 결과(넣은 자료, 나온 결과, 옮겨 간 자료 칸, 기록 카드)를 보여 주려는 것. 누를 곳과 겹치면 안 된다 */
   context?: string[]
+  /** 지정한 키를 target 안에서 누르면 다음 단계로 넘어간다(입력칸처럼 누를 곳이 없는 단계) */
+  advanceKey?: string
   /** 조건이 맞을 때만 나오는 단계. 요소가 안 보이면 알리지 않고 다음으로 넘어간다 */
   optional?: boolean
   screen: TourScreen
@@ -50,11 +52,35 @@ export const TOUR_STEPS: TourStep[] = [
     body: '"자료에 없음"은 자료에서 찾지 못한 값이라는 뜻이에요. [자료에서 보기]를 눌러 AI가 참고한 문장을 확인해 보세요.',
   },
   {
+    target: 'main li[aria-current="true"] [data-tour="edit-line"]',
+    context: ['[data-tour="source-panel"]', 'main li[aria-current="true"]'],
+    screen: 'run',
+    title: '자료와 다르면 고쳐요',
+    body: '자료에는 "9천만 원"만 있었어요. 이 줄을 자료에 맞게 고쳐 볼게요. [고치기]를 눌러 보세요.',
+  },
+  {
+    target: 'main li[aria-current="true"] [data-tour="edit-field"]',
+    advanceKey: 'Enter',
+    context: ['[data-tour="source-panel"]', 'main li[aria-current="true"]'],
+    screen: 'run',
+    title: '자료에 맞게 고쳐요',
+    body: '"1억 원"을 "9천만 원"으로 고치고 Enter를 누르세요. 고치지 않고 Enter만 눌러도 넘어가요.',
+  },
+  {
     target: '[data-tour="copy-finish"]',
     context: ['[data-tour="source-panel"]', 'main li[aria-current="true"]'],
     screen: 'run',
     title: '복사하고 끝내요',
-    body: '이번에는 고치지 않고 그대로 복사해 볼게요. 실제로는 확인할 곳을 보고 고칠 게 있으면 [고치기]로 고친 뒤 복사하세요. 고쳤는지가 기록돼요. 눌러 보세요.',
+    body: '고친 글이 복사되고, 고쳤는지가 기록돼요. 눌러 보세요.',
+  },
+  {
+    target: '[data-tour="rule-candidate"]',
+    advanceOn: '[data-tour="rule-add"]',
+    context: ['[data-tour="finished"]'],
+    screen: 'run',
+    optional: true,
+    title: '고친 내용이 규칙으로 남아요',
+    body: '고친 내용에서 규칙 후보가 나와요. 고쳐 쓸 수 있고, 추가한 규칙만 다음 실행부터 지켜서 글을 써요. [규칙 추가]를 눌러 보세요.',
   },
   {
     target: '[data-tour="handoff"]',

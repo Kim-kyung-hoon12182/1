@@ -23,6 +23,8 @@ const CONTEXT_PAD = 6
 // 말풍선 크기(안내 문구와 [건너뛰기]가 들어가는 높이를 넉넉히 잡은 값)
 const BUBBLE_SIZE = { width: 320, height: 230 }
 const NUDGE_HINT_MS = 2600
+// 막힌 곳을 눌러도 입력 중이던 칸의 포커스가 풀리지 않게 한다(풀리면 고치던 줄이 닫힌다)
+const keepFocus = (event: React.MouseEvent) => event.preventDefault()
 
 // 안내 모드: 회색 블러로 화면을 덮고 지금 누를 곳만 밝게 보여 준다. 밝은 곳은 막지 않아서 실제로 눌린다.
 export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext, onFinish, onCreate }: TourOverlayProps) {
@@ -105,6 +107,7 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
         aria-hidden
         data-tour-ui
         onClick={onBlockedClick}
+        onMouseDown={keepFocus}
         className="fixed inset-0 z-[60] cursor-default bg-on-surface/45 backdrop-blur-[3px]"
         style={{ clipPath: overlayClipPath(holes, view) }}
       />
@@ -115,6 +118,7 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
           aria-hidden
           data-tour-ui
           onClick={onBlockedClick}
+          onMouseDown={keepFocus}
           className="fixed z-[60] cursor-default rounded-xl ring-2 ring-surface-lowest/80"
           style={{ top: box.top, left: box.left, width: box.width, height: box.height }}
         />
@@ -125,6 +129,7 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
           aria-hidden
           data-tour-ui
           onClick={onBlockedClick}
+          onMouseDown={keepFocus}
           className="fixed z-[60] cursor-default"
           style={{ top: box.top, left: box.left, width: box.width, height: box.height }}
         />

@@ -68,6 +68,7 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
 
       {editing === index ? (
         <TextArea
+          data-tour="edit-field"
           autoFocus
           tone="paper"
           rows={2}
@@ -171,6 +172,7 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
           <Button
             size="sm"
             icon="edit"
+            data-tour="edit-line"
             className="px-3 py-1.5"
             onClick={(event) => {
               event.stopPropagation()

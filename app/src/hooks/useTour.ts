@@ -31,6 +31,19 @@ export function useTour(screen: TourScreen | 'create' | 'history') {
     return () => document.removeEventListener('click', onClick, true)
   }, [step])
 
+  // 입력칸처럼 누를 곳이 없는 단계는 정해 둔 키로 넘어간다
+  useEffect(() => {
+    if (!step?.advanceKey) return
+    const { advanceKey, target } = step
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === advanceKey && !event.isComposing && event.target instanceof Element && event.target.closest(target)) {
+        window.setTimeout(() => setIndex((i) => (i === null ? null : i + 1)), 0)
+      }
+    }
+    document.addEventListener('keydown', onKey, true)
+    return () => document.removeEventListener('keydown', onKey, true)
+  }, [step])
+
   useEffect(() => {
     if (!running) return
     const onKey = (event: KeyboardEvent) => {

@@ -28,7 +28,7 @@ export default function RuleCandidateCard({ task, run, lines, onAddRule }: RuleC
 
   if (candidate.phase === 'loading') {
     return (
-      <Card as="section" bordered role="status" className="flex items-center gap-2 text-body-sm text-on-surface-variant">
+      <Card as="section" bordered role="status" data-tour="rule-candidate" className="flex items-center gap-2 text-body-sm text-on-surface-variant">
         <Icon name="auto_awesome" className="animate-pulse text-[18px] text-primary" />
         고친 내용에서 규칙 후보를 만들고 있어요.
       </Card>
@@ -45,7 +45,7 @@ export default function RuleCandidateCard({ task, run, lines, onAddRule }: RuleC
   }
 
   return (
-    <Card as="section" bordered className="space-y-3">
+    <Card as="section" bordered data-tour="rule-candidate" className="space-y-3">
       <div className="flex items-start gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-fixed text-primary">
           <Icon name="rule" className="text-[22px]" />
@@ -99,7 +99,7 @@ export default function RuleCandidateCard({ task, run, lines, onAddRule }: RuleC
 
       <div className="flex flex-wrap items-center justify-end gap-2">
         <Button onClick={candidate.dismiss}>이번만</Button>
-        <Button variant="primary" icon="add" disabled={!candidate.canAdd} onClick={candidate.add}>
+        <Button variant="primary" icon="add" data-tour="rule-add" disabled={!candidate.canAdd} onClick={candidate.add}>
           규칙 추가
         </Button>
       </div>

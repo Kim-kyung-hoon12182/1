@@ -29,6 +29,12 @@ export function useTourFocus(active: boolean, stepKey: number, pressSelector: st
     }
 
     const timer = window.setTimeout(() => {
+      // 입력칸이 눌러야 할 곳이면 바로 쓸 수 있게 거기에 두고, 아니면 말풍선에 둔다
+      const press = pressSelector ? document.querySelector<HTMLElement>(pressSelector) : null
+      if (press?.matches('input, textarea')) {
+        press.focus({ preventScroll: true })
+        return
+      }
       const target = bubble()
       target?.setAttribute('tabindex', '-1')
       target?.focus({ preventScroll: true })
