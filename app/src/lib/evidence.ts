@@ -31,9 +31,40 @@ export const extractNames = (text: string) => [
   ...(text.match(CAPITAL_WORD_PATTERN) ?? []),
 ]
 
+// 날짜는 표기만 바꿔 쓰는 일이 흔하다("2026. 09. 23." → "2026년 9월 23일"). 같은 날이면 같은 값으로 본다.
+const FULL_DATE_DOT = /(\d{4})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})\.?/g
+const FULL_DATE_KOR = /(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/g
+const MONTH_DAY_KOR = /(\d{1,2})\s*월\s*(\d{1,2})\s*일/g
+const two = (value: string) => value.padStart(2, '0')
+
+// 자료에 있는 날짜를 "YYYYMMDD"(연도가 있을 때)와 "MMDD"로 모은다
+const datesIn = (text: string) => {
+  const full = new Set<string>()
+  const monthDay = new Set<string>()
+  for (const pattern of [FULL_DATE_DOT, FULL_DATE_KOR]) {
+    for (const match of text.matchAll(pattern)) {
+      full.add(match[1] + two(match[2]) + two(match[3]))
+      monthDay.add(two(match[2]) + two(match[3]))
+    }
+  }
+  for (const match of text.matchAll(MONTH_DAY_KOR)) monthDay.add(two(match[1]) + two(match[2]))
+  return { full, monthDay }
+}
+
+// 줄에서 자료에도 있는 날짜(표기가 달라도 같은 날)를 지운다. 자료에 없는 날짜는 남겨서 그대로 걸린다.
+const withoutKnownDates = (line: string, material: string) => {
+  const known = datesIn(material)
+  const drop = (pattern: RegExp, text: string, key: (match: RegExpMatchArray) => string, set: Set<string>) =>
+    text.replace(pattern, (whole, ...groups) => (set.has(key([whole, ...groups] as unknown as RegExpMatchArray)) ? ' ' : whole))
+  let result = drop(FULL_DATE_DOT, line, (m) => m[1] + two(m[2]) + two(m[3]), known.full)
+  result = drop(FULL_DATE_KOR, result, (m) => m[1] + two(m[2]) + two(m[3]), known.full)
+  return drop(MONTH_DAY_KOR, result, (m) => two(m[1]) + two(m[2]), known.monthDay)
+}
+
 export const findMissingTokens = (line: string, material: string) => {
   const haystack = normalize(material)
-  return [...extractNumbers(line), ...extractNames(line)].filter(
+  const comparable = withoutKnownDates(line, material)
+  return [...extractNumbers(comparable), ...extractNames(line)].filter(
     (token) => !haystack.includes(normalize(token)),
   )
 }

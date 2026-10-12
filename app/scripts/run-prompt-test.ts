@@ -40,6 +40,8 @@ const CASES: { name: string; actual: unknown; expected: unknown }[] = [
   { name: '옮긴 글(sourceQuotes)을 읽는다', actual: parseRunResponse('{"lines":[{"text":"가","sourceIds":[1],"sourceQuotes":[" 자료에서 옮긴 글 ","", 3]}]}', 2, rules)[0].sourceQuotes, expected: ['자료에서 옮긴 글'] },
   { name: '옮긴 글이 없으면 sourceQuotes 항목을 만들지 않는다', actual: 'sourceQuotes' in parseRunResponse('{"lines":[{"text":"가","sourceIds":[1]}]}', 2, rules)[0], expected: false },
   { name: '옮긴 글은 한 줄에 3개까지만 읽는다', actual: parseRunResponse('{"lines":[{"text":"가","sourceIds":[1],"sourceQuotes":["a가나다","b가나다","c가나다","d가나다"]}]}', 2, rules)[0].sourceQuotes?.length, expected: 3 },
+  { name: '요청에 조심스러운 표현을 단정으로 바꾸지 말라는 말이 들어간다', actual: buildRunPrompt({ what: 'a', materials: 'b', shape: 'c' }, [], ['문장']).includes('조심스러운 표현'), expected: true },
+  { name: '요청에 날짜·숫자 표기를 그대로 쓰라는 말이 들어간다', actual: buildRunPrompt({ what: 'a', materials: 'b', shape: 'c' }, [], ['문장']).includes('자료에 적힌 표기 그대로'), expected: true },
   { name: '요청에 시제와 사실 상태를 바꾸지 말라는 말이 들어간다', actual: buildRunPrompt({ what: 'a', materials: 'b', shape: 'c' }, [], ['문장']).includes('시제와 사실 상태를 바꾸지 마세요'), expected: true },
   { name: '요청에 옮긴 글(sourceQuotes)을 달라는 말이 들어간다', actual: buildRunPrompt({ what: 'a', materials: 'b', shape: 'c' }, [], ['문장']).includes('sourceQuotes'), expected: true },
   { name: '번호를 글자로 줘도 읽는다("1","2")', actual: parseRunResponse('{"lines":[{"text":"가","sourceIds":["1","2"]}]}', 2, rules)[0].sourceIds, expected: [1, 2] },
