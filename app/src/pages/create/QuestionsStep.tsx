@@ -67,6 +67,7 @@ export default function QuestionsStep({ draft, onCancel }: QuestionsStepProps) {
                 onChange={(event) => draft.setAnswer(question.field, event.target.value)}
                 placeholder={question.placeholder}
                 aria-required="true"
+                autoFocus={question.field === 'what'}
               />
             </Field>
             <hr className="border-surface-high" />

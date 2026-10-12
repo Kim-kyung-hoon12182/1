@@ -111,7 +111,7 @@ function MaterialInput({ task, session }: SourcePanelProps) {
           }
         }}
         aria-label="자료"
-        placeholder="예: 이번 주에 한 일 메모"
+        placeholder={`예: ${task.answers.materials.trim().slice(0, 40)}`}
         className="h-[clamp(9rem,calc(100vh-36rem),18rem)] text-body-sm"
       />
       {notice && (

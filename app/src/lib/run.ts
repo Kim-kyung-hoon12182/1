@@ -1,6 +1,7 @@
 import type { Sample } from '@/data/sampleTasks'
 import { checkLine, hasUnbackedFlip, type LineStatus } from '@/lib/evidence'
 import { isHeading } from '@/lib/heading'
+import { hasUnknownMark } from '@/lib/unknownMark'
 import { splitSentences } from '@/lib/material'
 import type { RawLine } from '@/lib/runPrompt'
 import type { OutputLine } from '@/types/task'
@@ -29,7 +30,10 @@ export const buildAiResult = (rawLines: RawLine[], sentences: string[]): RunResu
     ...line,
     ...(isHeading(line.text)
       ? { status: 'heading' as const, missingTokens: [] }
-      : checkLine(line.text, line.sourceIds, sentences)),
+      : hasUnknownMark(line.text)
+        ? // AI가 스스로 모른다고 적은 줄은 근거 번호가 있어도 확인할 곳이다
+          { status: 'needs_check' as const, missingTokens: [] }
+        : checkLine(line.text, line.sourceIds, sentences)),
   })),
 })
 
@@ -57,6 +61,7 @@ export const describeReason = (line: OutputLine, sentences: string[]) => {
   if (line.status === 'not_in_input') {
     return `자료에서 찾지 못한 값이 있어요: ${line.missingTokens.join(', ')}. 자료에 실제로 있는 값인지 확인해 주세요.`
   }
+  if (hasUnknownMark(line.text)) return 'AI가 자료에서 알 수 없다고 [확인 필요]로 적은 곳이에요. 자료를 보고 직접 채워 주세요.'
   const cited = citedSentences(line, sentences)
   if (cited.length === 0) return 'AI가 근거로 참고한 자료가 없어요.'
   if (hasUnbackedFlip(line.text, cited.map((item) => item.text).join(' '))) {
