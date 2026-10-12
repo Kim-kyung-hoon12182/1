@@ -53,6 +53,11 @@ export default function App() {
   // 새로고침으로 바로 실행 화면이 열린 경우에도 [작업 실행] 메뉴가 열려 있어야 한다
   const currentRun = view.screen === 'run' ? { taskId: view.taskId, prefill: view.prefill } : lastRun
 
+  // 주소로 바로 열었어도 [작업 실행] 메뉴로 돌아올 수 있게 마지막 실행 작업을 기억한다
+  useEffect(() => {
+    if (view.screen === 'run') setLastRun({ taskId: view.taskId, prefill: view.prefill })
+  }, [view])
+
   // 없는 작업의 주소(지운 기록, 잘못된 링크)는 내 작업으로 보낸다
   useEffect(() => {
     if (view.screen === 'run' && !findTask(view.taskId)) go({ screen: 'tasks' }, { replace: true })
