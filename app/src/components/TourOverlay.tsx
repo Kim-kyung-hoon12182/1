@@ -90,7 +90,8 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
   }
 
   const hole = grow(rect, PAD)
-  const view = { width: window.innerWidth, height: window.innerHeight }
+  // 스크롤바를 뺀 화면 크기(말풍선이 스크롤바 위에 걸치지 않게)
+  const view = { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight }
   // 같이 보여 줄 곳이 누를 곳을 품고 있으면(고른 줄 카드 안의 [자료에서 보기]) 그 곳 전체를 밝게 하고, 누를 곳 둘레만 막는다.
   // 누를 곳과 걸쳐만 있는 곳은 뺀다(덮개로 막으면 누를 곳도 막힌다)
   const grown = contextRects.map((box) => grow(box, CONTEXT_PAD))

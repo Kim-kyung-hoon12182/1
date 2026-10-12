@@ -33,6 +33,8 @@ export function useTourFocus(active: boolean, stepKey: number, pressSelector: st
       const press = pressSelector ? document.querySelector<HTMLElement>(pressSelector) : null
       if (press?.matches('input, textarea')) {
         press.focus({ preventScroll: true })
+        // 기존 글이 있으면 모두 선택해서, 바로 쓰면 고친 글로 바뀌게 한다
+        ;(press as HTMLInputElement | HTMLTextAreaElement).select()
         return
       }
       const target = bubble()
