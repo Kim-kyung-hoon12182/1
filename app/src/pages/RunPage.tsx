@@ -50,7 +50,7 @@ export default function RunPage({ task, prefillMaterial, onRecord, onAddRule, on
           {hasResult ? (
             <>
               <ResultSummary session={session} />
-              <ul className="space-y-4">
+              <ul data-tour="result-list" className="space-y-4">
                 {session.lines.map((_, index) => (
                   <ResultCard key={index} index={index} task={task} session={session} />
                 ))}

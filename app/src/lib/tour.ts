@@ -5,7 +5,7 @@ export type TourStep = {
   target: string
   /** 이 요소 안을 누르면 다음 단계로 넘어간다. 없으면 target을 누를 때 넘어간다 */
   advanceOn?: string
-  /** 누를 곳과 함께 밝게 보여 주는 곳(눌러도 아무 일 없음). 어느 화면인지, 무엇이 들어갔는지 보여 주려는 것. 누를 곳과 겹치면 안 된다 */
+  /** 누를 곳과 함께 밝게 보여 주는 곳(눌러도 아무 일 없음). 앞 단계 동작의 결과(넣은 자료, 나온 결과, 옮겨 간 자료 칸, 기록 카드)를 보여 주려는 것. 누를 곳과 겹치면 안 된다 */
   context?: string[]
   /** 조건이 맞을 때만 나오는 단계. 요소가 안 보이면 알리지 않고 다음으로 넘어간다 */
   optional?: boolean
@@ -37,18 +37,21 @@ export const TOUR_STEPS: TourStep[] = [
   },
   {
     target: '[data-tour="goto-first"]',
+    context: ['[data-tour="result-list"]'],
     screen: 'run',
     title: '확인할 곳으로 가요',
     body: 'AI가 쓴 글이 다 맞다는 보장은 없어요. 확인이 필요한 줄로 가 볼게요. 눌러 보세요.',
   },
   {
     target: 'main li[aria-current="true"] [data-tour="source-link"]',
+    context: ['[data-tour="source-panel"]'],
     screen: 'run',
     title: '참고한 자료를 확인해요',
     body: '"자료에 없음"은 자료에서 찾지 못한 값이라는 뜻이에요. [자료에서 보기]를 눌러 AI가 참고한 문장을 확인해 보세요.',
   },
   {
     target: '[data-tour="copy-finish"]',
+    context: ['[data-tour="source-panel"]'],
     screen: 'run',
     title: '복사하고 끝내요',
     body: '다 봤으면 복사해요. 고쳤는지가 기록돼요. 눌러 보세요.',
@@ -56,6 +59,7 @@ export const TOUR_STEPS: TourStep[] = [
   {
     target: '[data-tour="handoff"]',
     advanceOn: '[data-tour="handoff-toggle"]',
+    context: ['[data-tour="finished"]'],
     screen: 'run',
     optional: true,
     title: '맡겨볼 만한 때예요',

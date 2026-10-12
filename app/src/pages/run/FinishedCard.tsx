@@ -38,7 +38,7 @@ export default function FinishedCard({ task, run, session, onGoToTasks, onAddRul
 
   return (
     <>
-      <Card as="section" className="space-y-3">
+      <Card as="section" data-tour="finished" className="space-y-3">
         <div className="flex items-start gap-3">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-fixed text-primary">
             <Icon name="task_alt" className="text-[22px]" />

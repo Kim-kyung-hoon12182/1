@@ -24,7 +24,7 @@ export default function SourcePanel({ task, session }: SourcePanelProps) {
     : `${input.length.toLocaleString()} / ${MAX_MATERIAL_CHARS.toLocaleString()}자`
 
   return (
-    <Card as="section" className="flex flex-col lg:sticky lg:top-20 lg:col-span-5">
+    <Card as="section" data-tour="source-panel" className="flex flex-col lg:sticky lg:top-20 lg:col-span-5">
       <PanelHeader
         step="1단계"
         icon="description"
