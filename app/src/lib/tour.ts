@@ -56,7 +56,7 @@ export const TOUR_STEPS: TourStep[] = [
     context: ['[data-tour="source-panel"]', 'main li[aria-current="true"]'],
     screen: 'run',
     title: '자료와 다르면 고쳐요',
-    body: '자료에는 "9천만 원"만 있었어요. 이 줄을 자료에 맞게 고쳐 볼게요. [고치기]를 눌러 보세요.',
+    body: '자료에는 "9천만 원"만 있고 목표 이야기는 없어요. 이 줄을 자료에 맞게 고쳐 볼게요. [고치기]를 눌러 보세요.',
   },
   {
     target: 'main li[aria-current="true"] [data-tour="edit-field"]',
@@ -64,7 +64,7 @@ export const TOUR_STEPS: TourStep[] = [
     context: ['[data-tour="source-panel"]', 'main li[aria-current="true"]'],
     screen: 'run',
     title: '자료에 맞게 고쳐요',
-    body: '"1억 원"을 "9천만 원"으로 고치고 Enter를 누르세요. 고치지 않고 Enter만 눌러도 넘어가요.',
+    body: '예: "매출은 9천만 원입니다. 목표 대비 달성 여부는 자료에 없어 확인이 필요합니다."로 고치고 Enter를 누르세요. 다르게 고쳐도 되고, 고치지 않고 Enter만 눌러도 넘어가요.',
   },
   {
     target: '[data-tour="copy-finish"]',
