@@ -72,6 +72,27 @@
   --text-label-sm--font-weight: 500;
 
   --animate-page-in: page-in 180ms ease-out;
+  --animate-tour-nudge: tour-nudge 520ms ease-out;
+
+  /* 안내 중 막힌 곳을 눌렀을 때 강조 테두리를 한 번 흔든다 */
+  @keyframes tour-nudge {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    20% {
+      transform: translateX(-6px) scale(1.02);
+    }
+    40% {
+      transform: translateX(6px) scale(1.02);
+    }
+    60% {
+      transform: translateX(-4px);
+    }
+    80% {
+      transform: translateX(4px);
+    }
+  }
 
   @keyframes page-in {
     from {

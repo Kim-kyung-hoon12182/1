@@ -1,7 +1,7 @@
 import Button from '@/components/Button'
 import Icon from '@/components/Icon'
 import { useTargetRect } from '@/hooks/useTargetRect'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { TOUR_END, TOUR_LOST_MS, TOUR_OPTIONAL_MS, type TourStep } from '@/lib/tour'
 
 type TourOverlayProps = {
@@ -17,12 +17,30 @@ type TourOverlayProps = {
 }
 
 const PAD = 8
-const PANEL = 'fixed z-[60] bg-on-surface/45 backdrop-blur-[3px]'
+const PANEL = 'fixed z-[60] cursor-default bg-on-surface/45 backdrop-blur-[3px]'
+const NUDGE_HINT_MS = 2600
 
 // 안내 모드: 회색 블러로 화면을 덮고 지금 누를 곳만 밝게 보여 준다. 밝은 곳은 막지 않아서 실제로 눌린다.
 export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext, onFinish, onCreate }: TourOverlayProps) {
   const { rect, lost } = useTargetRect(step?.target ?? null, step?.optional ? TOUR_OPTIONAL_MS : TOUR_LOST_MS)
   const skipOptional = Boolean(lost && step?.optional)
+  // 강조되지 않은 곳을 눌렀을 때: 강조 테두리를 한 번 흔들고 잠깐 안내한다. 아무 반응이 없으면 고장으로 느낀다.
+  const [nudge, setNudge] = useState(0)
+  const [hintShown, setHintShown] = useState(false)
+
+  useEffect(() => {
+    if (nudge === 0) return
+    setHintShown(true)
+    const timer = window.setTimeout(() => setHintShown(false), NUDGE_HINT_MS)
+    return () => window.clearTimeout(timer)
+  }, [nudge])
+
+  // 단계가 바뀌면 이전 안내는 지운다
+  useEffect(() => {
+    setNudge(0)
+    setHintShown(false)
+  }, [index])
+  const onBlockedClick = () => setNudge((count) => count + 1)
 
   // 조건이 안 맞아서 없는 단계는 알리지 않고 넘어간다
   useEffect(() => {
@@ -75,20 +93,27 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
 
   return (
     <>
-      <div aria-hidden className={`${PANEL} inset-x-0 top-0`} style={{ height: top }} />
-      <div aria-hidden className={`${PANEL} inset-x-0 bottom-0`} style={{ top: bottom }} />
-      <div aria-hidden className={`${PANEL} left-0`} style={{ top, height: bottom - top, width: left }} />
-      <div aria-hidden className={`${PANEL} right-0`} style={{ top, height: bottom - top, left: right }} />
+      <div aria-hidden onClick={onBlockedClick} className={`${PANEL} inset-x-0 top-0`} style={{ height: top }} />
+      <div aria-hidden onClick={onBlockedClick} className={`${PANEL} inset-x-0 bottom-0`} style={{ top: bottom }} />
+      <div aria-hidden onClick={onBlockedClick} className={`${PANEL} left-0`} style={{ top, height: bottom - top, width: left }} />
+      <div aria-hidden onClick={onBlockedClick} className={`${PANEL} right-0`} style={{ top, height: bottom - top, left: right }} />
       <div
+        key={nudge}
         aria-hidden
-        className="pointer-events-none fixed z-[61] rounded-xl ring-4 ring-primary-container"
+        data-nudged={nudge > 0 ? 'true' : undefined}
+        className={`pointer-events-none fixed z-[61] rounded-xl ring-4 ring-primary-container ${nudge > 0 ? 'animate-tour-nudge' : ''}`}
         style={{ top, left, width: right - left, height: bottom - top }}
       />
       <div
         className="fixed z-[70] w-80"
         style={bubbleStyle}
       >
-        <Bubble title={step.title} body={step.body} counter={`${index + 1} / ${total}`}>
+        <Bubble
+          title={step.title}
+          body={step.body}
+          counter={`${index + 1} / ${total}`}
+          hint={hintShown ? '지금은 표시된 곳을 눌러야 다음으로 넘어가요. 그만하려면 [건너뛰기]를 누르세요.' : undefined}
+        >
           <Button size="sm" variant="ghost" onClick={onSkip}>
             건너뛰기
           </Button>
@@ -98,9 +123,9 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
   )
 }
 
-type BubbleProps = { title: string; body: string; counter?: string; children: React.ReactNode }
+type BubbleProps = { title: string; body: string; counter?: string; hint?: string; children: React.ReactNode }
 
-function Bubble({ title, body, counter, children }: BubbleProps) {
+function Bubble({ title, body, counter, hint, children }: BubbleProps) {
   return (
     <div role="dialog" aria-live="polite" aria-label="사용 안내" className="rounded-xl bg-surface-lowest p-4 shadow-xl ring-1 ring-outline-variant">
       <div className="mb-1 flex items-center justify-between gap-2">
@@ -112,6 +137,11 @@ function Bubble({ title, body, counter, children }: BubbleProps) {
       </div>
       <h3 className="text-headline-sm">{title}</h3>
       <p className="mt-1 text-body-sm leading-relaxed text-on-surface-variant">{body}</p>
+      {hint && (
+        <p role="status" className="mt-2 rounded-lg bg-flag-soft p-2 text-body-sm font-semibold text-flag-text">
+          {hint}
+        </p>
+      )}
       <div className="mt-3 flex justify-end">{children}</div>
     </div>
   )
