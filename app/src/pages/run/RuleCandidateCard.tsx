@@ -27,6 +27,17 @@ export default function RuleCandidateCard({ task, run, lines, onAddRule }: RuleC
 
   if (candidate.phase === 'none' || candidate.phase === 'closed') return null
 
+  if (candidate.phase === 'empty' || candidate.phase === 'duplicate') {
+    return (
+      <Card as="section" bordered role="status" className="flex items-start gap-2 text-body-sm text-on-surface-variant">
+        <Icon name="info" className="text-[18px] text-outline" />
+        {candidate.phase === 'empty'
+          ? '이번에 고친 곳은 이 자료에만 해당해서 규칙 후보가 없어요.'
+          : '이번에 고친 내용은 이미 있는 규칙과 같아서 후보를 만들지 않았어요.'}
+      </Card>
+    )
+  }
+
   if (candidate.phase === 'loading') {
     return (
       <Card as="section" bordered role="status" data-tour="rule-candidate" className="flex items-center gap-2 text-body-sm text-on-surface-variant">

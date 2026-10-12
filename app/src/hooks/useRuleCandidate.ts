@@ -3,8 +3,9 @@ import { generateRuleCandidate } from '@/lib/api'
 import { editedPairs, hasRule } from '@/lib/rules'
 import type { OutputLine, Rule, Run, Task } from '@/types/task'
 
-// none: 고친 줄이 없거나 이번 자료에만 해당해서 카드를 안 띄움 / loading / ready / added / closed
-type Phase = 'none' | 'loading' | 'ready' | 'added' | 'closed'
+// none: 고친 줄이 없어 카드를 안 띄움 / loading / ready / added / closed
+// empty: 이번 자료에만 해당하는 고침이라 후보가 없음 / duplicate: 이미 있는 규칙과 같음 (둘 다 이유를 한 줄로 알린다)
+type Phase = 'none' | 'loading' | 'ready' | 'added' | 'closed' | 'empty' | 'duplicate'
 
 // F-05: 기록이 끝난 뒤 고친 줄이 있으면 규칙 후보 한 줄을 받아 사용자가 확인하게 한다.
 // 사용자가 [규칙 추가]를 누른 것만 저장하고, 누르지 않은 후보는 반영되지 않는다.
@@ -22,8 +23,10 @@ export function useRuleCandidate(task: Task, run: Run, lines: OutputLine[], onAd
       if (candidate === null) {
         setManual(true)
         setPhase('ready')
-      } else if (candidate === '' || hasRule(task.rules, candidate)) {
-        setPhase('none')
+      } else if (candidate === '') {
+        setPhase('empty')
+      } else if (hasRule(task.rules, candidate)) {
+        setPhase('duplicate')
       } else {
         setText(candidate)
         setPhase('ready')
