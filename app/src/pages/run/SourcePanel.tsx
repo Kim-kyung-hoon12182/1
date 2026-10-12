@@ -98,6 +98,7 @@ function MaterialInput({ task, session }: SourcePanelProps) {
         </Button>
       </div>
       <TextArea
+        data-tour="material-input"
         autoFocus
         tone="paper"
         value={input}

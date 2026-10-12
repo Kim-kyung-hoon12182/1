@@ -55,3 +55,34 @@ export function useTargetRect(selector: string | null, lostMs: number) {
 
   return { rect, lost }
 }
+
+const sameBoxes = (a: Rect[], b: Rect[]) => a.length === b.length && a.every((rect, i) => same(rect, b[i]))
+
+// 선택자 여러 개의 화면 위치를 따라간다. 보이지 않는 것은 뺀다.
+export function useRects(selectors: string[]) {
+  const [rects, setRects] = useState<Rect[]>([])
+  const key = selectors.join('|')
+
+  useEffect(() => {
+    if (selectors.length === 0) {
+      setRects([])
+      return
+    }
+    let frame = 0
+    const tick = () => {
+      const next = selectors.flatMap((selector) => {
+        const box = document.querySelector(selector)?.getBoundingClientRect()
+        return box && box.width > 0 && box.height > 0 ? [{ top: box.top, left: box.left, width: box.width, height: box.height }] : []
+      })
+      setRects((prev) => (sameBoxes(prev, next) ? prev : next))
+      frame = requestAnimationFrame(tick)
+    }
+    tick()
+    return () => {
+      cancelAnimationFrame(frame)
+      setRects([])
+    }
+  }, [key])
+
+  return rects
+}

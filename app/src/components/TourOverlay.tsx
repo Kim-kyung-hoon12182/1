@@ -1,6 +1,7 @@
 import Button from '@/components/Button'
 import Icon from '@/components/Icon'
-import { useTargetRect } from '@/hooks/useTargetRect'
+import { useRects, useTargetRect } from '@/hooks/useTargetRect'
+import { grow, overlaps, overlayClipPath, placeBubble } from '@/lib/tourLayout'
 import { useEffect, useState } from 'react'
 import { TOUR_END, TOUR_LOST_MS, TOUR_OPTIONAL_MS, type TourStep } from '@/lib/tour'
 
@@ -17,13 +18,16 @@ type TourOverlayProps = {
 }
 
 const PAD = 8
-const PANEL = 'fixed z-[60] cursor-default bg-on-surface/45 backdrop-blur-[3px]'
+const CONTEXT_PAD = 6
+// 말풍선 크기(안내 문구와 [건너뛰기]가 들어가는 높이를 넉넉히 잡은 값)
+const BUBBLE_SIZE = { width: 320, height: 230 }
 const NUDGE_HINT_MS = 2600
 
 // 안내 모드: 회색 블러로 화면을 덮고 지금 누를 곳만 밝게 보여 준다. 밝은 곳은 막지 않아서 실제로 눌린다.
 export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext, onFinish, onCreate }: TourOverlayProps) {
   const { rect, lost } = useTargetRect(step?.target ?? null, step?.optional ? TOUR_OPTIONAL_MS : TOUR_LOST_MS)
   const skipOptional = Boolean(lost && step?.optional)
+  const contextRects = useRects(step?.context ?? [])
   // 강조되지 않은 곳을 눌렀을 때: 강조 테두리를 한 번 흔들고 잠깐 안내한다. 아무 반응이 없으면 고장으로 느낀다.
   const [nudge, setNudge] = useState(0)
   const [hintShown, setHintShown] = useState(false)
@@ -75,34 +79,37 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
     )
   }
 
-  const top = Math.max(rect.top - PAD, 0)
-  const left = Math.max(rect.left - PAD, 0)
-  const right = rect.left + rect.width + PAD
-  const bottom = rect.top + rect.height + PAD
-  const room = { below: window.innerHeight - bottom, above: top }
-  const onScreen = bottom > 0 && top < window.innerHeight
-  // 말풍선은 요소 아래, 위, 둘 다 좁거나 요소가 화면 밖이면 화면 아래 가운데 순서로 둔다
-  const place = !onScreen ? 'dock' : room.below > 220 ? 'below' : room.above > 220 && room.above < window.innerHeight ? 'above' : 'dock'
-  const bubbleLeft = Math.min(Math.max(rect.left, 16), window.innerWidth - 352)
-  const bubbleStyle =
-    place === 'below'
-      ? { left: bubbleLeft, top: bottom + 12 }
-      : place === 'above'
-        ? { left: bubbleLeft, bottom: window.innerHeight - top + 12 }
-        : { left: Math.max((window.innerWidth - 320) / 2, 16), bottom: 16 }
+  const hole = grow(rect, PAD)
+  const view = { width: window.innerWidth, height: window.innerHeight }
+  // 누를 곳과 겹치는 곳은 뺀다(덮개로 막으면 누를 곳도 막힌다)
+  const contexts = contextRects.filter((box) => !overlaps(grow(box, CONTEXT_PAD), hole)).map((box) => grow(box, CONTEXT_PAD))
+  const bubbleStyle = placeBubble({ target: hole, contexts, view, size: BUBBLE_SIZE })
 
   return (
     <>
-      <div aria-hidden onClick={onBlockedClick} className={`${PANEL} inset-x-0 top-0`} style={{ height: top }} />
-      <div aria-hidden onClick={onBlockedClick} className={`${PANEL} inset-x-0 bottom-0`} style={{ top: bottom }} />
-      <div aria-hidden onClick={onBlockedClick} className={`${PANEL} left-0`} style={{ top, height: bottom - top, width: left }} />
-      <div aria-hidden onClick={onBlockedClick} className={`${PANEL} right-0`} style={{ top, height: bottom - top, left: right }} />
+      {/* 덮개 하나에 밝게 보일 곳을 뚫어 둔다. 뚫린 곳은 눌러도 덮개가 받지 않는다 */}
+      <div
+        aria-hidden
+        onClick={onBlockedClick}
+        className="fixed inset-0 z-[60] cursor-default bg-on-surface/45 backdrop-blur-[3px]"
+        style={{ clipPath: overlayClipPath([hole, ...contexts], view) }}
+      />
+      {/* 같이 보여 주는 곳은 보기만 한다. 눌러도 앱이 반응하지 않고 안내만 흔든다 */}
+      {contexts.map((box, i) => (
+        <div
+          key={i}
+          aria-hidden
+          onClick={onBlockedClick}
+          className="fixed z-[60] cursor-default rounded-xl ring-2 ring-surface-lowest/80"
+          style={{ top: box.top, left: box.left, width: box.width, height: box.height }}
+        />
+      ))}
       <div
         key={nudge}
         aria-hidden
         data-nudged={nudge > 0 ? 'true' : undefined}
         className={`pointer-events-none fixed z-[61] rounded-xl ring-4 ring-primary-container ${nudge > 0 ? 'animate-tour-nudge' : ''}`}
-        style={{ top, left, width: right - left, height: bottom - top }}
+        style={{ top: hole.top, left: hole.left, width: hole.width, height: hole.height }}
       />
       <div
         className="fixed z-[70] w-80"

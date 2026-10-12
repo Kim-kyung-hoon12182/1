@@ -5,6 +5,8 @@ export type TourStep = {
   target: string
   /** 이 요소 안을 누르면 다음 단계로 넘어간다. 없으면 target을 누를 때 넘어간다 */
   advanceOn?: string
+  /** 누를 곳과 함께 밝게 보여 주는 곳(눌러도 아무 일 없음). 어느 화면인지, 무엇이 들어갔는지 보여 주려는 것. 누를 곳과 겹치면 안 된다 */
+  context?: string[]
   /** 조건이 맞을 때만 나오는 단계. 요소가 안 보이면 알리지 않고 다음으로 넘어간다 */
   optional?: boolean
   screen: TourScreen
@@ -16,21 +18,24 @@ export type TourStep = {
 export const TOUR_STEPS: TourStep[] = [
   {
     target: '[data-tour="try-demo"]',
+    context: ['[data-tour="app-header"]', '[data-tour="screen-title"]'],
     screen: 'tasks',
     title: '예시로 먼저 해 볼게요',
     body: '[예시로 체험해 보기]를 눌러 보세요. 체험용 작업이라 실제 작업에는 영향이 없어요.',
   },
   {
     target: '[data-tour="load-sample"]',
+    context: ['[data-tour="app-header"]', '[data-tour="screen-title"]'],
     screen: 'run',
     title: '자료를 넣어요',
     body: '글의 바탕이 될 자료가 필요해요. [예시 자료 넣기]를 눌러 보세요.',
   },
   {
     target: '[data-tour="run-button"]',
+    context: ['[data-tour="material-input"]'],
     screen: 'run',
     title: '실행해요',
-    body: '규칙에 맞춰 글을 써 줘요. [실행하기]를 눌러 보세요.',
+    body: '위에 넣은 자료와 규칙에 맞춰 글을 써 줘요. 어떤 자료가 들어갔는지 확인하고 [실행하기]를 눌러 보세요.',
   },
   {
     target: '[data-tour="goto-first"]',
