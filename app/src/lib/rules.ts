@@ -86,6 +86,32 @@ export const parseRuleCandidate = (text: string): string | null => {
   }
 }
 
+// 후보를 만든 뒤 따로 한 번 더 묻는다. "만들기"보다 "겹치는지 고르기"가 가벼운 모델에게 쉽다.
+export const buildOverlapPrompt = (candidate: string, rules: Rule[]) =>
+  [
+    '새 규칙이 아래 기존 규칙과 겹치는지 판단해 주세요.',
+    '- 겹침: 새 규칙이 기존 규칙 중 하나와 같은 행동을 요구하거나, 기존 규칙이 이미 포함하는 내용입니다. 표현이 달라도 같은 뜻이면 겹칩니다.',
+    '- 겹치지 않음: 새 규칙이 기존 규칙에 없는 구체적인 방식(표기 방법, 형식, 문체 등)을 더하는 경우입니다.',
+    '- 응답은 JSON만 출력합니다. 형식: {"overlap": true 또는 false}',
+    '',
+    '[기존 규칙]',
+    ...rules.filter((rule) => rule.text.trim()).map((rule) => `- ${rule.text.trim()}`),
+    '',
+    '[새 규칙]',
+    `- ${candidate.trim()}`,
+  ].join('\n')
+
+// 겹침 판정. 읽을 수 없으면 null(겹치는지 모르는 채로 후보를 그대로 보여 준다).
+export const parseOverlap = (text: string): boolean | null => {
+  try {
+    const parsed: unknown = JSON.parse(stripFence(text))
+    const value = parsed && typeof parsed === 'object' ? (parsed as { overlap?: unknown }).overlap : undefined
+    return typeof value === 'boolean' ? value : null
+  } catch {
+    return null
+  }
+}
+
 const normalizeRule = (text: string) => text.replace(/[\s\p{P}]/gu, '')
 
 // 이미 있는 규칙과 같은 말이면 다시 추가하지 않는다

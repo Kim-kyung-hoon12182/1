@@ -1,4 +1,4 @@
-import { buildRuleCandidatePrompt, editedPairs, hasRule, parseRuleCandidate } from '../src/lib/rules.ts'
+import { buildOverlapPrompt, buildRuleCandidatePrompt, editedPairs, hasRule, parseOverlap, parseRuleCandidate } from '../src/lib/rules.ts'
 
 const rule = (id: string, text: string) => ({ id, text, source: 'setup' as const })
 const lines = [
@@ -25,6 +25,12 @@ const CASES: { name: string; actual: unknown; expected: unknown }[] = [
   { name: '후보 응답: 빈 문자열은 빈 글(카드를 안 띄움)', actual: parseRuleCandidate('{"rule": ""}'), expected: '' },
   { name: '후보 응답: 읽을 수 없으면 null', actual: parseRuleCandidate('규칙은 이래요'), expected: null },
   { name: '후보 응답: rule이 문자열이 아니면 null', actual: parseRuleCandidate('{"rule": 3}'), expected: null },
+  { name: '겹침 요청: 기존 규칙과 새 규칙이 들어가고 빈 규칙은 뺀다', actual: (() => { const text = buildOverlapPrompt(' 금액은 만 원 단위로 쓴다 ', [rule('r1', '존댓말로 쓴다'), rule('r2', ' ')]); return text.includes('- 존댓말로 쓴다') && !text.includes('-  ') && text.endsWith('[새 규칙]\n- 금액은 만 원 단위로 쓴다') })(), expected: true },
+  { name: '겹침 요청: 표현이 달라도 같은 뜻이면 겹친다고 알려 준다', actual: buildOverlapPrompt('a', []).includes('표현이 달라도 같은 뜻이면 겹칩니다'), expected: true },
+  { name: '겹침 응답: true', actual: parseOverlap('{"overlap": true}'), expected: true },
+  { name: '겹침 응답: 코드 블록으로 감싼 false', actual: parseOverlap('```json\n{"overlap": false}\n```'), expected: false },
+  { name: '겹침 응답: 불리언이 아니면 null', actual: parseOverlap('{"overlap": "yes"}'), expected: null },
+  { name: '겹침 응답: 읽을 수 없으면 null', actual: parseOverlap('겹쳐요'), expected: null },
   { name: '같은 규칙 판정: 공백·문장부호는 무시', actual: hasRule([rule('r1', '존댓말로 쓴다.')], ' 존댓말로  쓴다 '), expected: true },
   { name: '같은 규칙 판정: 다른 말은 아니다', actual: hasRule([rule('r1', '존댓말로 쓴다')], '반말로 쓴다'), expected: false },
   { name: '같은 규칙 판정: 빈 글은 아니다', actual: hasRule([rule('r1', '')], ''), expected: false },
