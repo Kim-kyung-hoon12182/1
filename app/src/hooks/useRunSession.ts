@@ -3,7 +3,8 @@ import { getSample } from '@/data/sampleTasks'
 import { generateRun, type ApiErrorCode } from '@/lib/api'
 import { LEAVE_UNFINISHED_MESSAGE } from '@/lib/leave'
 import { buildSampleResult, finalTextOf, flaggedIndexes, type RunResult } from '@/lib/run'
-import { buildRunRecord } from '@/lib/runRecord'
+import { editedPairs, mergePairs, toCorrections, type EditedPair } from '@/lib/rules'
+import { buildRunRecord, isEdited } from '@/lib/runRecord'
 import type { OutputLine, Run, Task } from '@/types/task'
 
 type CopyState = 'idle' | 'done' | 'failed'
@@ -39,6 +40,8 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
   const [copyState, setCopyState] = useState<CopyState>('idle')
   const [cardScrollTarget, setCardScrollTarget] = useState<{ index: number } | null>(null)
   const [finished, setFinished] = useState<Run | null>(null)
+  // 이전 결과에서 고치거나 지운 내용. 같은 자료로 다시 실행할 때 "이번 실행의 정정"으로 AI에게 보낸다(규칙으로 남기는 게 아니다)
+  const [carried, setCarried] = useState<{ material: string; pairs: EditedPair[] } | null>(null)
   const shownAt = useRef(0)
   const sentenceRefs = useRef<(HTMLLIElement | null)[]>([])
   const cardRefs = useRef<(HTMLElement | null)[]>([])
@@ -49,6 +52,9 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
   useEffect(() => () => window.clearTimeout(revealTimer.current), [])
 
   const lines = useMemo(() => result?.lines ?? [], [result])
+  const hasEdits = isEdited(lines)
+  // 지금 자료와 같은 자료에 대한 정정만 쓴다. 자료를 바꾸면 쓰지 않는다. 예시 자료는 AI를 거치지 않으므로 해당 없다.
+  const carriedForInput = carried && carried.material === input.trim() && !(sample && input.trim() === sample.material) ? carried : null
   const sentences = result?.sentences ?? []
   const flagged = useMemo(() => flaggedIndexes(lines), [lines])
   const highlighted = new Set(selected === null ? [] : lines[selected]?.sourceIds)
@@ -123,17 +129,34 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     const material = input.trim()
     if (!material || running) return
     if (sample && material === sample.material) return showResult(buildSampleResult(sample, material), true)
+    const carriedCorrections = carried && carried.material === material ? toCorrections(carried.pairs) : []
     setRunning(true)
     setNotice('')
-    const outcome = await generateRun(task, material)
+    const outcome = await generateRun(task, material, carriedCorrections)
     setRunning(false)
     if (outcome.result) showResult(outcome.result, false)
     else setNotice(RUN_FAILURE_NOTICE[outcome.code])
   }
 
+  // 지금 결과에서 고치거나 지운 내용을 다음 실행에 함께 보내도록 모아 둔다
+  function carryEdits() {
+    const pairs = editedPairs(lines)
+    if (pairs.length === 0) return
+    const material = input.trim()
+    setCarried((prev) => ({ material, pairs: mergePairs(prev && prev.material === material ? prev.pairs : [], pairs) }))
+  }
+
   function backToInput() {
     // 복사하지 않은 결과가 있으면 지우기 전에 묻는다
     if (result && !finished && !window.confirm(LEAVE_UNFINISHED_MESSAGE)) return
+    carryEdits()
+    setResult(null)
+    resetView()
+  }
+
+  // 고친 곳이 있어서 따로 물은 뒤(LeaveWithEditsDialog)에는 다시 묻지 않고 돌아간다
+  function backToInputKeepingEdits() {
+    carryEdits()
     setResult(null)
     resetView()
   }
@@ -261,6 +284,10 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     clearInput,
     run,
     backToInput,
+    backToInputKeepingEdits,
+    hasEdits,
+    carriedCount: carriedForInput?.pairs.length ?? 0,
+    clearCarried: () => setCarried(null),
     startEdit,
     finishEdit,
     trackDraft,

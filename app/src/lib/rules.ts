@@ -51,6 +51,20 @@ const MAX_PAIRS = 5
 // 사용자가 실제로 고친 줄만 고치기 전·후로 모은다
 export const DELETED_AFTER = '(삭제함)'
 
+// 같은 줄(고치기 전 글이 같은 것)은 나중 고침으로 바꾸고, 최근 limit개만 남긴다
+export const mergePairs = (older: EditedPair[], newer: EditedPair[], limit = 10): EditedPair[] => {
+  const byBefore = new Map<string, EditedPair>()
+  for (const pair of [...older, ...newer]) {
+    byBefore.delete(pair.before)
+    byBefore.set(pair.before, pair)
+  }
+  return [...byBefore.values()].slice(-limit)
+}
+
+// 고치기 전·후 묶음을 다시 실행 요청에 보내는 모양으로(삭제는 after가 null)
+export const toCorrections = (pairs: { before: string; after: string }[]) =>
+  pairs.map((pair) => ({ before: pair.before, after: pair.after === DELETED_AFTER ? null : pair.after }))
+
 // 고친 줄과 삭제한 줄을 고치기 전·후로 모은다. 삭제한 줄의 후는 DELETED_AFTER다.
 export const editedPairs = (lines: { text: string; editedText?: string; deleted?: boolean }[]): EditedPair[] =>
   lines

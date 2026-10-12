@@ -1,4 +1,4 @@
-import { DELETED_AFTER, buildOverlapPrompt, buildRuleCandidatePrompt, editedPairs, hasRule, parseOverlap, parseRuleCandidate } from '../src/lib/rules.ts'
+import { DELETED_AFTER, mergePairs, toCorrections, buildOverlapPrompt, buildRuleCandidatePrompt, editedPairs, hasRule, parseOverlap, parseRuleCandidate } from '../src/lib/rules.ts'
 
 const rule = (id: string, text: string) => ({ id, text, source: 'setup' as const })
 const lines = [
@@ -14,6 +14,9 @@ const CASES: { name: string; actual: unknown; expected: unknown }[] = [
   { name: '삭제한 줄은 고친 후가 (삭제함)', actual: editedPairs([{ text: '평가 줄', deleted: true }, { text: '다른 줄' }]), expected: [{ before: '평가 줄', after: DELETED_AFTER }] },
   { name: '삭제한 줄은 고친 글이 있어도 삭제로 센다', actual: editedPairs([{ text: '가', editedText: '나', deleted: true }]), expected: [{ before: '가', after: DELETED_AFTER }] },
   { name: '프롬프트가 삭제를 "쓰지 말라는 뜻"으로 읽으라고 알린다', actual: prompt.includes('(삭제함)') && prompt.includes('통째로 뺀'), expected: true },
+  { name: '다시 실행 요청용 정정: 삭제는 after가 null', actual: toCorrections([{ before: '가', after: DELETED_AFTER }, { before: '나', after: '다' }]), expected: [{ before: '가', after: null }, { before: '나', after: '다' }] },
+  { name: '정정 병합: 같은 줄은 나중 고침으로 바뀐다', actual: mergePairs([{ before: '가', after: '나' }], [{ before: '가', after: '다' }, { before: '라', after: DELETED_AFTER }]), expected: [{ before: '가', after: '다' }, { before: '라', after: DELETED_AFTER }] },
+  { name: '정정 병합: 최근 limit개만 남긴다', actual: mergePairs([{ before: 'a', after: '1' }, { before: 'b', after: '2' }], [{ before: 'c', after: '3' }], 2).map((pair) => pair.before), expected: ['b', 'c'] },
   { name: '고친 줄이 없으면 빈 배열', actual: editedPairs([{ text: 'a' }]), expected: [] },
   { name: '고친 줄이 많아도 5개까지만', actual: editedPairs(Array.from({ length: 9 }, (_, i) => ({ text: `${i}`, editedText: `${i}!` }))).length, expected: 5 },
   { name: '프롬프트에 기존 규칙이 들어가고 빈 규칙은 뺀다', actual: prompt.includes('- 존댓말로 쓴다') && !prompt.includes('-   '), expected: true },

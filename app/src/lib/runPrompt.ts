@@ -11,8 +11,15 @@ export type RawLine = {
 // 자료 8,000자를 문장마다 한 줄로 옮겨도 넘지 않는 정도. 응답이 끝없이 길어지는 경우만 막는다
 const MAX_LINES = 300
 
+// 같은 자료로 다시 실행할 때 보내는 사용자의 정정. after가 null이면 그 줄을 삭제한 것이다.
+export type Correction = { before: string; after: string | null }
+
+const MAX_CORRECTIONS = 10
+const CORRECTION_CHARS = 200
+const clip = (text: string) => (text.length > CORRECTION_CHARS ? `${text.slice(0, CORRECTION_CHARS)}…` : text)
+
 // F-03 요청: 번호 붙은 자료와 규칙을 주고, 줄마다 근거 자료 번호와 적용한 규칙 번호를 JSON으로 받는다
-export const buildRunPrompt = (answers: Answers, rules: Rule[], sentences: string[]) =>
+export const buildRunPrompt = (answers: Answers, rules: Rule[], sentences: string[], corrections: Correction[] = []) =>
   [
     `다음 일을 하는 글을 써 주세요: ${answers.what}`,
     `결과 모양: ${answers.shape}`,
@@ -22,6 +29,16 @@ export const buildRunPrompt = (answers: Answers, rules: Rule[], sentences: strin
     '',
     '[자료] 문장마다 번호가 붙어 있습니다.',
     ...sentences.map((sentence, index) => `${index + 1}. ${sentence}`),
+    ...(corrections.length > 0
+      ? [
+          '',
+          '[이번 자료에 대한 사용자의 정정]',
+          '같은 자료로 이미 한 번 쓴 결과를 사용자가 아래처럼 고쳤습니다. 이번에는 고친 내용을 그대로 지키고, 삭제함으로 표시된 줄과 같은 내용은 쓰지 마세요.',
+          ...corrections.slice(0, MAX_CORRECTIONS).flatMap((item, index) =>
+            item.after === null ? [`${index + 1}. 삭제함: ${clip(item.before)}`] : [`${index + 1}. 고치기 전: ${clip(item.before)}`, `   고친 후: ${clip(item.after)}`],
+          ),
+        ]
+      : []),
     ...(answers.example?.trim() ? ['', '[예전에 잘 나온 결과: 말투와 모양만 참고하세요]', answers.example.trim()] : []),
     '',
     '- 자료에 없는 숫자, 이름, 사실은 쓰지 마세요. 모르는 부분은 "[확인 필요]"라고 쓰세요.',

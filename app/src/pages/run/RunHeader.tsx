@@ -8,10 +8,12 @@ import type { Task } from '@/types/task'
 type RunHeaderProps = {
   task: Task
   session: RunSession
+  /** [자료 다시 입력]을 눌렀을 때(고친 곳이 있으면 먼저 묻는다) */
+  onBack: () => void
 }
 
 // 화면 맨 위. 실행 영역이 첫 화면 안에 들어오도록 낮게 유지한다.
-export default function RunHeader({ task, session }: RunHeaderProps) {
+export default function RunHeader({ task, session, onBack }: RunHeaderProps) {
   const hasResult = session.result !== null
   const flaggedCount = session.flagged.length
 
@@ -52,7 +54,7 @@ export default function RunHeader({ task, session }: RunHeaderProps) {
       }
       actions={
         hasResult && (
-          <Button icon="restart_alt" onClick={session.backToInput}>
+          <Button icon="restart_alt" onClick={onBack}>
             자료 다시 입력
           </Button>
         )

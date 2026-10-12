@@ -6,6 +6,7 @@ import { SHOW_SOURCE_EVENT, useRunSession } from '@/hooks/useRunSession'
 import type { Rule, Run, Task } from '@/types/task'
 import { READ_FIRST_NOTE } from './run/copy'
 import EditedAfterAsk from './run/EditedAfterAsk'
+import LeaveWithEditsDialog from './run/LeaveWithEditsDialog'
 import CopyBar from './run/CopyBar'
 import FinishedCard from './run/FinishedCard'
 import IntroGuide from './run/IntroGuide'
@@ -34,6 +35,8 @@ export default function RunPage({ task, prefillMaterial, onRecord, onAddRule, on
   const [guideOpen, setGuideOpen] = useState(false)
   // 좁은 화면에서 결과가 나온 뒤의 자료 시트
   const [sourceSheetOpen, setSourceSheetOpen] = useState(false)
+  // 고친 곳이 있는 결과를 복사하지 않고 떠나려 할 때의 확인 창
+  const [leaveOpen, setLeaveOpen] = useState(false)
   const unfinished = session.result !== null && session.finished === null
 
   useEffect(() => {
@@ -60,7 +63,11 @@ export default function RunPage({ task, prefillMaterial, onRecord, onAddRule, on
 
   return (
     <PageContainer>
-      <RunHeader task={task} session={session} />
+      <RunHeader
+        task={task}
+        session={session}
+        onBack={() => (session.hasEdits && !session.finished ? setLeaveOpen(true) : session.backToInput())}
+      />
       <IntroGuide currentStep={hasResult ? 3 : 1} open={guideOpen} onToggle={() => setGuideOpen((open) => !open)} />
       {askAfterEdit && lastRun && <EditedAfterAsk key={lastRun.id} run={lastRun} onAnswer={(answer) => onAnswerEditedAfter(lastRun.id, answer)} />}
 
@@ -98,6 +105,18 @@ export default function RunPage({ task, prefillMaterial, onRecord, onAddRule, on
           )}
         </section>
       </div>
+      {leaveOpen && (
+        <LeaveWithEditsDialog
+          task={task}
+          session={session}
+          onAddRule={onAddRule}
+          onCancel={() => setLeaveOpen(false)}
+          onLeave={() => {
+            setLeaveOpen(false)
+            session.backToInputKeepingEdits()
+          }}
+        />
+      )}
     </PageContainer>
   )
 }

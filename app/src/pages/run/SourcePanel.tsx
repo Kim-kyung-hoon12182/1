@@ -117,6 +117,14 @@ function MaterialInput({ task, session }: SourcePanelProps) {
           지우기
         </Button>
       </div>
+      {session.carriedCount > 0 && (
+        <Notice tone="info" icon="history" className="mb-2">
+          이전 결과에서 고친 {session.carriedCount}곳을 이번 실행에 함께 보내요.{' '}
+          <button type="button" onClick={session.clearCarried} className="font-semibold text-primary hover:underline">
+            지우기
+          </button>
+        </Notice>
+      )}
       <TextArea
         data-tour="material-input"
         autoFocus

@@ -1,7 +1,7 @@
 import { splitSentences } from '@/lib/material'
 import { withResolvedSources } from '@/lib/citation'
 import { buildAiResult, type RunResult } from '@/lib/run'
-import { buildRunPrompt, parseRunResponse } from '@/lib/runPrompt'
+import { buildRunPrompt, parseRunResponse, type Correction } from '@/lib/runPrompt'
 import { buildOverlapPrompt, buildRuleCandidatePrompt, buildRulePrompt, parseOverlap, parseRuleCandidate, parseRules, type EditedPair } from '@/lib/rules'
 import type { Answers, Rule, Task } from '@/types/task'
 
@@ -54,10 +54,10 @@ export async function generateRules(answers: Answers): Promise<RuleResult> {
 type RunOutcome = { result: RunResult; code?: undefined } | { result?: undefined; code: ApiErrorCode }
 
 // F-03: 실패하면 호출한 쪽이 자료를 그대로 두고 안내한다.
-export async function generateRun(task: Task, material: string): Promise<RunOutcome> {
+export async function generateRun(task: Task, material: string, corrections: Correction[] = []): Promise<RunOutcome> {
   const sentences = splitSentences(material)
   try {
-    const text = await requestGenerate(buildRunPrompt(task.answers, task.rules, sentences), { json: true })
+    const text = await requestGenerate(buildRunPrompt(task.answers, task.rules, sentences, corrections), { json: true })
     // AI가 옮긴 글로 근거 번호를 바로잡는다. 번호는 긴 자료에서 자주 어긋난다
     const lines = withResolvedSources(parseRunResponse(text, sentences.length, task.rules), sentences)
     return lines.length > 0 ? { result: buildAiResult(lines, sentences) } : { code: 'upstream' }
