@@ -3,7 +3,7 @@ import EmptyState from '@/components/EmptyState'
 import PageContainer from '@/components/PageContainer'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { useRunSession } from '@/hooks/useRunSession'
-import type { Run, Task } from '@/types/task'
+import type { Rule, Run, Task } from '@/types/task'
 import { READ_FIRST_NOTE } from './run/copy'
 import CopyBar from './run/CopyBar'
 import FinishedCard from './run/FinishedCard'
@@ -17,11 +17,12 @@ type RunPageProps = {
   task: Task
   prefillMaterial: boolean
   onRecord: (run: Run) => void
+  onAddRule: (rule: Rule) => void
   onGoToTasks: () => void
 }
 
 // S3 실행·결과: 왼쪽에 자료, 오른쪽에 줄마다 참고한 자료와 확인할 곳
-export default function RunPage({ task, prefillMaterial, onRecord, onGoToTasks }: RunPageProps) {
+export default function RunPage({ task, prefillMaterial, onRecord, onAddRule, onGoToTasks }: RunPageProps) {
   const session = useRunSession(task, prefillMaterial, onRecord)
   const hasResult = session.result !== null
   const [guideOpen, setGuideOpen] = useState(false)
@@ -46,7 +47,13 @@ export default function RunPage({ task, prefillMaterial, onRecord, onGoToTasks }
                 ))}
               </ul>
               {session.finished ? (
-                <FinishedCard task={task} run={session.finished} session={session} onGoToTasks={onGoToTasks} />
+                <FinishedCard
+                  task={task}
+                  run={session.finished}
+                  session={session}
+                  onGoToTasks={onGoToTasks}
+                  onAddRule={onAddRule}
+                />
               ) : (
                 <CopyBar session={session} />
               )}

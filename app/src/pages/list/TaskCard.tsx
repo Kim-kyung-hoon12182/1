@@ -21,10 +21,12 @@ type TaskCardProps = {
   onRun: (task: Task) => void
   /** "맡겨볼 만한 때예요"를 눌렀을 때 (S1-5) */
   onHandoff: (task: Task) => void
+  /** [규칙 보기] (S1-6) */
+  onRules: (task: Task) => void
 }
 
 // 내 작업 한 줄 (S1-3): 이름, 규칙, 최근 기록, 상태, 실행하기
-export default function TaskCard({ task, onRun, onHandoff }: TaskCardProps) {
+export default function TaskCard({ task, onRun, onHandoff, onRules }: TaskCardProps) {
   const ready = isHandoffReady(task.runs)
   const shownRules = task.rules.slice(0, SHOWN_RULES)
   const hiddenCount = task.rules.length - shownRules.length
@@ -82,9 +84,14 @@ export default function TaskCard({ task, onRun, onHandoff }: TaskCardProps) {
           <span className="text-label-sm text-secondary">{describeLastRun(task)}</span>
           {task.runs.length > 0 && <RunChips runs={task.runs} />}
         </div>
-        <Button variant="primary" icon="play_arrow" className="text-headline-sm" onClick={() => onRun(task)}>
-          실행하기
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button icon="rule" onClick={() => onRules(task)}>
+            규칙 보기
+          </Button>
+          <Button variant="primary" icon="play_arrow" className="text-headline-sm" onClick={() => onRun(task)}>
+            실행하기
+          </Button>
+        </div>
       </div>
     </Card>
   )

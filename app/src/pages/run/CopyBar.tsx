@@ -23,6 +23,8 @@ export default function CopyBar({ session }: { session: RunSession }) {
       </div>
       <Button
         data-tour="copy-finish"
+        // 고치던 입력칸에서 커서가 빠져 화면이 움직이면 이 클릭이 놓친다. 커서를 그대로 두고 누른다.
+        onMouseDown={(event) => event.preventDefault()}
         variant="primary"
         icon="content_copy"
         className="w-full md:w-auto"

@@ -6,7 +6,7 @@ export default function AppFooter() {
       <p className="mx-auto flex max-w-7xl items-start gap-1.5 px-4 text-body-sm text-on-surface-variant sm:px-8">
         <Icon name="shield_with_heart" className="mt-0.5 shrink-0 text-[16px] text-outline" />
         <span>
-          회사 기밀이나 개인정보는 넣지 마세요. 작업과 규칙은 이 브라우저에만 저장되고, 규칙을 만들 때 쓴 답변과 실행할 때 넣은 자료는 Google Gemini로 보내져요.
+          회사 기밀이나 개인정보는 넣지 마세요. 작업과 규칙은 이 브라우저에만 저장되고, 규칙을 만들 때 쓴 답변, 실행할 때 넣은 자료, 규칙 후보를 만들 때의 고친 내용은 Google Gemini로 보내져요.
         </span>
       </p>
     </footer>

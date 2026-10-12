@@ -15,7 +15,8 @@ import TaskListPage from '@/pages/TaskListPage'
 import type { Task } from '@/types/task'
 
 export default function App() {
-  const { tasks, demo, saveFailed, addTask, addRun, resetDemo, findTask } = useTasks()
+  const { tasks, demo, saveFailed, addTask, addRun, addRule, updateRule, removeRule, removeTask, resetDemo, findTask } =
+    useTasks()
   const [view, go] = useRoute()
   const tour = useTour(view.screen)
   // 처음 오는 사람(저장한 작업도, 안내를 본 기록도 없음)에게만 첫 방문 안내(S0)를 보여 준다
@@ -80,6 +81,10 @@ export default function App() {
           onCreate={(sampleKey) => go({ screen: 'create', sampleKey })}
           onRun={(task) => runTask(task, task.isDemo === true && !tour.running)}
           onResetDemo={resetDemo}
+          onAddRule={(taskId, text) => addRule(taskId, { id: `u${crypto.randomUUID().slice(0, 8)}`, text, source: 'setup' })}
+          onUpdateRule={updateRule}
+          onRemoveRule={removeRule}
+          onRemoveTask={removeTask}
         />
       )}
       {view.screen === 'create' && (
@@ -99,6 +104,7 @@ export default function App() {
           task={runningTask}
           prefillMaterial={view.prefill}
           onRecord={(run) => addRun(runningTask.id, run)}
+          onAddRule={(rule) => addRule(runningTask.id, rule)}
           onGoToTasks={() => go({ screen: 'tasks' })}
         />
       )}

@@ -71,6 +71,7 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
           defaultValue={line.editedText ?? line.text}
           aria-label={`${index + 1}번 줄 고치기`}
           onClick={(event) => event.stopPropagation()}
+          onChange={(event) => session.trackDraft(index, event.target.value)}
           onBlur={(event) => session.finishEdit(index, event.target.value)}
           onKeyDown={(event) => {
             if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {

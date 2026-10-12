@@ -33,6 +33,8 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
   const sentenceRefs = useRef<(HTMLLIElement | null)[]>([])
   const cardRefs = useRef<(HTMLElement | null)[]>([])
   const fallbackRef = useRef<HTMLTextAreaElement>(null)
+  // 고치는 중인 글. [복사하고 끝내기]를 누를 때 아직 확정 전이면 이 글까지 반영한다
+  const draftRef = useRef<{ index: number; value: string } | null>(null)
 
   const lines = useMemo(() => result?.lines ?? [], [result])
   const sentences = result?.sentences ?? []
@@ -125,10 +127,19 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
   }
 
   // 글이 바뀌지 않았거나 비웠으면 고친 것으로 치지 않는다
-  function finishEdit(index: number, value: string) {
+  const editedTextOf = (index: number, value: string) => {
     const next = value.trim()
-    updateLine(index, { editedText: next && next !== lines[index].text ? next : undefined })
+    return next && next !== lines[index].text ? next : undefined
+  }
+
+  function finishEdit(index: number, value: string) {
+    updateLine(index, { editedText: editedTextOf(index, value) })
+    draftRef.current = null
     setEditing(null)
+  }
+
+  const trackDraft = (index: number, value: string) => {
+    draftRef.current = { index, value }
   }
 
   const revertLine = (index: number) => updateLine(index, { editedText: undefined })
@@ -141,9 +152,9 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     setCardScrollTarget({ index: target })
   }
 
-  async function copyText() {
+  async function copyText(text = finalText) {
     try {
-      await navigator.clipboard.writeText(finalText)
+      await navigator.clipboard.writeText(text)
       setCopyState('done')
       return true
     } catch {
@@ -155,20 +166,30 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
   // F-06 순서: ① 복사 ② 복사가 실패해도 기록은 확정(성공 여부는 copied에 남김) ③ 다음 행동 안내
   async function copyAndFinish() {
     if (!result || finished) return
-    const copied = await copyText()
+    // 고치던 줄이 아직 확정 전이면(입력칸에 커서가 있는 채로 눌렀을 때) 그 글까지 반영한다
+    const draft = draftRef.current
+    const current =
+      editing !== null && draft?.index === editing
+        ? lines.map((line, i) => (i === editing ? { ...line, editedText: editedTextOf(editing, draft.value) } : line))
+        : lines
+    const text = finalTextOf(current)
+    const copied = await copyText(text)
     const record = buildRunRecord({
       id: crypto.randomUUID(),
       number: task.runs.length + 1,
       input: input.trim(),
       sentences,
-      lines,
+      lines: current,
       flaggedCount: flagged.length,
       elapsedMs: Date.now() - shownAt.current,
       copied,
-      finalText,
+      finalText: text,
       isSample: isSampleResult,
       createdAt: new Date().toISOString(),
     })
+    draftRef.current = null
+    setResult((prev) => (prev ? { ...prev, lines: current } : prev))
+    setEditing(null)
     onRecord(record)
     setFinished(record)
   }
@@ -202,6 +223,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     backToInput,
     startEdit,
     finishEdit,
+    trackDraft,
     revertLine,
     goToFlagged,
     copyText,

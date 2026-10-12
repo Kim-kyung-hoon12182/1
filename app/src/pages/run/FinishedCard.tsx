@@ -9,13 +9,15 @@ import Notice from '@/components/Notice'
 import RunChips from '@/components/RunChips'
 import type { RunSession } from '@/hooks/useRunSession'
 import { countStreak, HANDOFF_STREAK, isHandoffReady } from '@/lib/streak'
-import type { Run, Task } from '@/types/task'
+import type { Rule, Run, Task } from '@/types/task'
+import RuleCandidateCard from './RuleCandidateCard'
 
 type FinishedCardProps = {
   task: Task
   run: Run
   session: RunSession
   onGoToTasks: () => void
+  onAddRule: (rule: Rule) => void
 }
 
 // 이번 기록이 연속 안 고침에 들어갔는지, 왜 끊겼는지를 쉬운 말로 알려 준다.
@@ -29,7 +31,7 @@ const describeStreak = (run: Run, streak: number) => {
 }
 
 // [복사하고 끝내기] 뒤에 보이는 카드. 기록한 결과와 다음 행동을 알려 준다 (S3-8, F-06).
-export default function FinishedCard({ task, run, session, onGoToTasks }: FinishedCardProps) {
+export default function FinishedCard({ task, run, session, onGoToTasks, onAddRule }: FinishedCardProps) {
   const [handoffClosed, setHandoffClosed] = useState(false)
   const streak = countStreak(task.runs)
   const ready = isHandoffReady(task.runs)
@@ -68,12 +70,14 @@ export default function FinishedCard({ task, run, session, onGoToTasks }: Finish
           <Button icon="arrow_back" onClick={onGoToTasks}>
             내 작업으로
           </Button>
-          <Button variant="ghost" icon="content_copy" onClick={session.copyText}>
+          <Button variant="ghost" icon="content_copy" onClick={() => session.copyText()}>
             다시 복사
           </Button>
         </div>
         <p className="text-label-sm text-outline">기록한 뒤에는 이 결과를 고칠 수 없어요. 다시 실행하면 새 기록이 돼요.</p>
       </Card>
+
+      <RuleCandidateCard task={task} run={run} lines={session.lines} onAddRule={onAddRule} />
 
       {ready && !handoffClosed && (
         <Card as="section" bordered data-tour="handoff" className="bg-gradient-to-r from-surface-low via-surface-lowest to-surface-low">

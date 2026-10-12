@@ -18,12 +18,12 @@ export default function OnboardingDialog({ onTour, onSkip }: OnboardingDialogPro
         className="mx-auto mb-4 h-32 w-auto"
       />
       <p className="mb-4 text-center text-body-md font-semibold text-on-surface">
-        고쳤는지를 일마다 기록하고, 안 고친 기록이 쌓이면 맡겨볼 만한 때를 알려 줘요.
+        고쳤는지를 일마다 기록하고, 고친 내용은 확인한 뒤 규칙으로 남겨요. 안 고친 기록이 쌓이면 맡겨볼 만한 때를 알려 줘요.
       </p>
       <div className="space-y-3 text-body-sm leading-relaxed text-on-surface-variant">
         <p>작업과 기록은 이 브라우저에만 저장돼요. 다른 기기에서는 보이지 않아요.</p>
         <p>
-          작업을 등록하거나 실행할 때 입력한 답변·자료·규칙은 Google Gemini로 보내져요. 무료 이용 조건이라 보낸 내용을 Google이 서비스 개선에 쓰거나 사람이 볼 수 있어요. 저장되는 곳(이 브라우저)과 보내지는 곳은 달라요.
+          작업을 등록하거나 실행할 때 입력한 답변·자료·규칙과, 규칙 후보를 만들 때의 고친 내용은 Google Gemini로 보내져요. 무료 이용 조건이라 보낸 내용을 Google이 서비스 개선에 쓰거나 사람이 볼 수 있어요. 저장되는 곳(이 브라우저)과 보내지는 곳은 달라요.
         </p>
         <p className="font-semibold text-on-surface">회사 기밀이나 개인정보는 넣지 마세요.</p>
       </div>

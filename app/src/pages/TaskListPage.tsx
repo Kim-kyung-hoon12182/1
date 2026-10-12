@@ -4,6 +4,7 @@ import Dialog from '@/components/Dialog'
 import HandoffPanel from '@/components/HandoffPanel'
 import PageContainer from '@/components/PageContainer'
 import PageHeader from '@/components/PageHeader'
+import RulesDialog from './list/RulesDialog'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import type { SampleKey, Task } from '@/types/task'
 import EmptyTasks from './list/EmptyTasks'
@@ -16,11 +17,28 @@ type TaskListPageProps = {
   onCreate: (sampleKey?: SampleKey) => void
   onRun: (task: Task) => void
   onResetDemo: () => void
+  onAddRule: (taskId: string, text: string) => void
+  onUpdateRule: (taskId: string, ruleId: string, text: string) => void
+  onRemoveRule: (taskId: string, ruleId: string) => void
+  onRemoveTask: (taskId: string) => void
 }
 
 // S1 내 작업: 등록한 작업과 예시 작업을 보여 주고 실행으로 이어 준다
-export default function TaskListPage({ tasks, demo, onCreate, onRun, onResetDemo }: TaskListPageProps) {
+export default function TaskListPage({
+  tasks,
+  demo,
+  onCreate,
+  onRun,
+  onResetDemo,
+  onAddRule,
+  onUpdateRule,
+  onRemoveRule,
+  onRemoveTask,
+}: TaskListPageProps) {
   const [handoffTask, setHandoffTask] = useState<Task | null>(null)
+  const [rulesTaskId, setRulesTaskId] = useState<string | null>(null)
+  // 규칙을 고칠 때마다 목록이 바로 바뀌도록 id로 최신 작업을 찾는다
+  const rulesTask = [...tasks, demo].find((task) => task.id === rulesTaskId)
   useDocumentTitle('내 작업')
   const newestFirst = [...tasks].reverse()
 
@@ -53,7 +71,7 @@ export default function TaskListPage({ tasks, demo, onCreate, onRun, onResetDemo
       ) : (
         <section aria-label="등록한 작업" className="flex flex-col gap-3">
           {newestFirst.map((task) => (
-            <TaskCard key={task.id} task={task} onRun={onRun} onHandoff={setHandoffTask} />
+            <TaskCard key={task.id} task={task} onRun={onRun} onHandoff={setHandoffTask} onRules={(t) => setRulesTaskId(t.id)} />
           ))}
         </section>
       )}
@@ -65,8 +83,26 @@ export default function TaskListPage({ tasks, demo, onCreate, onRun, onResetDemo
             체험 초기화
           </Button>
         </div>
-        <TaskCard task={demo} onRun={onRun} onHandoff={setHandoffTask} />
+        <TaskCard task={demo} onRun={onRun} onHandoff={setHandoffTask} onRules={(t) => setRulesTaskId(t.id)} />
       </section>
+
+      {rulesTask && (
+        <RulesDialog
+          task={rulesTask}
+          onClose={() => setRulesTaskId(null)}
+          onAdd={(text) => onAddRule(rulesTask.id, text)}
+          onUpdate={(ruleId, text) => onUpdateRule(rulesTask.id, ruleId, text)}
+          onRemove={(ruleId) => onRemoveRule(rulesTask.id, ruleId)}
+          onRemoveTask={
+            rulesTask.isDemo
+              ? undefined
+              : () => {
+                  onRemoveTask(rulesTask.id)
+                  setRulesTaskId(null)
+                }
+          }
+        />
+      )}
 
       {handoffTask && (
         <Dialog title="맡겨볼 만한 때" onClose={() => setHandoffTask(null)}>

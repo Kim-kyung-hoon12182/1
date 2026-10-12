@@ -1,8 +1,8 @@
 import { splitSentences } from '@/lib/material'
 import { buildAiResult, type RunResult } from '@/lib/run'
 import { buildRunPrompt, parseRunResponse } from '@/lib/runPrompt'
-import { buildRulePrompt, parseRules } from '@/lib/rules'
-import type { Answers, Task } from '@/types/task'
+import { buildRuleCandidatePrompt, buildRulePrompt, parseRuleCandidate, parseRules, type EditedPair } from '@/lib/rules'
+import type { Answers, Rule, Task } from '@/types/task'
 
 export type ApiErrorCode = 'no_key' | 'rate_limit' | 'upstream' | 'bad_request' | 'network'
 
@@ -61,5 +61,14 @@ export async function generateRun(task: Task, material: string): Promise<RunOutc
     return lines.length > 0 ? { result: buildAiResult(lines, sentences) } : { code: 'upstream' }
   } catch (error) {
     return { code: error instanceof ApiError ? error.code : 'network' }
+  }
+}
+
+// F-05: 고친 내용에서 규칙 후보 한 줄. 실패하거나 읽을 수 없으면 null이고, 호출한 쪽이 빈 입력칸을 보여 준다.
+export async function generateRuleCandidate(pairs: EditedPair[], rules: Rule[]): Promise<string | null> {
+  try {
+    return parseRuleCandidate(await requestGenerate(buildRuleCandidatePrompt(pairs, rules), { json: true }))
+  } catch {
+    return null
   }
 }
