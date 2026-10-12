@@ -64,15 +64,19 @@ export async function generateRun(task: Task, material: string): Promise<RunOutc
   }
 }
 
+// 겹침 확인은 덤이라서, AI가 느리면 기다리지 않고 후보를 그대로 보여 준다
+const OVERLAP_CHECK_MS = 6000
+
 // F-05: 고친 내용에서 규칙 후보 한 줄. 실패하거나 읽을 수 없으면 null이고, 호출한 쪽이 빈 입력칸을 보여 준다.
 export async function generateRuleCandidate(pairs: EditedPair[], rules: Rule[]): Promise<string | null> {
   try {
     const candidate = parseRuleCandidate(await requestGenerate(buildRuleCandidatePrompt(pairs, rules), { json: true }))
     if (!candidate || rules.every((rule) => !rule.text.trim())) return candidate
     // 후보가 기존 규칙과 뜻이 겹치면 빈 글로 바꿔 카드를 띄우지 않는다. 판정이 실패하면 후보를 그대로 보여 준다.
-    const overlap = await requestGenerate(buildOverlapPrompt(candidate, rules), { json: true })
-      .then(parseOverlap)
-      .catch(() => null)
+    const overlap = await Promise.race([
+      requestGenerate(buildOverlapPrompt(candidate, rules), { json: true }).then(parseOverlap),
+      new Promise<null>((resolve) => setTimeout(() => resolve(null), OVERLAP_CHECK_MS)),
+    ]).catch(() => null)
     return overlap === true ? '' : candidate
   } catch {
     return null
