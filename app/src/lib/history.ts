@@ -21,7 +21,7 @@ export const matchesFilter = (run: Pick<Run, 'edited' | 'copied' | 'editedAfter'
 
 // 사용자가 고친 줄 수. 예시 기록처럼 줄이 저장되지 않은 기록은 고친 기록이면 1로 본다.
 export const editedLineCount = (run: Pick<Run, 'edited' | 'lines'>) => {
-  const count = run.lines.filter((line) => line.editedText !== undefined).length
+  const count = run.lines.filter((line) => line.editedText !== undefined || line.deleted === true).length
   return run.edited ? Math.max(count, 1) : 0
 }
 

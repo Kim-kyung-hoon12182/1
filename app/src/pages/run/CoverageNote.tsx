@@ -4,10 +4,23 @@ import { coverageOf } from '@/lib/coverage'
 import { circled } from '@/lib/material'
 
 // 결과의 어느 줄도 참고하지 않은 자료 문장을 모아 보여 준다. 빠뜨렸다는 판정이 아니라 직접 확인해 보라는 목록이다 (I-20).
+// 표 구분선·제목 같은 내용 없는 줄은 세지 않고, 자료를 줄여 쓴 요약이면 목록 대신 안내만 한다.
 export default function CoverageNote({ session }: { session: RunSession }) {
   const { lines, sentences, scrollToSentence } = session
-  const { total, referenced, unreferenced } = coverageOf(lines, sentences)
+  const { total, referenced, unreferenced, resultLines, summary } = coverageOf(lines, sentences)
   if (total === 0) return null
+
+  // 자료를 훨씬 적은 줄로 줄여 쓴 요약: 줄마다 대표 근거만 달려서 참고한 문장이 적은 게 정상이다. 긴 목록 대신 안내만 한다.
+  if (summary) {
+    return (
+      <p className="flex items-start gap-1.5 px-1 text-label-sm text-on-surface-variant">
+        <Icon name="fact_check" className="mt-0.5 text-[15px] text-primary" />
+        <span>
+          자료 {total}문장을 {resultLines}줄로 줄여 쓴 요약이에요. 줄마다 대표 근거만 표시해서 참고 표시가 있는 문장은 {referenced}개예요. 줄인 만큼 빠진 내용이 있는 게 당연하니, 꼭 필요한 내용이 들어갔는지는 직접 확인해 주세요.
+        </span>
+      </p>
+    )
+  }
 
   if (unreferenced.length === 0) {
     return (

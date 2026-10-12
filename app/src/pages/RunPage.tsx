@@ -10,6 +10,7 @@ import CopyBar from './run/CopyBar'
 import FinishedCard from './run/FinishedCard'
 import IntroGuide from './run/IntroGuide'
 import ResultCard from './run/ResultCard'
+import RuleBand from './run/RuleBand'
 import ResultSkeleton from './run/ResultSkeleton'
 import ResultSummary from './run/ResultSummary'
 import RunHeader from './run/RunHeader'
@@ -57,6 +58,7 @@ export default function RunPage({ task, prefillMaterial, onRecord, onAddRule, on
         <section className="space-y-4 lg:col-span-7">
           {hasResult ? (
             <>
+              <RuleBand task={task} finished={session.finished !== null} />
               <ResultSummary session={session} />
               <ul data-tour="result-list" className="space-y-4">
                 {session.lines.map((_, index) => (

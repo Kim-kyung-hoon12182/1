@@ -23,6 +23,7 @@ export default function RuleCandidateCard({ task, run, lines, onAddRule }: RuleC
   const candidate = useRuleCandidate(task, run, lines, onAddRule)
   // 어떤 고침에서 나온 규칙인지 보여 줘야 규칙이 낯선 사람도 이유를 안다
   const pairs = editedPairs(lines)
+  const taughtCount = task.rules.filter((rule) => rule.source === 'edit').length
 
   if (candidate.phase === 'none' || candidate.phase === 'closed') return null
 
@@ -37,9 +38,16 @@ export default function RuleCandidateCard({ task, run, lines, onAddRule }: RuleC
 
   if (candidate.phase === 'added') {
     return (
-      <Card as="section" bordered role="status" className="flex items-center gap-2 text-body-sm font-semibold text-primary">
-        <Icon name="rule" className="text-[18px]" />
-        규칙에 추가했어요. 다음 실행부터 이 규칙을 지켜 글을 써요.
+      <Card as="section" bordered role="status" className="flex items-start gap-3">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-fixed text-primary">
+          <Icon name="bookmark" className="text-[18px]" />
+        </div>
+        <div className="min-w-0 flex-1 space-y-0.5">
+          <h3 className="text-headline-sm">내가 가르친 규칙이 {taughtCount}개가 됐어요</h3>
+          <p className="text-body-sm text-on-surface-variant">
+            "{candidate.text.trim()}"를 다음 실행부터 AI에게 보내요. 규칙은 [내 작업]에서 고치거나 지울 수 있어요.
+          </p>
+        </div>
       </Card>
     )
   }

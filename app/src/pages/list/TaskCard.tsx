@@ -50,7 +50,9 @@ export default function TaskCard({ task, onRun, onHandoff, onRules, onHistory }:
                 예시
               </Badge>
             )}
-            <Badge>규칙 {task.rules.length}개</Badge>
+            <Badge>
+              규칙 {task.rules.length}개{task.rules.some((rule) => rule.source === 'edit') ? ` · 내가 고친 것 ${task.rules.filter((rule) => rule.source === 'edit').length}개` : ''}
+            </Badge>
             {ready && (
               <button
                 type="button"
