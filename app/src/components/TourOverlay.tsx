@@ -2,7 +2,8 @@ import Button from '@/components/Button'
 import Icon from '@/components/Icon'
 import { useRects, useTargetRect } from '@/hooks/useTargetRect'
 import { grow, overlaps, overlayClipPath, placeBubble } from '@/lib/tourLayout'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useTourFocus } from '@/hooks/useTourFocus'
 import { TOUR_END, TOUR_LOST_MS, TOUR_OPTIONAL_MS, type TourStep } from '@/lib/tour'
 
 type TourOverlayProps = {
@@ -28,6 +29,10 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
   const { rect, lost } = useTargetRect(step?.target ?? null, step?.optional ? TOUR_OPTIONAL_MS : TOUR_LOST_MS)
   const skipOptional = Boolean(lost && step?.optional)
   const contextRects = useRects(step?.context ?? [])
+  // 건너뛴 단계가 있으면 끝 카드에 "7 / 7"을 띄우지 않는다(안 본 단계가 있는데 다 본 것처럼 보이기 때문)
+  const skippedAny = useRef(false)
+  // 눌러야 할 곳이 보일 때만 포커스를 가둔다. 안 보이면 안내가 화면을 막지 않으므로 가두지 않는다.
+  useTourFocus(atEnd || Boolean(rect), index, step ? (step.advanceOn ?? step.target) : null)
   // 강조되지 않은 곳을 눌렀을 때: 강조 테두리를 한 번 흔들고 잠깐 안내한다. 아무 반응이 없으면 고장으로 느낀다.
   const [nudge, setNudge] = useState(0)
   const [hintShown, setHintShown] = useState(false)
@@ -48,13 +53,16 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
 
   // 조건이 안 맞아서 없는 단계는 알리지 않고 넘어간다
   useEffect(() => {
-    if (skipOptional) onNext()
+    if (skipOptional) {
+      skippedAny.current = true
+      onNext()
+    }
   }, [skipOptional])
 
   if (atEnd) {
     return (
       <div className="fixed inset-0 z-[60] flex items-center justify-center bg-on-surface/45 p-4 backdrop-blur-[3px]">
-        <Bubble title={TOUR_END.title} body={TOUR_END.body} counter={`${total} / ${total}`}>
+        <Bubble title={TOUR_END.title} body={TOUR_END.body} counter={skippedAny.current ? undefined : `${total} / ${total}`}>
           <div className="flex gap-2">
             <Button onClick={onFinish}>닫기</Button>
             <Button variant="primary" icon="add" onClick={onCreate}>
