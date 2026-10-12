@@ -27,7 +27,7 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
   const isSelected = selected === index
   const flagged = isFlagged(line)
 
-  if (!flagged && !isSelected && editing !== index) return <CompactLine index={index} session={session} />
+  if (line.deleted || (!flagged && !isSelected && editing !== index)) return <CompactLine index={index} session={session} />
   const appliedRules = task.rules.filter((rule) => line.ruleIds.includes(rule.id))
   const cited = citedSentences(line, sentences)
 
@@ -166,6 +166,19 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
             }}
           >
             되돌리기
+          </Button>
+        )}
+        {!session.finished && editing !== index && (
+          <Button
+            size="sm"
+            variant="ghost"
+            icon="delete"
+            onClick={(event) => {
+              event.stopPropagation()
+              session.deleteLine(index)
+            }}
+          >
+            삭제
           </Button>
         )}
         {!session.finished && (

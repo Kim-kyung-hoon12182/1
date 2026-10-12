@@ -28,6 +28,7 @@ export default function CopyBar({ session }: { session: RunSession }) {
         variant="primary"
         icon="content_copy"
         className="w-full md:w-auto"
+        disabled={session.finalText.trim() === ''}
         onClick={session.copyAndFinish}
       >
         복사하고 끝내기

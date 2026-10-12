@@ -1,4 +1,4 @@
-import { buildOverlapPrompt, buildRuleCandidatePrompt, editedPairs, hasRule, parseOverlap, parseRuleCandidate } from '../src/lib/rules.ts'
+import { DELETED_AFTER, buildOverlapPrompt, buildRuleCandidatePrompt, editedPairs, hasRule, parseOverlap, parseRuleCandidate } from '../src/lib/rules.ts'
 
 const rule = (id: string, text: string) => ({ id, text, source: 'setup' as const })
 const lines = [
@@ -11,6 +11,9 @@ const prompt = buildRuleCandidatePrompt(pairs, [rule('r1', '존댓말로 쓴다'
 
 const CASES: { name: string; actual: unknown; expected: unknown }[] = [
   { name: '고친 줄만 고치기 전·후로 모은다', actual: pairs, expected: [{ before: '가 줄', after: '가 줄 고침' }, { before: '다 줄', after: '다 줄 고침' }] },
+  { name: '삭제한 줄은 고친 후가 (삭제함)', actual: editedPairs([{ text: '평가 줄', deleted: true }, { text: '다른 줄' }]), expected: [{ before: '평가 줄', after: DELETED_AFTER }] },
+  { name: '삭제한 줄은 고친 글이 있어도 삭제로 센다', actual: editedPairs([{ text: '가', editedText: '나', deleted: true }]), expected: [{ before: '가', after: DELETED_AFTER }] },
+  { name: '프롬프트가 삭제를 "쓰지 말라는 뜻"으로 읽으라고 알린다', actual: prompt.includes('(삭제함)') && prompt.includes('통째로 뺀'), expected: true },
   { name: '고친 줄이 없으면 빈 배열', actual: editedPairs([{ text: 'a' }]), expected: [] },
   { name: '고친 줄이 많아도 5개까지만', actual: editedPairs(Array.from({ length: 9 }, (_, i) => ({ text: `${i}`, editedText: `${i}!` }))).length, expected: 5 },
   { name: '프롬프트에 기존 규칙이 들어가고 빈 규칙은 뺀다', actual: prompt.includes('- 존댓말로 쓴다') && !prompt.includes('-   '), expected: true },

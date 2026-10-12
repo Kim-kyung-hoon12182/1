@@ -2,9 +2,10 @@ import { buildRunRecord, isEdited, judgePassState, QUICK_PASS_SECONDS } from '..
 
 type Line = Parameters<typeof isEdited>[0][number]
 
-const line = (text: string, editedText?: string): Line => ({
+const line = (text: string, editedText?: string, deleted?: boolean): Line => ({
   text,
   editedText,
+  deleted,
   sourceIds: [1],
   ruleIds: [],
   status: 'has_source',
@@ -21,6 +22,8 @@ const CASES: { name: string; actual: unknown; expected: unknown }[] = [
   { name: '줄바꿈만 고치면 안 고침', actual: isEdited([line('가나\n다', '가나 다')]), expected: false },
   { name: '고쳤다가 같은 글로 돌려놓으면 안 고침', actual: isEdited([line('가나다', '가나다')]), expected: false },
   { name: '여러 줄 중 한 줄만 바꿔도 고침', actual: isEdited([line('a1'), line('b2'), line('c3', 'c4')]), expected: true },
+  { name: '줄을 삭제하면 고침', actual: isEdited([line('가나다'), line('라마바', undefined, true)]), expected: true },
+  { name: '삭제를 되돌려 deleted가 없어지면 안 고침', actual: isEdited([line('가나다'), line('라마바', undefined, undefined)]), expected: false },
   { name: '확인할 곳이 없으면 nothing_flagged', actual: judgePassState(0, 30 * SECOND), expected: 'nothing_flagged' },
   { name: '확인할 곳이 없으면 시간과 상관없이 nothing_flagged', actual: judgePassState(0, 1 * SECOND), expected: 'nothing_flagged' },
   { name: '확인할 곳이 있고 4.9초에 넘기면 quick_pass', actual: judgePassState(2, QUICK_PASS_SECONDS * SECOND - 100), expected: 'quick_pass' },

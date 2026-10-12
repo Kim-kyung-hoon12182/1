@@ -158,6 +158,19 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
 
   const revertLine = (index: number) => updateLine(index, { editedText: undefined })
 
+  // 줄 삭제: 고치던 중이면 그 글은 접어 두고(고친 글은 남겨 되돌리면 살아난다) 줄을 뺀다
+  function deleteLine(index: number) {
+    if (finished) return
+    if (editing === index) {
+      draftRef.current = null
+      setEditing(null)
+    }
+    updateLine(index, { deleted: true })
+    if (selected === index) setSelected(null)
+  }
+
+  const restoreLine = (index: number) => updateLine(index, { deleted: undefined })
+
   function goToFlagged(direction: 'first' | 'next') {
     if (flagged.length === 0) return
     const target =
@@ -240,6 +253,8 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     finishEdit,
     trackDraft,
     revertLine,
+    deleteLine,
+    restoreLine,
     goToFlagged,
     copyText,
     copyAndFinish,

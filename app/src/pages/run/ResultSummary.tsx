@@ -4,7 +4,7 @@ import Card from '@/components/Card'
 import Icon from '@/components/Icon'
 import Notice from '@/components/Notice'
 import type { RunSession } from '@/hooks/useRunSession'
-import { countByStatus } from '@/lib/run'
+import { countByStatus, countDeleted } from '@/lib/run'
 import { LEGEND, SCOPE_NOTE } from './copy'
 
 // 결과 위쪽: 줄 상태 집계, 확인할 곳으로 이동, 표시 읽는 법, 검사 범위 안내
@@ -51,6 +51,11 @@ export default function ResultSummary({ session }: { session: RunSession }) {
           <Badge size="md" tone="flag" icon="error">
             자료에 없음 {countByStatus(lines, 'not_in_input')}줄
           </Badge>
+          {countDeleted(lines) > 0 && (
+            <Badge size="md" icon="delete">
+              삭제 {countDeleted(lines)}줄
+            </Badge>
+          )}
         </div>
       </Card>
 

@@ -15,6 +15,8 @@ export type Rule = {
 export type OutputLine = {
   text: string
   editedText?: string
+  /** 사용자가 이 줄을 통째로 뺐다. 복사와 집계에서 빠지고, 고침으로 센다 */
+  deleted?: boolean
   sourceIds: number[]
   ruleIds: string[]
   status: LineStatus

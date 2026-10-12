@@ -49,8 +49,15 @@ export type EditedPair = { before: string; after: string }
 const MAX_PAIRS = 5
 
 // 사용자가 실제로 고친 줄만 고치기 전·후로 모은다
-export const editedPairs = (lines: { text: string; editedText?: string }[]): EditedPair[] =>
-  lines.flatMap((line) => (line.editedText !== undefined ? [{ before: line.text, after: line.editedText }] : [])).slice(0, MAX_PAIRS)
+export const DELETED_AFTER = '(삭제함)'
+
+// 고친 줄과 삭제한 줄을 고치기 전·후로 모은다. 삭제한 줄의 후는 DELETED_AFTER다.
+export const editedPairs = (lines: { text: string; editedText?: string; deleted?: boolean }[]): EditedPair[] =>
+  lines
+    .flatMap((line) =>
+      line.deleted ? [{ before: line.text, after: DELETED_AFTER }] : line.editedText !== undefined ? [{ before: line.text, after: line.editedText }] : [],
+    )
+    .slice(0, MAX_PAIRS)
 
 export const buildRuleCandidatePrompt = (pairs: EditedPair[], rules: Rule[]) =>
   [
@@ -61,6 +68,7 @@ export const buildRuleCandidatePrompt = (pairs: EditedPair[], rules: Rule[]) =>
     '  ② 기존 규칙과 뜻이 같거나, 기존 규칙이 이미 포함하는 내용일 때. 표현이 다르거나 조금 더 구체적으로 쓴 것도 겹치는 것으로 봅니다.',
     '  (예: 기존 규칙이 "숫자는 메모에 있는 것만 쓴다"일 때 "수치는 메모에 적힌 사실만 쓴다"는 겹칩니다.)',
     '- 기존 규칙에 없는 새 약속일 때만 규칙을 줍니다.',
+    `- 고친 후가 "${DELETED_AFTER}"이면 사용자가 그 줄을 통째로 뺀 것입니다. 이런 줄을 쓰지 말라는 뜻이니, 어떤 종류의 줄을 쓰지 않을지를 규칙으로 만들어 주세요.`,
     '- 응답은 JSON만 출력합니다. 형식: {"rule": "한 줄 규칙"}',
     '',
     '[기존 규칙]',

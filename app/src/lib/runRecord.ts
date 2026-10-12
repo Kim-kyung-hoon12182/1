@@ -7,7 +7,7 @@ export const QUICK_PASS_SECONDS = 5
 const normalize = (text: string) => text.replace(/[\s\p{P}]/gu, '')
 
 export const isEdited = (lines: OutputLine[]) =>
-  lines.some((line) => line.editedText !== undefined && normalize(line.editedText) !== normalize(line.text))
+  lines.some((line) => line.deleted === true || (line.editedText !== undefined && normalize(line.editedText) !== normalize(line.text)))
 
 // 넘긴 방식. 결과를 접어 둔 상태(skipped)는 확인 생략(F-13)을 만들 때 더한다.
 // 어느 값도 사람이 내용을 검토했다는 뜻이 아니다.

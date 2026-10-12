@@ -37,16 +37,22 @@ export const buildAiResult = (rawLines: RawLine[], sentences: string[]): RunResu
   })),
 })
 
-export const isFlagged = (line: OutputLine) => line.status !== 'has_source' && line.status !== 'heading'
+export const isFlagged = (line: OutputLine) => !line.deleted && line.status !== 'has_source' && line.status !== 'heading'
 
 export const flaggedIndexes = (lines: OutputLine[]) =>
   lines.flatMap((line, index) => (isFlagged(line) ? [index] : []))
 
 export const countByStatus = (lines: OutputLine[], status: LineStatus) =>
-  lines.filter((line) => line.status === status).length
+  lines.filter((line) => !line.deleted && line.status === status).length
 
-// 사용자가 고친 줄은 고친 글로, 아니면 AI가 쓴 글로 이어 붙인다
-export const finalTextOf = (lines: OutputLine[]) => lines.map((line) => line.editedText ?? line.text).join('\n')
+export const countDeleted = (lines: OutputLine[]) => lines.filter((line) => line.deleted).length
+
+// 사용자가 고친 줄은 고친 글로, 아니면 AI가 쓴 글로 이어 붙인다. 삭제한 줄은 뺀다
+export const finalTextOf = (lines: OutputLine[]) =>
+  lines
+    .filter((line) => !line.deleted)
+    .map((line) => line.editedText ?? line.text)
+    .join('\n')
 
 // 줄이 참고한 자료 문장 (없는 번호는 뺀다)
 export const citedSentences = (line: OutputLine, sentences: string[]): CitedSentence[] =>
