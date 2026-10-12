@@ -18,7 +18,7 @@ export default function OnboardingDialog({ onTour, onSkip }: OnboardingDialogPro
         className="mx-auto mb-4 h-32 w-auto"
       />
       <p className="mb-4 text-center text-body-md font-semibold text-on-surface">
-        고쳤는지를 일마다 기록하고, 고친 내용은 확인한 뒤 규칙으로 남겨요. 안 고친 기록이 쌓이면 맡겨볼 만한 때를 알려 줘요.
+        고쳤는지를 작업마다 기록하고, 고친 내용은 확인한 뒤 규칙으로 남겨요. 안 고친 기록이 쌓이면 맡겨볼 만한 때를 알려 줘요.
       </p>
       <div className="space-y-3 text-body-sm leading-relaxed text-on-surface-variant">
         <p>작업과 기록은 이 브라우저에만 저장돼요. 다른 기기에서는 보이지 않아요.</p>

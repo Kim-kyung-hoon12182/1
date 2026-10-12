@@ -21,10 +21,10 @@ app/
     App.tsx             화면 전환, 공통 헤더·푸터
     index.css           Tailwind 토큰(@theme), 전역 스타일
     pages/              화면 하나당 파일 하나 (RunPage.tsx 등). 화면 조립만 한다
-      run/ list/ create/  큰 화면은 같은 이름의 폴더에 조각을 나눠 둔다 (ResultCard.tsx 등)
-    components/         여러 화면에서 쓰는 UI (Button, Badge, Card, Notice, Field, AppHeader 등)
-    hooks/              상태와 동작 (useRunSession, useTaskDraft, useTasks 등)
-    lib/                React와 무관한 순수 로직 (evidence, streak, run, rules, storage 등)
+      run/ list/ create/ history/  큰 화면은 같은 이름의 폴더에 조각을 나눠 둔다 (ResultCard.tsx 등)
+    components/         여러 화면에서 쓰는 UI (Button, Badge, Card, Notice, Field, AppHeader, Dialog, TourOverlay 등)
+    hooks/              상태와 동작 (useRunSession, useTaskDraft, useTasks, useRoute, useTour 등)
+    lib/                React와 무관한 순수 로직 (evidence, streak, run, rules, storage, route, history, tour 등)
     types/              공용 타입 (task.ts)
     data/               예시 작업, AI 키가 없을 때 쓰는 예시 결과
   scripts/              로직 테스트. Node로 직접 실행하므로 상대 경로와 .ts 확장자로 import한다
