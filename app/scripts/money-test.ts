@@ -26,6 +26,9 @@ const CASES: { name: string; actual: unknown; expected: unknown }[] = [
   { name: '되돌리면 AI가 쓴 글의 판정으로 돌아간다', actual: [reverted.status, reverted.missingTokens, reverted.editedText], expected: ['not_in_input', ['12%'], undefined] },
   { name: '같은 글을 다시 고쳐도 원래 판정을 잃지 않는다', actual: withEditedText(unchanged, undefined, material).status, expected: 'not_in_input' },
   { name: '고쳐도 자료에 없는 금액이면 계속 걸린다', actual: statusOfText('화요일 매출은 8000만 원을 기록했습니다.', [1], material).status, expected: 'not_in_input' },
+  { name: '튜토리얼 안내대로 고친 줄은 경고가 풀린다', actual: withEditedText(base, '[매출] 9천만 원 / 목표 대비 달성 여부: 자료에 없음', material).status, expected: 'has_source' },
+  { name: '고치면서 [확인 필요]를 적은 줄은 계속 확인할 곳', actual: withEditedText(base, '매출은 [확인 필요]', material).status, expected: 'needs_check' },
+  { name: '고치면서 자료에 없는 숫자를 쓰면 계속 걸린다', actual: withEditedText(base, '매출은 3억 원입니다.', material).status, expected: 'not_in_input' },
 ]
 
 let failed = 0

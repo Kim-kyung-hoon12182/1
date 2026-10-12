@@ -19,5 +19,8 @@ export const withEditedText = (line: OutputLine, editedText: string | undefined,
     return { ...rest, editedText: undefined, ...(aiStatus ?? {}) }
   }
   const aiStatus = line.aiStatus ?? { status: line.status, missingTokens: line.missingTokens }
-  return { ...line, editedText, aiStatus, ...statusOfText(editedText, line.sourceIds, sentences) }
+  // 사용자가 직접 쓴 글은 겹침·시제·뒤집힘 같은 AI용 의심으로는 다시 걸지 않는다. 자료에 없는 숫자·이름과 [확인 필요]만 남긴다.
+  const checked = statusOfText(editedText, line.sourceIds, sentences)
+  const next = checked.status === 'needs_check' && checked.missingTokens.length === 0 && !hasUnknownMark(editedText) ? { status: 'has_source' as const, missingTokens: [] } : checked
+  return { ...line, editedText, aiStatus, ...next }
 }
