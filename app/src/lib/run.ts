@@ -1,6 +1,6 @@
 import type { Sample } from '@/data/sampleTasks'
 import { checkLine, hasUnbackedFlip, hasUnbackedFuture, type LineStatus } from '@/lib/evidence'
-import { isHeading } from '@/lib/heading'
+import { statusOfText } from '@/lib/lineEdit'
 import { hasUnknownMark } from '@/lib/unknownMark'
 import { splitSentences } from '@/lib/material'
 import type { RawLine } from '@/lib/runPrompt'
@@ -26,16 +26,9 @@ export const buildSampleResult = (sample: Sample, material: string): RunResult =
 // AI가 준 줄에도 같은 검사를 붙인다. AI가 붙인 번호는 참고한 곳일 뿐 검증이 아니다 (F-04)
 export const buildAiResult = (rawLines: RawLine[], sentences: string[]): RunResult => ({
   sentences,
-  lines: rawLines.map((line) => ({
-    ...line,
-    ...(isHeading(line.text)
-      ? { status: 'heading' as const, missingTokens: [] }
-      : hasUnknownMark(line.text)
-        ? // AI가 스스로 모른다고 적은 줄은 근거 번호가 있어도 확인할 곳이다
-          { status: 'needs_check' as const, missingTokens: [] }
-        : checkLine(line.text, line.sourceIds, sentences)),
-  })),
+  lines: rawLines.map((line) => ({ ...line, ...statusOfText(line.text, line.sourceIds, sentences) })),
 })
+
 
 export const isFlagged = (line: OutputLine) => !line.deleted && line.status !== 'has_source' && line.status !== 'heading'
 

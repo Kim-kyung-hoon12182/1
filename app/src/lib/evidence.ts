@@ -61,9 +61,23 @@ const withoutKnownDates = (line: string, material: string) => {
   return drop(MONTH_DAY_KOR, result, (m) => two(m[1]) + two(m[2]), known.monthDay)
 }
 
+// 금액도 표기만 바꿔 쓰는 일이 흔하다("9천만 원" = "9000만 원" = "0.9억 원" = "90,000,000원"). 같은 금액이면 같은 값으로 본다.
+const MONEY = /(?:\d[\d,]*(?:\.\d+)?\s?(?:억|천만|백만|만|천|백)?\s?)+원/g
+const MONEY_PART = /(\d[\d,]*(?:\.\d+)?)\s?(억|천만|백만|만|천|백)?/g
+const MONEY_UNIT: Record<string, number> = { 억: 1e8, 천만: 1e7, 백만: 1e6, 만: 1e4, 천: 1e3, 백: 100 }
+
+const wonOf = (expression: string) =>
+  Math.round([...expression.matchAll(MONEY_PART)].reduce((sum, part) => sum + parseFloat(part[1].replace(/,/g, '')) * (part[2] ? MONEY_UNIT[part[2]] : 1), 0))
+
+// 줄에서 자료에도 있는 금액(표기가 달라도 같은 값)을 지운다. 자료에 없는 금액은 남겨서 그대로 걸린다.
+const withoutKnownMoney = (line: string, material: string) => {
+  const known = new Set([...material.matchAll(MONEY)].map((match) => wonOf(match[0])))
+  return line.replace(MONEY, (whole) => (known.has(wonOf(whole)) ? ' ' : whole))
+}
+
 export const findMissingTokens = (line: string, material: string) => {
   const haystack = normalize(material)
-  const comparable = withoutKnownDates(line, material)
+  const comparable = withoutKnownMoney(withoutKnownDates(line, material), material)
   return [...extractNumbers(comparable), ...extractNames(line)].filter(
     (token) => !haystack.includes(normalize(token)),
   )

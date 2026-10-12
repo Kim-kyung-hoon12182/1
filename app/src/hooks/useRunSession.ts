@@ -3,6 +3,7 @@ import { getSample } from '@/data/sampleTasks'
 import { generateRun, type ApiErrorCode } from '@/lib/api'
 import { LEAVE_UNFINISHED_MESSAGE } from '@/lib/leave'
 import { buildSampleResult, finalTextOf, flaggedIndexes, type RunResult } from '@/lib/run'
+import { withEditedText } from '@/lib/lineEdit'
 import { editedPairs, mergePairs, toCorrections, type EditedPair } from '@/lib/rules'
 import { buildRunRecord, isEdited } from '@/lib/runRecord'
 import type { OutputLine, Run, Task } from '@/types/task'
@@ -181,8 +182,17 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     return next && next !== lines[index].text ? next : undefined
   }
 
+  // 줄의 글을 바꾸고 고친 글로 다시 검사한다
+  function applyEdit(index: number, value: string | undefined) {
+    if (finished) return
+    setResult((prev) =>
+      prev ? { ...prev, lines: prev.lines.map((line, i) => (i === index ? withEditedText(line, value, prev.sentences) : line)) } : prev,
+    )
+    setCopyState('idle')
+  }
+
   function finishEdit(index: number, value: string) {
-    updateLine(index, { editedText: editedTextOf(index, value) })
+    applyEdit(index, editedTextOf(index, value))
     draftRef.current = null
     setEditing(null)
   }
@@ -191,7 +201,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     draftRef.current = { index, value }
   }
 
-  const revertLine = (index: number) => updateLine(index, { editedText: undefined })
+  const revertLine = (index: number) => applyEdit(index, undefined)
 
   // 줄 삭제: 고치던 중이면 그 글은 접어 두고(고친 글은 남겨 되돌리면 살아난다) 줄을 뺀다
   function deleteLine(index: number) {
@@ -232,7 +242,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     const draft = draftRef.current
     const current =
       editing !== null && draft?.index === editing
-        ? lines.map((line, i) => (i === editing ? { ...line, editedText: editedTextOf(editing, draft.value) } : line))
+        ? lines.map((line, i) => (i === editing ? withEditedText(line, editedTextOf(editing, draft.value), sentences) : line))
         : lines
     const text = finalTextOf(current)
     const copied = await copyText(text)

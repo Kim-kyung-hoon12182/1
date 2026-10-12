@@ -15,6 +15,8 @@ export type Rule = {
 export type OutputLine = {
   text: string
   editedText?: string
+  /** 고치기 전(AI가 쓴 글)의 판정. 고친 글로 다시 검사한 뒤 되돌리면 이 판정으로 돌아간다 */
+  aiStatus?: { status: LineStatus; missingTokens: string[] }
   /** 사용자가 이 줄을 통째로 뺐다. 복사와 집계에서 빠지고, 고침으로 센다 */
   deleted?: boolean
   sourceIds: number[]
