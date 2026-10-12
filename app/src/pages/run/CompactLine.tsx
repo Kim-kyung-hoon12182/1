@@ -2,7 +2,8 @@ import Badge from '@/components/Badge'
 import Card from '@/components/Card'
 import IconButton from '@/components/IconButton'
 import type { RunSession } from '@/hooks/useRunSession'
-import { lineProps } from './lineProps'
+import { cn } from '@/lib/cn'
+import { lineProps, revealDelay } from './lineProps'
 import StatusLabel from './StatusLabel'
 
 type CompactLineProps = {
@@ -18,7 +19,11 @@ export default function CompactLine({ index, session }: CompactLineProps) {
     <Card
       as="li"
       padding="none"
-      className="flex scroll-mt-40 cursor-pointer items-center gap-3 border-l-4 border-transparent px-4 py-3 transition-shadow hover:shadow-md"
+      className={cn(
+        'flex scroll-mt-40 cursor-pointer items-center gap-3 border-l-4 border-transparent px-4 py-3 transition-shadow hover:shadow-md',
+        session.revealing && 'animate-result-in',
+      )}
+      style={session.revealing ? { animationDelay: `${revealDelay(index)}ms` } : undefined}
       {...lineProps(session, index, false)}
     >
       <Badge size="md" className="text-secondary">

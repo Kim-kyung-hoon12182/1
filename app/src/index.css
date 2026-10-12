@@ -73,6 +73,19 @@
 
   --animate-page-in: page-in 180ms ease-out;
   --animate-tour-nudge: tour-nudge 520ms ease-out;
+  --animate-result-in: result-in 320ms ease-out backwards;
+
+  /* 결과 카드가 차례로 떠오른다. 카드마다 늦춤(animation-delay)을 줘서 순서가 생긴다 */
+  @keyframes result-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
   /* 안내 중 막힌 곳을 눌렀을 때 강조 테두리를 한 번 흔든다 */
   @keyframes tour-nudge {
@@ -162,6 +175,11 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+    }
+
+    /* 움직임을 줄인 사람에게는 늦춤도 없이 바로 보여 준다 */
+    .animate-result-in {
+      animation-delay: 0ms !important;
     }
   }
 }

@@ -9,6 +9,9 @@ import type { OutputLine, Run, Task } from '@/types/task'
 type CopyState = 'idle' | 'done' | 'failed'
 
 // 실패해도 자료는 그대로 남아 있다 (F-03)
+// 카드가 차례로 나타나는 시간(마지막 카드가 다 나타날 때까지)
+const REVEAL_MS = 1500
+
 const RUN_FAILURE_NOTICE: Record<ApiErrorCode, string> = {
   no_key: 'AI 키가 설정되지 않아서 실행할 수 없어요. 예시 작업의 예시 자료는 키 없이도 돼요.',
   rate_limit: '지금 사용하는 사람이 많아요. 1분 뒤에 다시 실행해 주세요. 자료는 그대로 남아 있어요.',
@@ -25,6 +28,9 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
   const [notice, setNotice] = useState('')
   const [running, setRunning] = useState(false)
   const [isSampleResult, setIsSampleResult] = useState(false)
+  // 결과가 도착한 직후 잠깐만 카드를 차례로 보여 준다
+  const [revealing, setRevealing] = useState(false)
+  const revealTimer = useRef<number>(0)
   const [selected, setSelected] = useState<number | null>(null)
   const [editing, setEditing] = useState<number | null>(null)
   const [copyState, setCopyState] = useState<CopyState>('idle')
@@ -36,6 +42,8 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
   const fallbackRef = useRef<HTMLTextAreaElement>(null)
   // 고치는 중인 글. [복사하고 끝내기]를 누를 때 아직 확정 전이면 이 글까지 반영한다
   const draftRef = useRef<{ index: number; value: string } | null>(null)
+
+  useEffect(() => () => window.clearTimeout(revealTimer.current), [])
 
   const lines = useMemo(() => result?.lines ?? [], [result])
   const sentences = result?.sentences ?? []
@@ -93,6 +101,9 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     setIsSampleResult(isSample)
     shownAt.current = Date.now()
     resetView()
+    setRevealing(true)
+    window.clearTimeout(revealTimer.current)
+    revealTimer.current = window.setTimeout(() => setRevealing(false), REVEAL_MS)
   }
 
   // 체험용 작업의 예시 자료는 AI 없이 예시 결과를 보여 주고(F-09), 그 밖의 자료는 AI에 보낸다(F-03)
@@ -204,6 +215,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     result,
     notice,
     running,
+    revealing,
     isSampleResult,
     lines,
     sentences,

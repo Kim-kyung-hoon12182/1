@@ -11,7 +11,7 @@ import { circled } from '@/lib/material'
 import { citedSentences, describeReason, isFlagged } from '@/lib/run'
 import type { Task } from '@/types/task'
 import CompactLine from './CompactLine'
-import { lineProps } from './lineProps'
+import { lineProps, revealDelay } from './lineProps'
 import StatusLabel from './StatusLabel'
 
 type ResultCardProps = {
@@ -39,7 +39,10 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
         'flex scroll-mt-40 cursor-pointer flex-col gap-3 border-l-4 transition-shadow',
         flagged ? 'border-flag-bar' : 'border-transparent',
         isSelected ? 'ring-2 ring-primary' : 'hover:shadow-md',
+        // 고른 카드는 다시 떠오르지 않게 한다
+        session.revealing && !isSelected && 'animate-result-in',
       )}
+      style={session.revealing && !isSelected ? { animationDelay: `${revealDelay(index)}ms` } : undefined}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="space-y-1">

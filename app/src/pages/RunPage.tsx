@@ -9,6 +9,7 @@ import CopyBar from './run/CopyBar'
 import FinishedCard from './run/FinishedCard'
 import IntroGuide from './run/IntroGuide'
 import ResultCard from './run/ResultCard'
+import ResultSkeleton from './run/ResultSkeleton'
 import ResultSummary from './run/ResultSummary'
 import RunHeader from './run/RunHeader'
 import SourcePanel from './run/SourcePanel'
@@ -66,6 +67,8 @@ export default function RunPage({ task, prefillMaterial, onRecord, onAddRule, on
                 <CopyBar session={session} />
               )}
             </>
+          ) : session.running ? (
+            <ResultSkeleton />
           ) : (
             <EmptyState icon="article" title="아직 결과가 없어요" className="min-h-72 bg-surface-lowest">
               자료를 넣고 [실행하기]를 누르면 결과가 줄마다 나오고, 확인할 곳이 표시돼요. 처음이면 [예시 자료 넣기]로 먼저 해 보세요.

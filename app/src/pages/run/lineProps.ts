@@ -17,3 +17,6 @@ export function lineProps(session: RunSession, index: number, isSelected: boolea
     },
   }
 }
+
+// 카드가 나타나는 순서. 처음 12개만 0.07초씩 늦추고 나머지는 한꺼번에 보여 줘서 줄이 많아도 기다리지 않게 한다.
+export const revealDelay = (index: number) => Math.min(index, 11) * 70
