@@ -35,10 +35,10 @@ export const overlayClipPath = (holes: Box[], view: Viewport, radius = 10) => {
 type PlaceInput = { target: Box; contexts: Box[]; view: Viewport; size: { width: number; height: number }; gap?: number }
 export type BubblePosition = { left: number; top?: number; bottom?: number }
 
-// 말풍선을 놓을 자리. 밝게 보이는 곳(누를 곳과 같이 보여 주는 곳)을 가리지 않는 자리를 아래, 위, 오른쪽, 왼쪽 순서로 찾고 없으면 화면 아래 가운데에 둔다.
+// 말풍선을 놓을 자리. 아래, 위, 오른쪽, 왼쪽 순서로 찾는다. 먼저 밝게 보이는 곳 전부를 피하는 자리를, 없으면 누를 곳만 피하는 자리를 찾고,
+// 그래도 없으면 화면 아래(누를 곳이 거기 있으면 위) 가운데에 둔다. 누를 곳은 어떤 경우에도 가리지 않는다.
 export const placeBubble = ({ target, contexts, view, size, gap = 12 }: PlaceInput): BubblePosition => {
   const margin = 8
-  const avoid = [target, ...contexts].map((box) => grow(box, 4))
   const clampX = (x: number) => Math.min(Math.max(x, margin), view.width - size.width - margin)
   const clampY = (y: number) => Math.min(Math.max(y, margin), view.height - size.height - margin)
   const candidates: { box: Box; position: BubblePosition }[] = [
@@ -47,9 +47,15 @@ export const placeBubble = ({ target, contexts, view, size, gap = 12 }: PlaceInp
     { box: { left: right(target) + gap, top: clampY(target.top), ...size }, position: { left: right(target) + gap, top: clampY(target.top) } },
     { box: { left: target.left - gap - size.width, top: clampY(target.top), ...size }, position: { left: target.left - gap - size.width, top: clampY(target.top) } },
   ]
-  for (const { box, position } of candidates) {
-    const inside = box.left >= margin && box.top >= margin && right(box) <= view.width - margin && bottom(box) <= view.height - margin
-    if (inside && !avoid.some((area) => overlaps(box, area))) return position
+  const fits = (box: Box, avoid: Box[]) =>
+    box.left >= margin && box.top >= margin && right(box) <= view.width - margin && bottom(box) <= view.height - margin && !avoid.some((area) => overlaps(box, area))
+  const strict = [target, ...contexts].map((box) => grow(box, 4))
+  const loose = [grow(target, 4)]
+  for (const avoid of [strict, loose]) {
+    const found = candidates.find(({ box }) => fits(box, avoid))
+    if (found) return found.position
   }
-  return { left: Math.max((view.width - size.width) / 2, margin), bottom: 16 }
+  const left = Math.max((view.width - size.width) / 2, margin)
+  const bottomBox: Box = { left, top: view.height - 16 - size.height, ...size }
+  return overlaps(bottomBox, loose[0]) ? { left, top: 16 } : { left, bottom: 16 }
 }
