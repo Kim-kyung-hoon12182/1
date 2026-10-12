@@ -1,4 +1,4 @@
-export type TourScreen = 'tasks' | 'run'
+export type TourScreen = 'tasks' | 'run' | 'history'
 
 export type TourStep = {
   /** 화면에서 이 요소를 밝게 보여 준다 */
@@ -63,7 +63,20 @@ export const TOUR_STEPS: TourStep[] = [
     screen: 'run',
     optional: true,
     title: '맡겨볼 만한 때예요',
-    body: '체험용 작업은 앞의 1·2회차를 안 고친 기록으로 미리 채워 뒀어요. 안 고친 기록이 3번 쌓이면 이렇게 알려 줘요. 결과가 맞다는 뜻은 아니에요. [지시문 보기]를 눌러 보세요.',
+    body: '안 고친 기록이 3번 쌓이면 이렇게 알려 줘요. 체험용이라 앞의 두 번은 미리 채워 뒀어요. 결과가 맞다는 뜻은 아니에요. [지시문 보기]를 눌러 보세요.',
+  },
+  {
+    target: '[data-tour="nav-history"]',
+    screen: 'run',
+    title: '기록은 실행 이력에 쌓여요',
+    body: '실행할 때마다 고쳤는지, 복사했는지가 기록돼요. 위쪽 [실행 이력]을 눌러 보세요.',
+  },
+  {
+    target: '[data-tour="run-detail"]',
+    context: ['main ul > li:first-child'],
+    screen: 'history',
+    title: '지난 결과를 다시 봐요',
+    body: '방금 한 3회차가 맨 위에 있어요. [결과 보기]를 누르면 복사한 결과와 고친 곳을 볼 수 있어요. 1·2회차는 체험용으로 미리 채운 기록이라 결과가 없어요.',
   },
 ]
 

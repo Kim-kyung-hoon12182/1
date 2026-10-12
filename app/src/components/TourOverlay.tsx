@@ -29,7 +29,7 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
   const { rect, lost } = useTargetRect(step?.target ?? null, step?.optional ? TOUR_OPTIONAL_MS : TOUR_LOST_MS)
   const skipOptional = Boolean(lost && step?.optional)
   const contextRects = useRects(step?.context ?? [])
-  // 건너뛴 단계가 있으면 끝 카드에 "7 / 7"을 띄우지 않는다(안 본 단계가 있는데 다 본 것처럼 보이기 때문)
+  // 건너뛴 단계가 있으면 끝 카드에 마지막 단계 표시("9 / 9")를 띄우지 않는다(안 본 단계가 있는데 다 본 것처럼 보이기 때문)
   const skippedAny = useRef(false)
   // 눌러야 할 곳이 보일 때만 포커스를 가둔다. 안 보이면 안내가 화면을 막지 않으므로 가두지 않는다.
   useTourFocus(atEnd || Boolean(rect), index, step ? (step.advanceOn ?? step.target) : null)

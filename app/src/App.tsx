@@ -54,7 +54,8 @@ export default function App() {
 
   const navigate = (screen: Screen) => {
     if (screen === 'tasks') go({ screen: 'tasks' })
-    if (screen === 'history') go({ screen: 'history' })
+    // 안내 중에는 체험용 작업의 기록을 바로 보여 준다("내 작업 전체"에는 체험용 기록이 없다)
+    if (screen === 'history') go({ screen: 'history', taskId: tour.running ? demo.id : undefined })
     if (screen === 'run' && lastRun) go({ screen: 'run', ...lastRun })
   }
 

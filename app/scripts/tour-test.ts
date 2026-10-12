@@ -16,12 +16,12 @@ const names = TOUR_STEPS.map((step) => nameOf(step.target))
 const advanceNames = TOUR_STEPS.flatMap((step) => (step.advanceOn ? [nameOf(step.advanceOn)] : []))
 
 const CASES: { name: string; actual: unknown; expected: unknown }[] = [
-  { name: '안내는 7단계(마지막은 조건부)', actual: TOUR_STEPS.length, expected: 7 },
-  { name: '마지막 단계만 조건부', actual: TOUR_STEPS.map((step) => Boolean(step.optional)), expected: [false, false, false, false, false, false, true] },
+  { name: '안내는 9단계(7단계는 조건부)', actual: TOUR_STEPS.length, expected: 9 },
+  { name: '7단계만 조건부', actual: TOUR_STEPS.map((step) => Boolean(step.optional)), expected: [false, false, false, false, false, false, true, false, false] },
   { name: '모든 단계에 요소 이름이 있다', actual: names.every(Boolean), expected: true },
   { name: '요소 이름이 겹치지 않는다', actual: new Set(names).size, expected: names.length },
-  ...[...names, ...advanceNames].map((name) => ({ name: `화면에 data-tour="${name}"이 있다`, actual: source.includes(`data-tour="${name}"`), expected: true })),
-  { name: '단계 화면은 tasks 다음 run', actual: TOUR_STEPS.map((step) => step.screen), expected: ['tasks', 'run', 'run', 'run', 'run', 'run', 'run'] },
+  ...[...names, ...advanceNames].map((name) => ({ name: `화면에 data-tour="${name}"이 있다`, actual: source.includes(`data-tour="${name}"`) || source.includes(`data-tour={`) && source.includes(`'${name}'`), expected: true })),
+  { name: '단계 화면은 tasks, run, history', actual: TOUR_STEPS.map((step) => step.screen), expected: ['tasks', 'run', 'run', 'run', 'run', 'run', 'run', 'run', 'history'] },
   { name: '문구에 정확성을 보장하는 말이 없다', actual: TOUR_STEPS.some((step) => /정확해요|검증 완료|검토 완료|확인함|검토 기준/.test(step.title + step.body)), expected: false },
 ]
 

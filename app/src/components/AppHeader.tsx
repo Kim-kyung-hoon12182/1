@@ -56,6 +56,7 @@ export default function AppHeader({ current, runAvailable, onNavigate, onStartTo
                   key={item.id}
                   type="button"
                   aria-current={isCurrent ? 'page' : undefined}
+                  data-tour={item.id === 'history' ? 'nav-history' : undefined}
                   onClick={() => onNavigate(item.id)}
                   className={`${base} ${
                     isCurrent

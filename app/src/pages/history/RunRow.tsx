@@ -60,7 +60,7 @@ export default function RunRow({ entry, onRemove, onRun }: RunRowProps) {
       </p>
 
       <div className="flex flex-wrap items-center gap-2">
-        <Button size="sm" icon={open ? 'expand_less' : 'expand_more'} aria-expanded={open} onClick={() => setOpen((value) => !value)}>
+        <Button size="sm" data-tour="run-detail" icon={open ? 'expand_less' : 'expand_more'} aria-expanded={open} onClick={() => setOpen((value) => !value)}>
           {open ? '접기' : '결과 보기'}
         </Button>
         <Button size="sm" variant="ghost" icon="play_arrow" onClick={onRun}>
