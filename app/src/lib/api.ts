@@ -1,4 +1,5 @@
 import { splitSentences } from '@/lib/material'
+import { withResolvedSources } from '@/lib/citation'
 import { buildAiResult, type RunResult } from '@/lib/run'
 import { buildRunPrompt, parseRunResponse } from '@/lib/runPrompt'
 import { buildOverlapPrompt, buildRuleCandidatePrompt, buildRulePrompt, parseOverlap, parseRuleCandidate, parseRules, type EditedPair } from '@/lib/rules'
@@ -57,7 +58,8 @@ export async function generateRun(task: Task, material: string): Promise<RunOutc
   const sentences = splitSentences(material)
   try {
     const text = await requestGenerate(buildRunPrompt(task.answers, task.rules, sentences), { json: true })
-    const lines = parseRunResponse(text, sentences.length, task.rules)
+    // AI가 옮긴 글로 근거 번호를 바로잡는다. 번호는 긴 자료에서 자주 어긋난다
+    const lines = withResolvedSources(parseRunResponse(text, sentences.length, task.rules), sentences)
     return lines.length > 0 ? { result: buildAiResult(lines, sentences) } : { code: 'upstream' }
   } catch (error) {
     return { code: error instanceof ApiError ? error.code : 'network' }

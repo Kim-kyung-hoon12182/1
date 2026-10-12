@@ -1,6 +1,12 @@
 import type { Answers, Rule } from '@/types/task'
 
-export type RawLine = { text: string; sourceIds: number[]; ruleIds: string[] }
+export type RawLine = {
+  text: string
+  sourceIds: number[]
+  ruleIds: string[]
+  /** 근거 자료 문장에서 그대로 옮긴 짧은 글. 번호가 틀려도 앱이 이 글로 근거를 찾는다(lib/citation.ts) */
+  sourceQuotes?: string[]
+}
 
 // 자료 8,000자를 문장마다 한 줄로 옮겨도 넘지 않는 정도. 응답이 끝없이 길어지는 경우만 막는다
 const MAX_LINES = 300
@@ -21,8 +27,8 @@ export const buildRunPrompt = (answers: Answers, rules: Rule[], sentences: strin
     '- 자료에 없는 숫자, 이름, 사실은 쓰지 마세요. 모르는 부분은 "[확인 필요]"라고 쓰세요.',
     '- 결과는 줄 단위로 쓰고, 한 줄에는 하나의 내용만 담으세요.',
     '- 소제목이 필요하면 "[완료한 일]"처럼 대괄호로 감싼 짧은 줄로만 쓰세요. "여기까지예요" 같은 맺음 문장은 쓰지 마세요.',
-    '- 줄마다 근거가 된 자료 번호(sourceIds)와 지킨 규칙 번호(ruleIds)를 붙이세요. 근거가 없으면 빈 배열로 두세요.',
-    '- 응답은 JSON만 출력하세요. 형식: {"lines":[{"text":"줄 내용","sourceIds":[1],"ruleIds":["r1"]}]}',
+    '- 줄마다 근거가 된 자료 번호(sourceIds)와, 그 자료 문장에서 그대로 옮긴 짧은 글(sourceQuotes, 8~15글자)과, 지킨 규칙 번호(ruleIds)를 붙이세요. 번호는 틀리기 쉬우니 글을 자료와 똑같이 옮기세요. 근거가 없으면 빈 배열로 두세요.',
+    '- 응답은 JSON만 출력하세요. 형식: {"lines":[{"text":"줄 내용","sourceIds":[1],"sourceQuotes":["자료에서 옮긴 글"],"ruleIds":["r1"]}]}',
   ].join('\n')
 
 // 모델이 줄 끝에 근거 번호를 글로 붙이는 경우("... 제시 [1]")가 있어 지운다. 번호는 sourceIds로 따로 받는다
@@ -38,6 +44,12 @@ const toNumbers = (value: unknown): number[] =>
 
 const cleanIds = (value: unknown, valid: (id: number) => boolean) =>
   Array.isArray(value) ? [...new Set(value.flatMap(toNumbers).filter((id) => Number.isInteger(id) && valid(id)))] : []
+
+// 옮긴 글: 문자열만, 앞뒤 공백을 지우고, 너무 긴 건 자르고, 한 줄에 3개까지
+const cleanQuotes = (value: unknown): string[] =>
+  Array.isArray(value)
+    ? [...new Set(value.filter((quote): quote is string => typeof quote === 'string').map((quote) => quote.trim().slice(0, 60)).filter(Boolean))].slice(0, 3)
+    : []
 
 // 규칙 번호도 "r1"이 아니라 1로 주는 경우가 있어 r을 붙여 읽는다
 const cleanRuleIds = (value: unknown, ruleIds: string[]) =>
@@ -71,11 +83,13 @@ export const parseRunResponse = (text: string, sentenceCount: number, rules: Rul
       .flatMap((item): RawLine[] => {
         const text = typeof item?.text === 'string' ? stripCitationMarks(item.text) : ''
         if (!isRecord(item) || !text) return []
+        const sourceQuotes = cleanQuotes(item.sourceQuotes)
         return [
           {
             text,
             sourceIds: cleanIds(item.sourceIds, (id) => id >= 1 && id <= sentenceCount),
             ruleIds: cleanRuleIds(item.ruleIds, ruleIds),
+            ...(sourceQuotes.length > 0 ? { sourceQuotes } : {}),
           },
         ]
       })
