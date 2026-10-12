@@ -25,18 +25,31 @@ export const buildRunPrompt = (answers: Answers, rules: Rule[], sentences: strin
     '- 응답은 JSON만 출력하세요. 형식: {"lines":[{"text":"줄 내용","sourceIds":[1],"ruleIds":["r1"]}]}',
   ].join('\n')
 
+// 모델이 줄 끝에 근거 번호를 글로 붙이는 경우("... 제시 [1]")가 있어 지운다. 번호는 sourceIds로 따로 받는다
+const stripCitationMarks = (text: string) => text.replace(/\s*\[\d+(?:\s*,\s*\d+)*\]\s*$/, '').trim()
+
 const stripFence = (text: string) => text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim()
 
 const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null
 
-// 존재하지 않는 번호는 버린다
-const cleanIds = (value: unknown, valid: (id: number) => boolean) =>
-  Array.isArray(value)
-    ? [...new Set(value.filter((id): id is number => Number.isInteger(id) && valid(id)))]
-    : []
+// 모델이 번호를 숫자(1)로도, 글자("1")로도, "1, 2"처럼 묶어서도 준다. 숫자로 읽고, 존재하지 않는 번호는 버린다
+const toNumbers = (value: unknown): number[] =>
+  typeof value === 'number' ? [value] : typeof value === 'string' ? (value.match(/\d+/g) ?? []).map(Number) : []
 
+const cleanIds = (value: unknown, valid: (id: number) => boolean) =>
+  Array.isArray(value) ? [...new Set(value.flatMap(toNumbers).filter((id) => Number.isInteger(id) && valid(id)))] : []
+
+// 규칙 번호도 "r1"이 아니라 1로 주는 경우가 있어 r을 붙여 읽는다
 const cleanRuleIds = (value: unknown, ruleIds: string[]) =>
-  Array.isArray(value) ? [...new Set(value.filter((id): id is string => typeof id === 'string' && ruleIds.includes(id)))] : []
+  Array.isArray(value)
+    ? [
+        ...new Set(
+          value
+            .map((id) => (typeof id === 'number' ? `r${id}` : id))
+            .filter((id): id is string => typeof id === 'string' && ruleIds.includes(id)),
+        ),
+      ]
+    : []
 
 // JSON이 깨지면 글로 받아 줄 단위로 자르고 근거 번호는 비운다
 const splitPlainText = (text: string): RawLine[] =>
@@ -56,10 +69,11 @@ export const parseRunResponse = (text: string, sentenceCount: number, rules: Rul
     const ruleIds = rules.map((rule) => rule.id)
     return list
       .flatMap((item): RawLine[] => {
-        if (!isRecord(item) || typeof item.text !== 'string' || !item.text.trim()) return []
+        const text = typeof item?.text === 'string' ? stripCitationMarks(item.text) : ''
+        if (!isRecord(item) || !text) return []
         return [
           {
-            text: item.text.trim(),
+            text,
             sourceIds: cleanIds(item.sourceIds, (id) => id >= 1 && id <= sentenceCount),
             ruleIds: cleanRuleIds(item.ruleIds, ruleIds),
           },

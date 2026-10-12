@@ -3,6 +3,7 @@ import { SAMPLES } from '@/data/sampleTasks'
 import { generateRules } from '@/lib/api'
 import { NAME_MAX } from '@/lib/limits'
 import { toRules } from '@/lib/rules'
+import { suggestTaskName } from '@/lib/taskName'
 import type { Answers, Rule, SampleKey, Task } from '@/types/task'
 
 export type Phase = 'questions' | 'rules'
@@ -74,7 +75,7 @@ export function useTaskDraft(initialSampleKey: SampleKey | undefined, onSaved: (
     }
     setEditingId(null)
     setGeneratedFor(answersKey)
-    setName((prev) => prev || answers.what.trim().slice(0, NAME_MAX))
+    setName((prev) => prev || suggestTaskName(answers.what, NAME_MAX))
     setPhase('rules')
   }
 

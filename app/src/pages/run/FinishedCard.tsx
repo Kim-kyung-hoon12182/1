@@ -24,7 +24,7 @@ type FinishedCardProps = {
 // "안 고침"은 결과가 정확하다는 뜻이 아니다.
 const describeStreak = (run: Run, streak: number) => {
   if (!run.copied) return '복사가 안 돼서 이번 기록은 연속 안 고침에 넣지 않아요.'
-  if (run.edited) return '고친 내용이 있어서 연속 안 고침은 처음부터 다시 세요.'
+  if (run.edited) return '고친 내용이 있어서 연속 안 고침을 처음부터 다시 세어요.'
   if (run.passState === 'quick_pass') return '확인할 곳을 보기 전에 빠르게 넘겨서 연속 안 고침에 넣지 않아요.'
   if (streak >= HANDOFF_STREAK) return `안 고친 기록이 연속 ${streak}번이에요.`
   return `안 고친 기록이 연속 ${streak}번이에요. ${HANDOFF_STREAK - streak}번 더 이어지면 맡겨볼 만한 때를 알려 줘요.`
