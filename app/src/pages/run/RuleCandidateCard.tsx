@@ -5,6 +5,7 @@ import Icon from '@/components/Icon'
 import Notice from '@/components/Notice'
 import { useRuleCandidate } from '@/hooks/useRuleCandidate'
 import { RULE_MAX } from '@/lib/limits'
+import { editedPairs } from '@/lib/rules'
 import type { OutputLine, Rule, Run, Task } from '@/types/task'
 
 type RuleCandidateCardProps = {
@@ -14,9 +15,14 @@ type RuleCandidateCardProps = {
   onAddRule: (rule: Rule) => void
 }
 
+const SHOWN_CHARS = 70
+const shorten = (text: string) => (text.length > SHOWN_CHARS ? `${text.slice(0, SHOWN_CHARS)}…` : text)
+
 // S4 규칙 추가 확인: 고친 내용을 다음에도 지킬 규칙으로 남길지 묻는다 (F-05)
 export default function RuleCandidateCard({ task, run, lines, onAddRule }: RuleCandidateCardProps) {
   const candidate = useRuleCandidate(task, run, lines, onAddRule)
+  // 어떤 고침에서 나온 규칙인지 보여 줘야 규칙이 낯선 사람도 이유를 안다
+  const pairs = editedPairs(lines)
 
   if (candidate.phase === 'none' || candidate.phase === 'closed') return null
 
@@ -53,6 +59,22 @@ export default function RuleCandidateCard({ task, run, lines, onAddRule }: RuleC
           </p>
         </div>
       </div>
+
+      {pairs.length > 0 && (
+        <div className="space-y-1.5 rounded-lg bg-surface-low p-3 text-body-sm">
+          <p className="text-label-md text-secondary">
+            이렇게 고쳤어요{pairs.length > 1 ? ` (${pairs.length}곳 중 첫 번째)` : ''}
+          </p>
+          <p className="flex items-start gap-2">
+            <span className="mt-0.5 shrink-0 rounded bg-neutral-soft px-1.5 text-label-sm text-neutral-text">전</span>
+            <span className="text-on-surface-variant line-through decoration-outline">{shorten(pairs[0].before)}</span>
+          </p>
+          <p className="flex items-start gap-2">
+            <span className="mt-0.5 shrink-0 rounded bg-primary-fixed px-1.5 text-label-sm text-on-primary-fixed">후</span>
+            <span>{shorten(pairs[0].after)}</span>
+          </p>
+        </div>
+      )}
 
       <TextInput
         value={candidate.text}
