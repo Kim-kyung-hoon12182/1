@@ -67,6 +67,11 @@ export const overlapRatio = (line: string, source: string) => {
   return matched.length / lineWords.length
 }
 
+// "끝낸 일"을 "앞으로 할 일"로 바꿔 쓰는 오류(시제 바꿈)를 잡기 위한 말. 근거 문장에 같은 말이 없는데 줄에만 있으면 확인할 곳이다.
+export const FUTURE_WORDS = ['예정', '계획', '할 것입니다', '할 것이다', '하겠습니다', '하겠다']
+
+export const hasUnbackedFuture = (line: string, source: string) => FUTURE_WORDS.some((word) => line.includes(word) && !source.includes(word))
+
 export const hasUnbackedFlip = (line: string, source: string) =>
   FLIP_WORDS.some((word) => line.includes(word) && !source.includes(word))
 
@@ -91,7 +96,7 @@ export const checkLine = (
 
   const source = cited.join(' ')
   const overlap = overlapRatio(line, source)
-  if (hasUnbackedFlip(line, source) || overlap < minOverlap) {
+  if (hasUnbackedFlip(line, source) || hasUnbackedFuture(line, source) || overlap < minOverlap) {
     return { status: 'needs_check', missingTokens: [], overlap }
   }
   return { status: 'has_source', missingTokens: [], overlap }

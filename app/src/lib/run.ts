@@ -1,5 +1,5 @@
 import type { Sample } from '@/data/sampleTasks'
-import { checkLine, hasUnbackedFlip, type LineStatus } from '@/lib/evidence'
+import { checkLine, hasUnbackedFlip, hasUnbackedFuture, type LineStatus } from '@/lib/evidence'
 import { isHeading } from '@/lib/heading'
 import { hasUnknownMark } from '@/lib/unknownMark'
 import { splitSentences } from '@/lib/material'
@@ -72,6 +72,9 @@ export const describeReason = (line: OutputLine, sentences: string[]) => {
   if (cited.length === 0) return 'AI가 근거로 참고한 자료가 없어요.'
   if (hasUnbackedFlip(line.text, cited.map((item) => item.text).join(' '))) {
     return '이 줄에는 참고한 자료에 없는 "실패·못·않·없" 같은 뒤집는 말이 들어 있어요. 뜻이 바뀌지 않았는지 확인해 주세요.'
+  }
+  if (hasUnbackedFuture(line.text, cited.map((item) => item.text).join(' '))) {
+    return '이 줄에는 참고한 자료에 없는 "예정·계획" 같은 앞으로의 일을 뜻하는 말이 들어 있어요. 이미 끝난 일을 앞으로 할 일처럼 바꿔 쓰지 않았는지 확인해 주세요.'
   }
   return '참고한 자료와 겹치는 낱말이 적어요. 다른 문장을 참고한 건 아닌지 확인해 주세요.'
 }

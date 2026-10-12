@@ -8,7 +8,7 @@ export const GUIDE_STEPS = [
 
 export const LEGEND = [
   { status: 'has_source', name: '참고한 곳', body: 'AI가 근거라고 참고한 자료 위치예요. 뜻이 맞는지는 확인하지 않았어요.' },
-  { status: 'needs_check', name: '근거 확인 필요', body: '참고한 자료가 없거나, 겹치는 낱말이 적거나, 뒤집는 말이 자료에 없어요.' },
+  { status: 'needs_check', name: '근거 확인 필요', body: '참고한 자료가 없거나, 겹치는 낱말이 적거나, 뒤집는 말이나 "예정·계획" 같은 말이 자료에 없어요.' },
   { status: 'not_in_input', name: '자료에 없음', body: '줄의 숫자·날짜·이름이 자료에서 보이지 않아요.' },
   { status: 'heading', name: '제목', body: '[제목]처럼 구분용으로 쓴 짧은 글이에요. 내용이 아니라서 자료와 맞춰 보지 않아요.' },
 ] as const
