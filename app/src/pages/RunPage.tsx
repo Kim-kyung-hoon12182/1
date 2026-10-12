@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import EmptyState from '@/components/EmptyState'
 import PageContainer from '@/components/PageContainer'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
@@ -18,14 +18,22 @@ type RunPageProps = {
   prefillMaterial: boolean
   onRecord: (run: Run) => void
   onAddRule: (rule: Rule) => void
+  /** 복사하지 않은 결과가 있는지(나갈 때 묻기 위해) */
+  onUnfinishedChange: (unfinished: boolean) => void
   onGoToTasks: () => void
 }
 
 // S3 실행·결과: 왼쪽에 자료, 오른쪽에 줄마다 참고한 자료와 확인할 곳
-export default function RunPage({ task, prefillMaterial, onRecord, onAddRule, onGoToTasks }: RunPageProps) {
+export default function RunPage({ task, prefillMaterial, onRecord, onAddRule, onUnfinishedChange, onGoToTasks }: RunPageProps) {
   const session = useRunSession(task, prefillMaterial, onRecord)
   const hasResult = session.result !== null
   const [guideOpen, setGuideOpen] = useState(false)
+  const unfinished = session.result !== null && session.finished === null
+
+  useEffect(() => {
+    onUnfinishedChange(unfinished)
+    return () => onUnfinishedChange(false)
+  }, [unfinished])
 
   useDocumentTitle(task.name)
 

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { getSample } from '@/data/sampleTasks'
 import { generateRun, type ApiErrorCode } from '@/lib/api'
+import { LEAVE_UNFINISHED_MESSAGE } from '@/lib/leave'
 import { buildSampleResult, finalTextOf, flaggedIndexes, type RunResult } from '@/lib/run'
 import { buildRunRecord } from '@/lib/runRecord'
 import type { OutputLine, Run, Task } from '@/types/task'
@@ -108,6 +109,8 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
   }
 
   function backToInput() {
+    // 복사하지 않은 결과가 있으면 지우기 전에 묻는다
+    if (result && !finished && !window.confirm(LEAVE_UNFINISHED_MESSAGE)) return
     setResult(null)
     resetView()
   }

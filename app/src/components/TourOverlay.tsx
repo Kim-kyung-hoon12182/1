@@ -12,13 +12,15 @@ type TourOverlayProps = {
   onSkip: () => void
   onNext: () => void
   onFinish: () => void
+  /** 안내를 끝내고 내 작업 만들기로 */
+  onCreate: () => void
 }
 
 const PAD = 8
 const PANEL = 'fixed z-[60] bg-on-surface/45 backdrop-blur-[3px]'
 
 // 안내 모드: 회색 블러로 화면을 덮고 지금 누를 곳만 밝게 보여 준다. 밝은 곳은 막지 않아서 실제로 눌린다.
-export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext, onFinish }: TourOverlayProps) {
+export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext, onFinish, onCreate }: TourOverlayProps) {
   const { rect, lost } = useTargetRect(step?.target ?? null, step?.optional ? TOUR_OPTIONAL_MS : TOUR_LOST_MS)
   const skipOptional = Boolean(lost && step?.optional)
 
@@ -31,9 +33,12 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
     return (
       <div className="fixed inset-0 z-[60] flex items-center justify-center bg-on-surface/45 p-4 backdrop-blur-[3px]">
         <Bubble title={TOUR_END.title} body={TOUR_END.body} counter={`${total} / ${total}`}>
-          <Button variant="primary" onClick={onFinish}>
-            닫기
-          </Button>
+          <div className="flex gap-2">
+            <Button onClick={onFinish}>닫기</Button>
+            <Button variant="primary" icon="add" onClick={onCreate}>
+              내 작업 만들기
+            </Button>
+          </div>
         </Bubble>
       </div>
     )

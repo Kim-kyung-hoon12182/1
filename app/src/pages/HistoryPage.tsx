@@ -17,6 +17,10 @@ type HistoryPageProps = {
   demo: Task
   onGoToTasks: () => void
   onRemoveRun: (taskId: string, runId: string) => void
+  /** 이 기록의 작업을 다시 실행 */
+  onRunTask: (taskId: string) => void
+  /** 처음에 이 작업의 이력만 보여 줄 때 */
+  initialTaskId?: string
 }
 
 const FILTERS: { id: RunFilter; label: string }[] = [
@@ -30,8 +34,9 @@ const PAGE_SIZE = 20
 const DEMO_SCOPE = 'demo'
 
 // 실행 이력: 작업별 기록을 모아 보고, 회차마다 얼마나 고쳤는지 추이를 본다
-export default function HistoryPage({ tasks, demo, onGoToTasks, onRemoveRun }: HistoryPageProps) {
-  const [scope, setScope] = useState('all')
+export default function HistoryPage({ tasks, demo, onGoToTasks, onRemoveRun, onRunTask, initialTaskId }: HistoryPageProps) {
+  const knownScope = initialTaskId && [...tasks, demo].some((task) => task.id === initialTaskId)
+  const [scope, setScope] = useState(knownScope ? (initialTaskId as string) : 'all')
   const [filter, setFilter] = useState<RunFilter>('all')
   const [shown, setShown] = useState(PAGE_SIZE)
   useDocumentTitle('실행 이력')
@@ -139,7 +144,12 @@ export default function HistoryPage({ tasks, demo, onGoToTasks, onRemoveRun }: H
           ) : (
             <ul className="space-y-3">
               {visible.slice(0, shown).map((entry) => (
-                <RunRow key={entry.run.id} entry={entry} onRemove={() => onRemoveRun(entry.taskId, entry.run.id)} />
+                <RunRow
+                  key={entry.run.id}
+                  entry={entry}
+                  onRemove={() => onRemoveRun(entry.taskId, entry.run.id)}
+                  onRun={() => onRunTask(entry.taskId)}
+                />
               ))}
             </ul>
           )}

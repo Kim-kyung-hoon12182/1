@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import AppFooter from '@/components/AppFooter'
 import AppHeader, { type Screen } from '@/components/AppHeader'
 import Notice from '@/components/Notice'
@@ -8,6 +8,7 @@ import { useRoute } from '@/hooks/useRoute'
 import { useScrollToTop } from '@/hooks/useScrollToTop'
 import { useTasks } from '@/hooks/useTasks'
 import { useTour } from '@/hooks/useTour'
+import { LEAVE_UNFINISHED_MESSAGE } from '@/lib/leave'
 import { STORAGE_FULL_MESSAGE } from '@/lib/storage'
 import RunPage from '@/pages/RunPage'
 import HistoryPage from '@/pages/HistoryPage'
@@ -18,7 +19,9 @@ import type { Task } from '@/types/task'
 export default function App() {
   const { tasks, demo, saveFailed, addTask, addRun, addRule, updateRule, removeRule, removeRun, removeTask, resetDemo, findTask } =
     useTasks()
-  const [view, go] = useRoute()
+  // 복사하지 않은 결과가 있는 실행 화면에서 나가려 하면 한 번 묻는다 (RunPage가 알려 준다)
+  const unfinishedRef = useRef(false)
+  const [view, go] = useRoute(() => !unfinishedRef.current || window.confirm(LEAVE_UNFINISHED_MESSAGE))
   const tour = useTour(view.screen)
   // 처음 오는 사람(저장한 작업도, 안내를 본 기록도 없음)에게만 첫 방문 안내(S0)를 보여 준다
   const [onboardingOpen, setOnboardingOpen] = useState(() => tour.status === null && tasks.length === 0)
@@ -36,6 +39,12 @@ export default function App() {
     resetDemo()
     go({ screen: 'tasks' })
     tour.start()
+  }
+
+  // 안내를 끝내고 바로 내 작업을 만든다
+  const finishTourAndCreate = () => {
+    tour.stop('done')
+    go({ screen: 'create' })
   }
 
   const skipOnboarding = () => {
@@ -62,6 +71,15 @@ export default function App() {
   useEffect(() => {
     if (view.screen === 'run' && !findTask(view.taskId)) go({ screen: 'tasks' }, { replace: true })
   }, [view])
+
+  // 복사하지 않은 결과가 있는 채로 탭을 닫거나 새로고침하면 브라우저가 한 번 묻는다
+  useEffect(() => {
+    const warn = (event: BeforeUnloadEvent) => {
+      if (unfinishedRef.current) event.preventDefault()
+    }
+    window.addEventListener('beforeunload', warn)
+    return () => window.removeEventListener('beforeunload', warn)
+  }, [])
 
   useScrollToTop(
     view.screen,
@@ -97,10 +115,22 @@ export default function App() {
           onUpdateRule={updateRule}
           onRemoveRule={removeRule}
           onRemoveTask={removeTask}
+          onHistory={(task) => go({ screen: 'history', taskId: task.id })}
         />
       )}
       {view.screen === 'history' && (
-        <HistoryPage tasks={tasks} demo={demo} onGoToTasks={() => go({ screen: 'tasks' })} onRemoveRun={removeRun} />
+        <HistoryPage
+          key={view.taskId ?? 'all'}
+          tasks={tasks}
+          demo={demo}
+          initialTaskId={view.taskId}
+          onGoToTasks={() => go({ screen: 'tasks' })}
+          onRemoveRun={removeRun}
+          onRunTask={(taskId) => {
+            const task = findTask(taskId)
+            if (task) runTask(task, task.isDemo === true && !tour.running)
+          }}
+        />
       )}
       {view.screen === 'create' && (
         <TaskCreatePage
@@ -120,6 +150,9 @@ export default function App() {
           prefillMaterial={view.prefill}
           onRecord={(run) => addRun(runningTask.id, run)}
           onAddRule={(rule) => addRule(runningTask.id, rule)}
+          onUnfinishedChange={(unfinished) => {
+            unfinishedRef.current = unfinished
+          }}
           onGoToTasks={() => go({ screen: 'tasks' })}
         />
       )}
@@ -133,6 +166,7 @@ export default function App() {
           total={tour.total}
           onSkip={() => tour.stop('skipped')}
           onNext={tour.next}
+          onCreate={finishTourAndCreate}
           onFinish={() => tour.stop('done')}
         />
       )}

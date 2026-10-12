@@ -21,6 +21,7 @@ type TaskListPageProps = {
   onUpdateRule: (taskId: string, ruleId: string, text: string) => void
   onRemoveRule: (taskId: string, ruleId: string) => void
   onRemoveTask: (taskId: string) => void
+  onHistory: (task: Task) => void
 }
 
 // S1 내 작업: 등록한 작업과 예시 작업을 보여 주고 실행으로 이어 준다
@@ -34,6 +35,7 @@ export default function TaskListPage({
   onUpdateRule,
   onRemoveRule,
   onRemoveTask,
+  onHistory,
 }: TaskListPageProps) {
   const [handoffTask, setHandoffTask] = useState<Task | null>(null)
   const [rulesTaskId, setRulesTaskId] = useState<string | null>(null)
@@ -71,7 +73,7 @@ export default function TaskListPage({
       ) : (
         <section aria-label="등록한 작업" className="flex flex-col gap-3">
           {newestFirst.map((task) => (
-            <TaskCard key={task.id} task={task} onRun={onRun} onHandoff={setHandoffTask} onRules={(t) => setRulesTaskId(t.id)} />
+            <TaskCard key={task.id} task={task} onRun={onRun} onHandoff={setHandoffTask} onRules={(t) => setRulesTaskId(t.id)} onHistory={onHistory} />
           ))}
         </section>
       )}
@@ -83,7 +85,7 @@ export default function TaskListPage({
             체험 초기화
           </Button>
         </div>
-        <TaskCard task={demo} onRun={onRun} onHandoff={setHandoffTask} onRules={(t) => setRulesTaskId(t.id)} />
+        <TaskCard task={demo} onRun={onRun} onHandoff={setHandoffTask} onRules={(t) => setRulesTaskId(t.id)} onHistory={onHistory} />
       </section>
 
       {rulesTask && (

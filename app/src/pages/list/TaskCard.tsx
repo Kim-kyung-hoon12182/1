@@ -23,10 +23,12 @@ type TaskCardProps = {
   onHandoff: (task: Task) => void
   /** [규칙 보기] (S1-6) */
   onRules: (task: Task) => void
+  /** [이력 보기]: 이 작업의 실행 이력으로 */
+  onHistory: (task: Task) => void
 }
 
 // 내 작업 한 줄 (S1-3): 이름, 규칙, 최근 기록, 상태, 실행하기
-export default function TaskCard({ task, onRun, onHandoff, onRules }: TaskCardProps) {
+export default function TaskCard({ task, onRun, onHandoff, onRules, onHistory }: TaskCardProps) {
   const ready = isHandoffReady(task.runs)
   const shownRules = task.rules.slice(0, SHOWN_RULES)
   const hiddenCount = task.rules.length - shownRules.length
@@ -88,6 +90,11 @@ export default function TaskCard({ task, onRun, onHandoff, onRules }: TaskCardPr
           <Button icon="rule" onClick={() => onRules(task)}>
             규칙 보기
           </Button>
+          {task.runs.length > 0 && (
+            <Button icon="history" onClick={() => onHistory(task)}>
+              이력 보기
+            </Button>
+          )}
           <Button variant="primary" icon="play_arrow" className="text-headline-sm" onClick={() => onRun(task)}>
             실행하기
           </Button>

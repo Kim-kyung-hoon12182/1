@@ -7,6 +7,7 @@ const VIEWS: { name: string; view: View; hash: string }[] = [
   { name: '실행', view: { screen: 'run', taskId: 'abc', prefill: false }, hash: '#/run/abc' },
   { name: '예시 자료를 채워 실행', view: { screen: 'run', taskId: 'demo', prefill: true }, hash: '#/run/demo?prefill=1' },
   { name: '실행 이력', view: { screen: 'history' }, hash: '#/history' },
+  { name: '작업 하나의 실행 이력', view: { screen: 'history', taskId: 'abc' }, hash: '#/history?task=abc' },
   { name: '특수문자 id', view: { screen: 'run', taskId: 'a/b c', prefill: false }, hash: '#/run/a%2Fb%20c' },
 ]
 

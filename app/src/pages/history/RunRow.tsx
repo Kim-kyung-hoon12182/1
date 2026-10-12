@@ -9,6 +9,7 @@ import type { HistoryEntry } from '@/lib/history'
 type RunRowProps = {
   entry: HistoryEntry
   onRemove: () => void
+  onRun: () => void
 }
 
 const formatDate = (iso: string) => {
@@ -18,7 +19,7 @@ const formatDate = (iso: string) => {
 }
 
 // 실행 기록 한 줄: 결과 상태와 자료, 눌러서 결과와 고친 곳을 읽는다
-export default function RunRow({ entry, onRemove }: RunRowProps) {
+export default function RunRow({ entry, onRemove, onRun }: RunRowProps) {
   const { run, taskName, isDemo } = entry
   const [open, setOpen] = useState(false)
   const [confirming, setConfirming] = useState(false)
@@ -61,6 +62,9 @@ export default function RunRow({ entry, onRemove }: RunRowProps) {
       <div className="flex flex-wrap items-center gap-2">
         <Button size="sm" icon={open ? 'expand_less' : 'expand_more'} aria-expanded={open} onClick={() => setOpen((value) => !value)}>
           {open ? '접기' : '결과 보기'}
+        </Button>
+        <Button size="sm" variant="ghost" icon="play_arrow" onClick={onRun}>
+          이 작업 실행
         </Button>
         {confirming ? (
           <span role="alert" className="flex flex-wrap items-center gap-1.5 text-body-sm font-semibold text-flag-text">
