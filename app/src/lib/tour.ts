@@ -18,14 +18,12 @@ export type TourStep = {
 export const TOUR_STEPS: TourStep[] = [
   {
     target: '[data-tour="try-demo"]',
-    context: ['[data-tour="app-header"]', '[data-tour="screen-title"]'],
     screen: 'tasks',
     title: '예시로 먼저 해 볼게요',
     body: '[예시로 체험해 보기]를 눌러 보세요. 체험용 작업이라 실제 작업에는 영향이 없어요.',
   },
   {
     target: '[data-tour="load-sample"]',
-    context: ['[data-tour="app-header"]', '[data-tour="screen-title"]'],
     screen: 'run',
     title: '자료를 넣어요',
     body: '글의 바탕이 될 자료가 필요해요. [예시 자료 넣기]를 눌러 보세요.',

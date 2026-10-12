@@ -29,7 +29,7 @@ const disabledReason = (id: Screen, runAvailable: boolean) => {
 
 export default function AppHeader({ current, runAvailable, onNavigate, onStartTour }: AppHeaderProps) {
   return (
-    <header data-tour="app-header" className="sticky top-0 z-40 border-b border-outline-variant bg-surface-lowest">
+    <header className="sticky top-0 z-40 border-b border-outline-variant bg-surface-lowest">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-8">
         <div className="flex h-full items-center gap-4 sm:gap-8">
           <img src="/logo-header.png" alt="또시켰네" width="120" height="48" className="h-12 w-auto shrink-0" />

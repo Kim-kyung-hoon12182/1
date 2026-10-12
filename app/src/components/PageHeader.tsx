@@ -33,7 +33,7 @@ export default function PageHeader({
   const body = (
     <>
       <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
-        <div data-tour="screen-title" className="min-w-0 max-w-3xl space-y-1">
+        <div className="min-w-0 max-w-3xl space-y-1">
           {eyebrow}
           <h1 className="text-headline-lg tracking-tight">{title}</h1>
           {description && <p className="text-body-md leading-relaxed text-on-surface-variant">{description}</p>}
