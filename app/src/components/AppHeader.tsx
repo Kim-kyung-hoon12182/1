@@ -31,13 +31,13 @@ export default function AppHeader({ current, runAvailable, onNavigate, onStartTo
   return (
     <header className="sticky top-0 z-40 border-b border-outline-variant bg-surface-lowest">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-8">
-        <div className="flex h-full items-center gap-4 sm:gap-8">
-          <img src="/logo-header.png" alt="또시켰네" width="120" height="48" className="h-12 w-auto shrink-0" />
-          <nav aria-label="주 메뉴" className="flex h-full items-center gap-4">
+        <div className="flex h-full min-w-0 items-center gap-2 sm:gap-8">
+          <img src="/logo-header.png" alt="또시켰네" width="120" height="48" className="h-9 w-auto shrink-0 sm:h-12" />
+          <nav aria-label="주 메뉴" className="flex h-full items-center gap-3 sm:gap-4">
             {NAV_ITEMS.map((item) => {
               const isCurrent = item.id === current
               const reason = disabledReason(item.id, runAvailable)
-              const base = 'flex h-full items-center whitespace-nowrap border-b-2 px-1 transition-colors'
+              const base = 'flex h-full shrink-0 items-center whitespace-nowrap border-b-2 px-0.5 text-body-sm transition-colors sm:px-1 sm:text-body-md'
               if (reason) {
                 return (
                   <button
@@ -45,7 +45,7 @@ export default function AppHeader({ current, runAvailable, onNavigate, onStartTo
                     type="button"
                     aria-disabled="true"
                     title={reason}
-                    className={`${base} cursor-not-allowed border-transparent text-body-md text-outline`}
+                    className={`${base} cursor-not-allowed border-transparent text-outline`}
                   >
                     {item.label}
                   </button>
@@ -60,8 +60,8 @@ export default function AppHeader({ current, runAvailable, onNavigate, onStartTo
                   onClick={() => onNavigate(item.id)}
                   className={`${base} ${
                     isCurrent
-                      ? 'border-primary text-headline-sm text-primary'
-                      : 'border-transparent text-body-md text-on-surface-variant hover:text-on-surface'
+                      ? 'border-primary font-semibold text-primary'
+                      : 'border-transparent text-on-surface-variant hover:text-on-surface'
                   }`}
                 >
                   {item.label}
@@ -73,10 +73,11 @@ export default function AppHeader({ current, runAvailable, onNavigate, onStartTo
         <button
           type="button"
           onClick={onStartTour}
+          aria-label="사용 안내"
           className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-body-sm font-semibold text-primary hover:bg-surface"
         >
           <Icon name="explore" className="text-[18px]" />
-          사용 안내
+          <span className="hidden sm:inline">사용 안내</span>
         </button>
       </div>
     </header>

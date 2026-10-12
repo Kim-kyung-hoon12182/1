@@ -60,9 +60,9 @@ export default function CompactLine({ index, session }: CompactLineProps) {
           고침
         </Badge>
       )}
-      <StatusLabel status={line.status} sourceIds={line.sourceIds} missingTokens={line.missingTokens} />
+      <StatusLabel status={line.status} sourceIds={line.sourceIds} missingTokens={line.missingTokens} sentences={session.sentences} compact />
       {!session.finished && (
-        <>
+        <div className="hidden items-center sm:flex">
           <IconButton
             icon="edit"
             label={`${index + 1}번 줄 고치기`}
@@ -79,7 +79,7 @@ export default function CompactLine({ index, session }: CompactLineProps) {
               session.deleteLine(index)
             }}
           />
-        </>
+        </div>
       )}
     </Card>
   )

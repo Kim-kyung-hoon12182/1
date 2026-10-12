@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import EmptyState from '@/components/EmptyState'
 import PageContainer from '@/components/PageContainer'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
-import { useRunSession } from '@/hooks/useRunSession'
+import { SHOW_SOURCE_EVENT, useRunSession } from '@/hooks/useRunSession'
 import type { Rule, Run, Task } from '@/types/task'
 import { READ_FIRST_NOTE } from './run/copy'
 import EditedAfterAsk from './run/EditedAfterAsk'
@@ -10,7 +10,6 @@ import CopyBar from './run/CopyBar'
 import FinishedCard from './run/FinishedCard'
 import IntroGuide from './run/IntroGuide'
 import ResultCard from './run/ResultCard'
-import RuleBand from './run/RuleBand'
 import ResultSkeleton from './run/ResultSkeleton'
 import ResultSummary from './run/ResultSummary'
 import RunHeader from './run/RunHeader'
@@ -33,7 +32,20 @@ export default function RunPage({ task, prefillMaterial, onRecord, onAddRule, on
   const session = useRunSession(task, prefillMaterial, onRecord)
   const hasResult = session.result !== null
   const [guideOpen, setGuideOpen] = useState(false)
+  // 좁은 화면에서 결과가 나온 뒤의 자료 시트
+  const [sourceSheetOpen, setSourceSheetOpen] = useState(false)
   const unfinished = session.result !== null && session.finished === null
+
+  useEffect(() => {
+    const open = () => setSourceSheetOpen(true)
+    window.addEventListener(SHOW_SOURCE_EVENT, open)
+    return () => window.removeEventListener(SHOW_SOURCE_EVENT, open)
+  }, [])
+
+  // 결과가 없어지면(자료 다시 입력) 시트도 닫는다
+  useEffect(() => {
+    if (!hasResult) setSourceSheetOpen(false)
+  }, [hasResult])
 
   useEffect(() => {
     onUnfinishedChange(unfinished)
@@ -53,13 +65,12 @@ export default function RunPage({ task, prefillMaterial, onRecord, onAddRule, on
       {askAfterEdit && lastRun && <EditedAfterAsk key={lastRun.id} run={lastRun} onAnswer={(answer) => onAnswerEditedAfter(lastRun.id, answer)} />}
 
       <div className="grid items-start gap-6 lg:grid-cols-12">
-        <SourcePanel task={task} session={session} />
+        <SourcePanel task={task} session={session} sheet={hasResult ? (sourceSheetOpen ? 'open' : 'hidden') : undefined} onCloseSheet={() => setSourceSheetOpen(false)} />
 
         <section className="space-y-4 lg:col-span-7">
           {hasResult ? (
             <>
-              <RuleBand task={task} finished={session.finished !== null} />
-              <ResultSummary session={session} />
+              <ResultSummary session={session} task={task} onGoToTasks={onGoToTasks} />
               <ul data-tour="result-list" className="space-y-4">
                 {session.lines.map((_, index) => (
                   <ResultCard key={index} index={index} task={task} session={session} />

@@ -12,19 +12,39 @@ import { linesCiting } from '@/lib/run'
 import type { Task } from '@/types/task'
 
 type SourcePanelProps = {
+  /** 좁은 화면에서의 모양: hidden은 접힘, open은 아래 시트. 넓은 화면에서는 항상 옆 칸이다 */
+  sheet?: 'hidden' | 'open'
+  onCloseSheet?: () => void
   task: Task
   session: RunSession
 }
 
 // 왼쪽 칸: 실행 전에는 자료 입력, 실행 후에는 번호가 붙은 자료 문장
-export default function SourcePanel({ task, session }: SourcePanelProps) {
+export default function SourcePanel({ task, session, sheet, onCloseSheet }: SourcePanelProps) {
   const { result, sentences, input } = session
   const counter = result
     ? `문장 ${sentences.length}개`
     : `${input.length.toLocaleString()} / ${MAX_MATERIAL_CHARS.toLocaleString()}자`
 
   return (
-    <Card as="section" data-tour="source-panel" className="flex flex-col lg:sticky lg:top-20 lg:col-span-5">
+    <Card
+      as="section"
+      data-tour="source-panel"
+      className={cn(
+        'flex flex-col lg:sticky lg:top-20 lg:col-span-5',
+        // 좁은 화면에서 결과가 나온 뒤에는 자료 칸을 접어 두고, 필요할 때 아래에서 올라오는 시트로 보여 준다
+        sheet === 'hidden' && 'hidden lg:flex',
+        sheet === 'open' && 'fixed inset-x-2 bottom-2 z-40 max-h-[70vh] overflow-y-auto shadow-2xl ring-1 ring-outline-variant lg:inset-x-auto lg:bottom-auto lg:z-auto lg:max-h-none lg:overflow-visible lg:shadow-md lg:ring-0',
+      )}
+    >
+      {sheet === 'open' && (
+        <div className="mb-2 flex items-center justify-between lg:hidden">
+          <span className="text-label-md text-on-surface-variant">AI가 참고했다고 한 자료</span>
+          <Button size="sm" onClick={onCloseSheet}>
+            닫기
+          </Button>
+        </div>
+      )}
       <PanelHeader
         step="1단계"
         icon="description"

@@ -45,7 +45,7 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
       style={session.revealing && !isSelected ? { animationDelay: `${revealDelay(index)}ms` } : undefined}
     >
       <div className="flex items-start justify-between gap-2">
-        <div className="space-y-1">
+        <div className="min-w-0 flex-1 space-y-1">
           <div className="flex items-center gap-2">
             <Badge size="md" className="text-secondary">
               {String(index + 1).padStart(2, '0')}
@@ -63,7 +63,7 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
             </div>
           )}
         </div>
-        <StatusLabel status={line.status} sourceIds={line.sourceIds} missingTokens={line.missingTokens} />
+        <StatusLabel status={line.status} sourceIds={line.sourceIds} missingTokens={line.missingTokens} sentences={sentences} />
       </div>
 
       {editing === index ? (
@@ -126,7 +126,7 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
               onClick={(event) => {
                 event.stopPropagation()
                 session.select(index)
-                session.scrollToSentence(cited[0].id)
+                session.scrollToSentence(cited[0].id, true)
               }}
               className="inline-flex items-center gap-0.5 text-label-sm text-primary hover:underline"
             >

@@ -8,6 +8,9 @@ import type { OutputLine, Run, Task } from '@/types/task'
 
 type CopyState = 'idle' | 'done' | 'failed'
 
+// 좁은 화면의 자료 시트를 열라는 신호(RunPage가 듣는다)
+export const SHOW_SOURCE_EVENT = 'mitgo:show-source'
+
 // 실패해도 자료는 그대로 남아 있다 (F-03)
 // 카드가 차례로 나타나는 시간(마지막 카드가 다 나타날 때까지)
 const REVEAL_MS = 1500
@@ -54,7 +57,16 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
   const flaggedPosition = selected === null ? 0 : flagged.indexOf(selected) + 1
 
   // 자료 칸 안에서만 움직인다. 화면 전체가 스크롤되면 지금 보던 결과 줄이 밀려난다.
-  const scrollToSentence = (id: number) => {
+  // showSheet: 좁은 화면에서는 자료 칸이 접혀 있어서, 사용자가 일부러 자료를 보려고 눌렀을 때만 시트를 열어 달라고 알린다.
+  const scrollToSentence = (id: number, showSheet = false) => {
+    if (showSheet) {
+      window.dispatchEvent(new Event(SHOW_SOURCE_EVENT))
+      requestAnimationFrame(() => scrollToSentenceNow(id))
+      return
+    }
+    scrollToSentenceNow(id)
+  }
+  const scrollToSentenceNow = (id: number) => {
     const sentence = sentenceRefs.current[id - 1]
     const list = sentence?.parentElement
     if (!sentence || !list) return
