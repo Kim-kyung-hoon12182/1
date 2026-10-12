@@ -43,8 +43,8 @@ export default function RunRow({ entry, onRemove, onRun }: RunRowProps) {
         <span className="text-label-md text-on-surface-variant">{formatDate(run.createdAt)}</span>
         {isDemo && <Badge tone="primary">예시</Badge>}
         <div className="ml-auto flex flex-wrap items-center gap-1.5">
-          <Badge size="md" tone={run.edited ? 'flag' : 'muted'}>
-            {run.edited ? '고침' : '안 고침'}
+          <Badge size="md" tone={run.edited || run.editedAfter === 'yes' ? 'flag' : 'muted'}>
+            {run.edited ? '고침' : run.editedAfter === 'yes' ? '복사 뒤 고침' : '안 고침'}
           </Badge>
           {run.passState === 'quick_pass' && <Badge size="md">빠르게 넘김</Badge>}
           {!run.copied && (

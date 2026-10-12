@@ -57,6 +57,10 @@ export function useTasks() {
   const removeRun = (taskId: string, runId: string) =>
     updateTask(taskId, (task) => ({ ...task, runs: task.runs.filter((run) => run.id !== runId) }))
 
+  // 다음 실행 때 받은 "복사한 뒤 다른 곳에서 더 고쳤나요"의 답을 그 기록에 남긴다
+  const answerEditedAfter = (taskId: string, runId: string, answer: 'yes' | 'no') =>
+    updateTask(taskId, (task) => ({ ...task, runs: task.runs.map((run) => (run.id === runId ? { ...run, editedAfter: answer } : run)) }))
+
   // 직접 만든 작업만 지운다. 체험용 작업은 [체험 초기화]로 되돌린다.
   function removeTask(taskId: string) {
     const next = tasks.filter((task) => task.id !== taskId)
@@ -66,5 +70,5 @@ export function useTasks() {
 
   const findTask = (id: string) => (id === demo.id ? demo : tasks.find((task) => task.id === id))
 
-  return { tasks, demo, saveFailed, addTask, addRun, addRule, updateRule, removeRule, removeRun, removeTask, resetDemo, findTask }
+  return { tasks, demo, saveFailed, addTask, addRun, addRule, updateRule, removeRule, removeRun, answerEditedAfter, removeTask, resetDemo, findTask }
 }

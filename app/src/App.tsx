@@ -17,7 +17,7 @@ import TaskListPage from '@/pages/TaskListPage'
 import type { Task } from '@/types/task'
 
 export default function App() {
-  const { tasks, demo, saveFailed, addTask, addRun, addRule, updateRule, removeRule, removeRun, removeTask, resetDemo, findTask } =
+  const { tasks, demo, saveFailed, addTask, addRun, addRule, updateRule, removeRule, removeRun, answerEditedAfter, removeTask, resetDemo, findTask } =
     useTasks()
   // 복사하지 않은 결과가 있는 실행 화면에서 나가려 하면 한 번 묻는다 (RunPage가 알려 준다)
   const unfinishedRef = useRef(false)
@@ -151,6 +151,7 @@ export default function App() {
           prefillMaterial={view.prefill}
           onRecord={(run) => addRun(runningTask.id, run)}
           onAddRule={(rule) => addRule(runningTask.id, rule)}
+          onAnswerEditedAfter={(runId, answer) => answerEditedAfter(runningTask.id, runId, answer)}
           onUnfinishedChange={(unfinished) => {
             unfinishedRef.current = unfinished
           }}

@@ -5,6 +5,7 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { useRunSession } from '@/hooks/useRunSession'
 import type { Rule, Run, Task } from '@/types/task'
 import { READ_FIRST_NOTE } from './run/copy'
+import EditedAfterAsk from './run/EditedAfterAsk'
 import CopyBar from './run/CopyBar'
 import FinishedCard from './run/FinishedCard'
 import IntroGuide from './run/IntroGuide'
@@ -19,13 +20,15 @@ type RunPageProps = {
   prefillMaterial: boolean
   onRecord: (run: Run) => void
   onAddRule: (rule: Rule) => void
+  /** 지난 기록의 "복사한 뒤 더 고쳤나요" 답 */
+  onAnswerEditedAfter: (runId: string, answer: 'yes' | 'no') => void
   /** 복사하지 않은 결과가 있는지(나갈 때 묻기 위해) */
   onUnfinishedChange: (unfinished: boolean) => void
   onGoToTasks: () => void
 }
 
 // S3 실행·결과: 왼쪽에 자료, 오른쪽에 줄마다 참고한 자료와 확인할 곳
-export default function RunPage({ task, prefillMaterial, onRecord, onAddRule, onUnfinishedChange, onGoToTasks }: RunPageProps) {
+export default function RunPage({ task, prefillMaterial, onRecord, onAddRule, onAnswerEditedAfter, onUnfinishedChange, onGoToTasks }: RunPageProps) {
   const session = useRunSession(task, prefillMaterial, onRecord)
   const hasResult = session.result !== null
   const [guideOpen, setGuideOpen] = useState(false)
@@ -38,10 +41,15 @@ export default function RunPage({ task, prefillMaterial, onRecord, onAddRule, on
 
   useDocumentTitle(task.name)
 
+  // 새 실행을 시작하기 전에만, 체험용이 아닌 작업의 지난 기록에 대해 한 번 묻는다
+  const lastRun = task.runs.at(-1)
+  const askAfterEdit = !hasResult && !session.running && !task.isDemo && lastRun !== undefined && lastRun.copied && !lastRun.isSample && lastRun.editedAfter === undefined
+
   return (
     <PageContainer>
       <RunHeader task={task} session={session} />
       <IntroGuide currentStep={hasResult ? 3 : 1} open={guideOpen} onToggle={() => setGuideOpen((open) => !open)} />
+      {askAfterEdit && lastRun && <EditedAfterAsk key={lastRun.id} run={lastRun} onAnswer={(answer) => onAnswerEditedAfter(lastRun.id, answer)} />}
 
       <div className="grid items-start gap-6 lg:grid-cols-12">
         <SourcePanel task={task} session={session} />

@@ -75,6 +75,9 @@ export default function FinishedCard({ task, run, session, onGoToTasks, onAddRul
           </Button>
         </div>
         <p className="text-label-sm text-outline">기록한 뒤에는 이 결과를 고칠 수 없어요. 다시 실행하면 새 기록이 돼요.</p>
+        <p className="text-label-sm text-outline">
+          "안 고침"은 이 앱 안에서 고치지 않았다는 뜻이에요. 복사한 뒤 다른 곳에서 고친 건 다음 실행 때 물어봐요.
+        </p>
       </Card>
 
       <RuleCandidateCard task={task} run={run} lines={session.lines} onAddRule={onAddRule} />

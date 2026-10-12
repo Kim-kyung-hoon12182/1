@@ -31,6 +31,10 @@ export default function HandoffPanel({ task, onClose, defaultOpen = false }: Han
   const [copyState, setCopyState] = useState<CopyState>('idle')
   const streak = countStreak(task.runs)
   const prompt = buildHandoffPrompt(task)
+  // 맡겨볼 만하다고 본 근거가 된 최근 기록들
+  const basis = task.runs.slice(-Math.min(streak, 5))
+  const averageFlagged = basis.length === 0 ? 0 : Math.round((basis.reduce((sum, run) => sum + run.flaggedCount, 0) / basis.length) * 10) / 10
+  const unanswered = basis.filter((run) => run.editedAfter === undefined).length
 
   async function copyPrompt() {
     try {
@@ -58,6 +62,26 @@ export default function HandoffPanel({ task, onClose, defaultOpen = false }: Han
             안 고친 기록이 쌓였다는 뜻이지, 결과가 정확하다는 뜻은 아니에요. 맡길지는 직접 정하세요.
           </p>
         </div>
+      </div>
+
+      <div className="space-y-1.5 rounded-lg bg-surface-low p-3 text-body-sm">
+        <p className="text-label-md text-secondary">이렇게 판단했어요 · 최근 {basis.length}번</p>
+        <ul className="space-y-0.5">
+          {basis.map((run) => (
+            <li key={run.id} className="flex flex-wrap gap-x-2 text-on-surface-variant">
+              <span className="font-semibold text-on-surface">{run.number}회차</span>
+              <span>앱 안에서 안 고침</span>
+              <span>확인할 곳 {run.flaggedCount}개</span>
+              <span>{run.elapsedSeconds}초 머묾</span>
+              <span>{run.editedAfter === 'no' ? '복사 뒤에도 안 고쳤다고 답함' : '복사 뒤 고쳤는지 답 없음'}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="text-on-surface-variant">
+          확인할 곳은 평균 {averageFlagged}개였어요.
+          {basis.every((run) => run.flaggedCount === 0) && ' 한 번도 없었던 건 앱의 자동 검사가 못 찾았다는 뜻이지 안전하다는 뜻이 아니에요.'}
+          {unanswered > 0 && ` 복사한 뒤 고쳤는지 답하지 않은 기록 ${unanswered}개는 안 고친 것으로 셌어요.`}
+        </p>
       </div>
 
       <div className="flex flex-wrap items-center gap-1.5">

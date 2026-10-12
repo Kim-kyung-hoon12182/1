@@ -34,6 +34,8 @@ export type Run = {
   flaggedCount: number
   elapsedSeconds: number
   copied: boolean
+  /** 다음 실행 때 사용자가 답한 "복사한 뒤 다른 곳에서 더 고쳤나요". 안 물었거나 답하지 않았으면 없다 */
+  editedAfter?: 'yes' | 'no'
   finalText: string
   isSample: boolean
   createdAt: string

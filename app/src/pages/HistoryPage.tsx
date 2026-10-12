@@ -77,7 +77,7 @@ export default function HistoryPage({ tasks, demo, onGoToTasks, onRemoveRun, onR
       />
 
       <Notice tone="info" icon="info" className="mb-4">
-        "안 고침"은 결과를 바꾸지 않고 복사했다는 기록이에요. 결과가 정확하다는 뜻은 아니에요.
+        "안 고침"은 이 앱 안에서 결과를 바꾸지 않고 복사했다는 기록이에요. 복사한 뒤 다른 곳에서 고친 건 다음 실행 때 물어봐요. 결과가 정확하다는 뜻은 아니에요.
       </Notice>
 
       {entries.length === 0 ? (

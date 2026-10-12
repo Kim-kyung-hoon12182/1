@@ -1,4 +1,4 @@
-import { editedLineCount, matchesFilter, shortMaterial, summarize, toEntries, trendOf } from '../src/lib/history.ts'
+import { editedLineCount, matchesFilter, shortMaterial, summarize, toEntries, trendOf, wasEdited } from '../src/lib/history.ts'
 
 const line = (edited: boolean) => ({ text: 'a', editedText: edited ? 'b' : undefined, sourceIds: [], ruleIds: [], status: 'has_source' as const, missingTokens: [] })
 const run = (id: string, at: string, over: Record<string, unknown> = {}) =>
@@ -17,6 +17,11 @@ const CASES: { name: string; actual: unknown; expected: unknown }[] = [
   { name: '필터: 전체', actual: entries.filter((e) => matchesFilter(e.run, 'all')).length, expected: 3 },
   { name: '필터: 안 고침(복사한 것만)', actual: entries.filter((e) => matchesFilter(e.run, 'unedited')).map((e) => e.run.id), expected: ['a1'] },
   { name: '필터: 고침', actual: entries.filter((e) => matchesFilter(e.run, 'edited')).map((e) => e.run.id), expected: ['a2'] },
+  { name: '복사 뒤 고쳤다고 답한 기록은 고친 것으로 본다', actual: wasEdited({ edited: false, editedAfter: 'yes' }), expected: true },
+  { name: '앱 안에서 고쳤으면 고친 것', actual: wasEdited({ edited: true, editedAfter: undefined }), expected: true },
+  { name: '안 고쳤고 복사 뒤에도 안 고쳤다고 답하면 안 고친 것', actual: wasEdited({ edited: false, editedAfter: 'no' }), expected: false },
+  { name: '필터: 안 고침에서 복사 뒤 고친 기록은 빠진다', actual: matchesFilter({ edited: false, copied: true, editedAfter: 'yes' }, 'unedited'), expected: false },
+  { name: '필터: 고침에 복사 뒤 고친 기록이 들어간다', actual: matchesFilter({ edited: false, copied: true, editedAfter: 'yes' }, 'edited'), expected: true },
   { name: '필터: 복사 안 됨', actual: entries.filter((e) => matchesFilter(e.run, 'notCopied')).map((e) => e.run.id), expected: ['d1'] },
   { name: '고친 줄 수', actual: editedLineCount(tasks[0].runs[1] as never), expected: 2 },
   { name: '안 고친 기록은 0', actual: editedLineCount(tasks[0].runs[0] as never), expected: 0 },

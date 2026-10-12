@@ -59,7 +59,7 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
           {appliedRules.length > 0 && (
             <div className="flex items-center gap-1.5 text-label-sm text-on-surface-variant">
               <Icon name="rule" className="text-[14px] text-secondary" />
-              적용된 규칙: {appliedRules.map((rule) => rule.text).join(' · ')}
+              AI가 지켰다고 한 규칙: {appliedRules.map((rule) => rule.text).join(' · ')}
             </div>
           )}
         </div>

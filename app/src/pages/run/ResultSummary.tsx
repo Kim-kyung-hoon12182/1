@@ -6,6 +6,7 @@ import Notice from '@/components/Notice'
 import type { RunSession } from '@/hooks/useRunSession'
 import { countByStatus, countDeleted } from '@/lib/run'
 import { LEGEND, SCOPE_NOTE } from './copy'
+import CoverageNote from './CoverageNote'
 
 // 결과 위쪽: 줄 상태 집계, 확인할 곳으로 이동, 표시 읽는 법, 검사 범위 안내
 export default function ResultSummary({ session }: { session: RunSession }) {
@@ -76,10 +77,12 @@ export default function ResultSummary({ session }: { session: RunSession }) {
 
       <Notice tone="flag" icon="info" className="items-center rounded-xl">
         <strong className="font-semibold">
-          {flagged.length === 0 ? '자동 검사에서 따로 확인할 곳을 찾지 못했어요. ' : '초안이에요. '}
+          {flagged.length === 0 ? '자동 검사에서 따로 확인할 곳을 찾지 못했어요. 그렇다고 안전하다는 뜻은 아니에요. ' : '초안이에요. '}
         </strong>
         {SCOPE_NOTE}
       </Notice>
+
+      <CoverageNote session={session} />
     </>
   )
 }
