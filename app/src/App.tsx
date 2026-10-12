@@ -74,6 +74,11 @@ export default function App() {
       {saveFailed && (
         <Notice tone="flag" icon="warning" role="alert" className="justify-center rounded-none">
           {STORAGE_FULL_MESSAGE}
+          {view.screen !== 'history' && (
+            <button type="button" className="ml-2 font-semibold underline underline-offset-2" onClick={() => go({ screen: 'history' })}>
+              실행 이력에서 지우기
+            </button>
+          )}
         </Notice>
       )}
       {view.screen === 'tasks' && (
