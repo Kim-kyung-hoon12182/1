@@ -3,7 +3,7 @@ import { loadOnboarded, saveOnboarded, type Onboarded } from '@/lib/storage'
 import { TOUR_LOST_MS, TOUR_STEPS, type TourScreen } from '@/lib/tour'
 
 // 안내 모드의 진행 상태. index가 null이면 꺼짐, 단계 수와 같으면 마무리 카드.
-export function useTour(screen: TourScreen | 'create') {
+export function useTour(screen: TourScreen | 'create' | 'history') {
   const [status, setStatus] = useState<Onboarded | null>(() => loadOnboarded())
   const [index, setIndex] = useState<number | null>(null)
   const running = index !== null

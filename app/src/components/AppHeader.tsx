@@ -23,7 +23,6 @@ type AppHeaderProps = {
 
 // 화면이 없는 메뉴는 눌리지 않게 둔다. 작업 실행은 실행 중인 작업이 있을 때만 쓸 수 있다.
 const disabledReason = (id: Screen, runAvailable: boolean) => {
-  if (id === 'history') return '준비 중이에요'
   if (id === 'run' && !runAvailable) return '내 작업에서 하나를 골라 실행하면 열려요'
   return null
 }

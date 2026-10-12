@@ -71,5 +71,6 @@ app/
 - `tour.ts`(안내 단계)를 고치면 `node --experimental-strip-types scripts/tour-test.ts`를 돌린다. 단계의 `data-tour` 이름이 화면에 없으면 실패한다
 - `rules.ts`의 규칙 후보 부분(`buildRuleCandidatePrompt`, `parseRuleCandidate`)을 고치면 `node --experimental-strip-types scripts/rule-candidate-test.ts`를 돌린다
 - `taskName.ts`(작업 이름 제안)를 고치면 `node --experimental-strip-types scripts/task-name-test.ts`를 돌린다
+- `history.ts`(실행 이력 집계)를 고치면 `node --experimental-strip-types scripts/history-test.ts`를 돌린다
 - `evidence.ts`나 `streak.ts`를 고치면 `node --experimental-strip-types scripts/overlap-test.ts`, `node --experimental-strip-types scripts/streak-test.ts`를 다시 돌리고, 결과가 바뀌면 `../docs/screen-spec.md` F-04 결과표를 고친다
 - `.env.local`(GEMINI_API_KEY)은 커밋하지 않는다. 키가 없어도 예시 결과로 앱이 동작해야 한다

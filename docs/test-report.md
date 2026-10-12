@@ -245,6 +245,7 @@ node --experimental-strip-types scripts/highlight-test.ts
 node --experimental-strip-types scripts/tour-test.ts
 node --experimental-strip-types scripts/rule-candidate-test.ts
 node --experimental-strip-types scripts/task-name-test.ts
+node --experimental-strip-types scripts/history-test.ts
 pnpm dev          # 화면 흐름은 http://localhost:5173 에서 위 3절 순서대로
 ```
 
@@ -378,3 +379,21 @@ pnpm dev          # 화면 흐름은 http://localhost:5173 에서 위 3절 순�
 | UT-10 | 결과 품질(사람이 읽고 판단) | 요약은 메모와 맞음. 다만 "이슈 사항" 줄이 "[완료한 일]" 소제목 아래에 놓인 적이 있다(앱이 못 잡는 구성 문제) |
 
 아직 남은 사용성 문제: 첫 화면에 "예시로 체험해 보기" 버튼이 두 곳, "맡겨볼 만한 때 0개" 타일이 처음 온 사람에게 의미가 없음(U-07), 첫 방문 창의 초기 포커스.
+
+## 16. 추가 테스트: 실행 이력 화면 (2026-10-12)
+
+로직 테스트 `scripts/history-test.ts` 16개 통과, `route-test.ts` 19개 통과. 기록 8개(작업 2개, 고침·안 고침·빠르게 넘김·복사 안 됨 섞음)를 직접 넣고 1280×800에서 확인했다.
+
+| ID | 시나리오 | 결과 |
+| --- | --- | --- |
+| HIS-01 | 헤더 [실행 이력] | 통과: 메뉴가 켜지고 현재 화면 표시, 주소 `#/history`, 뒤로가기 동작 |
+| HIS-02 | 목록과 요약 | 통과: 기록 8개 최근순, 요약(8회, 안 고치고 복사 4회 50%) |
+| HIS-03 | 추이 막대 | 통과: 작업마다 회차별 고친 줄 수(3, 2, 0, 0, 0, 0)와 숫자 표시 |
+| HIS-04 | 필터 4종 | 통과: 전체·안 고침·고침·복사 안 됨 |
+| HIS-05 | [결과 보기] | 통과: 복사한 결과, 고친 곳(전→후) 2개 |
+| HIS-06 | [기록 삭제] | 통과: 확인 문구, 취소하면 그대로, 지우면 목록과 저장에서 사라짐 |
+| HIS-07 | 보기 선택 | 통과: 작업 하나만, 체험용 예시(예시 배지, 저장된 결과 없음 안내) |
+| HIS-08 | 기록이 없을 때 | 통과: 빈 화면 안내와 [내 작업으로] |
+| HIS-09 | 좁은 화면 390px | 통과: 가로로 넘치지 않음 |
+| HIS-10 | 20개 넘는 기록의 [더 보기] | **미검증**(기록을 20개 넘게 만들지 않음) |
+| HIS-11 | 실제 사용으로 쌓인 기록(복사한 결과가 긴 경우) | **미검증** |

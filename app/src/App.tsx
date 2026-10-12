@@ -10,12 +10,13 @@ import { useTasks } from '@/hooks/useTasks'
 import { useTour } from '@/hooks/useTour'
 import { STORAGE_FULL_MESSAGE } from '@/lib/storage'
 import RunPage from '@/pages/RunPage'
+import HistoryPage from '@/pages/HistoryPage'
 import TaskCreatePage from '@/pages/TaskCreatePage'
 import TaskListPage from '@/pages/TaskListPage'
 import type { Task } from '@/types/task'
 
 export default function App() {
-  const { tasks, demo, saveFailed, addTask, addRun, addRule, updateRule, removeRule, removeTask, resetDemo, findTask } =
+  const { tasks, demo, saveFailed, addTask, addRun, addRule, updateRule, removeRule, removeRun, removeTask, resetDemo, findTask } =
     useTasks()
   const [view, go] = useRoute()
   const tour = useTour(view.screen)
@@ -44,6 +45,7 @@ export default function App() {
 
   const navigate = (screen: Screen) => {
     if (screen === 'tasks') go({ screen: 'tasks' })
+    if (screen === 'history') go({ screen: 'history' })
     if (screen === 'run' && lastRun) go({ screen: 'run', ...lastRun })
   }
 
@@ -64,7 +66,7 @@ export default function App() {
   return (
     <div className="flex min-h-screen flex-col">
       <AppHeader
-        current={view.screen === 'run' ? 'run' : 'tasks'}
+        current={view.screen === 'run' ? 'run' : view.screen === 'history' ? 'history' : 'tasks'}
         runAvailable={currentRun !== null && findTask(currentRun.taskId) !== undefined}
         onNavigate={navigate}
         onStartTour={startTour}
@@ -86,6 +88,9 @@ export default function App() {
           onRemoveRule={removeRule}
           onRemoveTask={removeTask}
         />
+      )}
+      {view.screen === 'history' && (
+        <HistoryPage tasks={tasks} demo={demo} onGoToTasks={() => go({ screen: 'tasks' })} onRemoveRun={removeRun} />
       )}
       {view.screen === 'create' && (
         <TaskCreatePage

@@ -53,6 +53,10 @@ export function useTasks() {
   const removeRule = (taskId: string, ruleId: string) =>
     updateTask(taskId, (task) => ({ ...task, rules: task.rules.filter((rule) => rule.id !== ruleId) }))
 
+  // 실행 기록 하나를 지운다 (저장 공간이 가득 찼을 때 정리하는 길)
+  const removeRun = (taskId: string, runId: string) =>
+    updateTask(taskId, (task) => ({ ...task, runs: task.runs.filter((run) => run.id !== runId) }))
+
   // 직접 만든 작업만 지운다. 체험용 작업은 [체험 초기화]로 되돌린다.
   function removeTask(taskId: string) {
     const next = tasks.filter((task) => task.id !== taskId)
@@ -62,5 +66,5 @@ export function useTasks() {
 
   const findTask = (id: string) => (id === demo.id ? demo : tasks.find((task) => task.id === id))
 
-  return { tasks, demo, saveFailed, addTask, addRun, addRule, updateRule, removeRule, removeTask, resetDemo, findTask }
+  return { tasks, demo, saveFailed, addTask, addRun, addRule, updateRule, removeRule, removeRun, removeTask, resetDemo, findTask }
 }
