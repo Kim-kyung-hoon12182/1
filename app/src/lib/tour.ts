@@ -1,8 +1,12 @@
 export type TourScreen = 'tasks' | 'run'
 
 export type TourStep = {
-  /** 화면에서 이 요소를 밝게 보여 주고, 사용자가 이 요소를 누르면 다음 단계로 넘어간다 */
+  /** 화면에서 이 요소를 밝게 보여 준다 */
   target: string
+  /** 이 요소 안을 누르면 다음 단계로 넘어간다. 없으면 target을 누를 때 넘어간다 */
+  advanceOn?: string
+  /** 조건이 맞을 때만 나오는 단계. 요소가 안 보이면 알리지 않고 다음으로 넘어간다 */
+  optional?: boolean
   screen: TourScreen
   title: string
   body: string
@@ -46,12 +50,23 @@ export const TOUR_STEPS: TourStep[] = [
     title: '복사하고 끝내요',
     body: '다 봤으면 복사해요. 고쳤는지가 기록돼요. 눌러 보세요.',
   },
+  {
+    target: '[data-tour="handoff"]',
+    advanceOn: '[data-tour="handoff-toggle"]',
+    screen: 'run',
+    optional: true,
+    title: '맡겨볼 만한 때예요',
+    body: '체험용 작업은 앞의 1·2회차를 안 고친 기록으로 미리 채워 뒀어요. 안 고친 기록이 3번 쌓이면 이렇게 알려 줘요. 결과가 맞다는 뜻은 아니에요. [지시문 보기]를 눌러 보세요.',
+  },
 ]
 
 export const TOUR_END = {
   title: '끝났어요',
   body: '안 고친 기록이 3번 쌓이면 "맡겨볼 만한 때예요"라고 알려 줘요. 안내는 위쪽 [사용 안내]에서 다시 볼 수 있어요.',
 }
+
+// 조건이 맞을 때만 나오는 단계의 요소를 기다리는 시간
+export const TOUR_OPTIONAL_MS = 1500
 
 // 다음 단계의 요소가 이 시간 넘게 안 보이면 안내를 끝낸다
 export const TOUR_LOST_MS = 3000

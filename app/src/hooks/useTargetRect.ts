@@ -13,18 +13,29 @@ export function useTargetRect(selector: string | null, lostMs: number) {
   useEffect(() => {
     if (!selector) return
     let frame = 0
-    let revealed = false
+    let revealedAt = 0
+    let retries = 0
     const startedAt = performance.now()
+    const reveal = (element: Element, behavior: ScrollBehavior) => {
+      const tall = element.getBoundingClientRect().height > window.innerHeight * 0.7
+      element.scrollIntoView({ block: tall ? 'start' : 'center', behavior })
+    }
 
     const tick = () => {
       const element = document.querySelector(selector)
       if (element) {
         // 처음 보일 때 화면 가운데로 가져온다
-        if (!revealed) {
-          revealed = true
-          element.scrollIntoView({ block: 'center', behavior: 'smooth' })
+        if (revealedAt === 0) {
+          revealedAt = performance.now()
+          reveal(element, 'smooth')
         }
         const box = element.getBoundingClientRect()
+        // 부드러운 이동이 화면이 바뀌는 중에 끊겨서 요소가 화면 밖에 남으면 바로 이동한다
+        const offscreen = box.bottom < 0 || box.top > window.innerHeight
+        if (offscreen && retries < 3 && performance.now() - revealedAt > 700 * (retries + 1)) {
+          retries += 1
+          reveal(element, 'instant')
+        }
         const next = { top: box.top, left: box.left, width: box.width, height: box.height }
         setRect((prev) => (same(prev, next) ? prev : next))
         setLost(false)

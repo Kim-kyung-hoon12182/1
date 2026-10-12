@@ -30,6 +30,8 @@ export default function App() {
 
   const startTour = () => {
     setOnboardingOpen(false)
+    // 체험용 작업을 처음 모양(1·2회차 안 고침)으로 되돌려, 마지막에 맡겨볼 만한 때를 보여 줄 수 있게 한다
+    resetDemo()
     go({ screen: 'tasks' })
     tour.start()
   }
@@ -109,6 +111,7 @@ export default function App() {
           index={tour.index}
           total={tour.total}
           onSkip={() => tour.stop('skipped')}
+          onNext={tour.next}
           onFinish={() => tour.stop('done')}
         />
       )}

@@ -11,6 +11,7 @@ export function useTour(screen: TourScreen | 'create') {
   const atEnd = index === TOUR_STEPS.length
 
   const start = () => setIndex(0)
+  const next = () => setIndex((i) => (i === null ? null : i + 1))
 
   const stop = (result: Onboarded) => {
     setIndex(null)
@@ -22,7 +23,7 @@ export function useTour(screen: TourScreen | 'create') {
   useEffect(() => {
     if (!step) return
     const onClick = (event: MouseEvent) => {
-      if (event.target instanceof Element && event.target.closest(step.target)) {
+      if (event.target instanceof Element && event.target.closest(step.advanceOn ?? step.target)) {
         window.setTimeout(() => setIndex((i) => (i === null ? null : i + 1)), 0)
       }
     }
@@ -46,5 +47,5 @@ export function useTour(screen: TourScreen | 'create') {
     return () => window.clearTimeout(timer)
   }, [step, screen])
 
-  return { status, running, step, atEnd, index, total: TOUR_STEPS.length, start, stop }
+  return { status, running, step, atEnd, index, total: TOUR_STEPS.length, start, next, stop }
 }

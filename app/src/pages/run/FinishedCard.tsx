@@ -76,7 +76,7 @@ export default function FinishedCard({ task, run, session, onGoToTasks }: Finish
       </Card>
 
       {ready && !handoffClosed && (
-        <Card as="section" bordered className="bg-gradient-to-r from-surface-low via-surface-lowest to-surface-low">
+        <Card as="section" bordered data-tour="handoff" className="bg-gradient-to-r from-surface-low via-surface-lowest to-surface-low">
           <HandoffPanel task={task} onClose={() => setHandoffClosed(true)} />
         </Card>
       )}

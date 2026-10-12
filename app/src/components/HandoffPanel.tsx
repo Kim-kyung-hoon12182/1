@@ -74,6 +74,7 @@ export default function HandoffPanel({ task, onClose, defaultOpen = false }: Han
             </p>
           </div>
           <Button
+            data-tour="handoff-toggle"
             icon={open ? 'expand_less' : 'expand_more'}
             aria-expanded={open}
             onClick={() => setOpen((value) => !value)}
