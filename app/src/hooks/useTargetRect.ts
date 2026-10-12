@@ -15,6 +15,9 @@ export function useTargetRect(selector: string | null, lostMs: number) {
     let frame = 0
     let revealedAt = 0
     let retries = 0
+    let movedAt = performance.now()
+    let last: Rect | null = null
+    let recenteredAt = 0
     const startedAt = performance.now()
     const reveal = (element: Element, behavior: ScrollBehavior) => {
       const tall = element.getBoundingClientRect().height > window.innerHeight * 0.7
@@ -37,8 +40,19 @@ export function useTargetRect(selector: string | null, lostMs: number) {
           reveal(element, 'instant')
         }
         const next = { top: box.top, left: box.left, width: box.width, height: box.height }
+        if (!same(last, next)) movedAt = performance.now()
+        last = next
         setRect((prev) => (same(prev, next) ? prev : next))
         setLost(false)
+        // 사용자가 스크롤해서 눌러야 할 곳이 위에 고정된 영역 밑에 가려지면, 멈춘 뒤 다시 가운데로 가져온다
+        const now = performance.now()
+        if (now - movedAt > 500 && now - recenteredAt > 1500 && box.top >= 0 && box.bottom <= window.innerHeight && box.width > 0) {
+          const hit = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2)
+          if (hit && !element.contains(hit) && !hit.closest('[data-tour-ui]')) {
+            recenteredAt = now
+            reveal(element, 'smooth')
+          }
+        }
       } else {
         setRect(null)
         if (performance.now() - startedAt > lostMs) setLost(true)

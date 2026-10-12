@@ -1,4 +1,4 @@
-import { grow, overlayClipPath, overlaps, placeBubble, type Box } from '../src/lib/tourLayout.ts'
+import { contains, grow, overlayClipPath, overlaps, placeBubble, splitAround, type Box } from '../src/lib/tourLayout.ts'
 
 const view = { width: 1280, height: 800 }
 const size = { width: 320, height: 230 }
@@ -20,6 +20,10 @@ const yielding = placeBubble({ target: box(100, 100, 200, 40), contexts: [box(0,
 const CASES: { name: string; actual: unknown; expected: unknown }[] = [
   { name: '겹침: 겹치는 두 상자', actual: overlaps(box(0, 0, 100, 100), box(50, 50, 100, 100)), expected: true },
   { name: '겹침: 맞닿기만 하면 아니다', actual: overlaps(box(0, 0, 100, 100), box(100, 0, 100, 100)), expected: false },
+  { name: '포함: 안에 든 상자', actual: [contains(box(0, 0, 100, 100), box(10, 10, 20, 20)), contains(box(0, 0, 100, 100), box(90, 10, 20, 20))], expected: [true, false] },
+  { name: '띠로 나누기: 가운데 구멍이면 네 띠', actual: splitAround(box(0, 0, 100, 100), box(40, 40, 20, 20)), expected: [box(0, 0, 100, 40), box(0, 60, 100, 40), box(0, 40, 40, 20), box(60, 40, 40, 20)] },
+  { name: '띠로 나누기: 구멍이 위 모서리에 닿으면 위 띠는 없다', actual: splitAround(box(0, 0, 100, 100), box(40, 0, 20, 20)).length, expected: 3 },
+  { name: '띠와 구멍은 서로 겹치지 않는다', actual: splitAround(box(0, 0, 100, 100), box(40, 40, 20, 20)).some((strip) => overlaps(strip, box(40, 40, 20, 20))), expected: false },
   { name: '키우기: 사방으로 pad만큼', actual: grow(box(10, 10, 20, 20), 5), expected: box(5, 5, 30, 30) },
   { name: '말풍선: 아래가 비면 아래', actual: below, expected: { left: 100, top: 152 } },
   { name: '말풍선: 아래가 막히면 위', actual: aboveFull, expected: { left: 100, bottom: 112 } },

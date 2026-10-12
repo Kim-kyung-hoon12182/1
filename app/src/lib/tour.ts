@@ -44,14 +44,14 @@ export const TOUR_STEPS: TourStep[] = [
   },
   {
     target: 'main li[aria-current="true"] [data-tour="source-link"]',
-    context: ['[data-tour="source-panel"]'],
+    context: ['[data-tour="source-panel"]', 'main li[aria-current="true"]'],
     screen: 'run',
     title: '참고한 자료를 확인해요',
     body: '"자료에 없음"은 자료에서 찾지 못한 값이라는 뜻이에요. [자료에서 보기]를 눌러 AI가 참고한 문장을 확인해 보세요.',
   },
   {
     target: '[data-tour="copy-finish"]',
-    context: ['[data-tour="source-panel"]'],
+    context: ['[data-tour="source-panel"]', 'main li[aria-current="true"]'],
     screen: 'run',
     title: '복사하고 끝내요',
     body: '이번에는 고치지 않고 그대로 복사해 볼게요. 실제로는 확인할 곳을 보고 고칠 게 있으면 [고치기]로 고친 뒤 복사하세요. 고쳤는지가 기록돼요. 눌러 보세요.',

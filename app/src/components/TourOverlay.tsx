@@ -1,7 +1,7 @@
 import Button from '@/components/Button'
 import Icon from '@/components/Icon'
 import { useRects, useTargetRect } from '@/hooks/useTargetRect'
-import { grow, overlaps, overlayClipPath, placeBubble } from '@/lib/tourLayout'
+import { contains, grow, overlaps, overlayClipPath, placeBubble, splitAround } from '@/lib/tourLayout'
 import { useEffect, useRef, useState } from 'react'
 import { useTourFocus } from '@/hooks/useTourFocus'
 import { TOUR_END, TOUR_LOST_MS, TOUR_OPTIONAL_MS, type TourStep } from '@/lib/tour'
@@ -89,37 +89,56 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
 
   const hole = grow(rect, PAD)
   const view = { width: window.innerWidth, height: window.innerHeight }
-  // 누를 곳과 겹치는 곳은 뺀다(덮개로 막으면 누를 곳도 막힌다)
-  const contexts = contextRects.filter((box) => !overlaps(grow(box, CONTEXT_PAD), hole)).map((box) => grow(box, CONTEXT_PAD))
-  const bubbleStyle = placeBubble({ target: hole, contexts, view, size: BUBBLE_SIZE })
+  // 같이 보여 줄 곳이 누를 곳을 품고 있으면(고른 줄 카드 안의 [자료에서 보기]) 그 곳 전체를 밝게 하고, 누를 곳 둘레만 막는다.
+  // 누를 곳과 걸쳐만 있는 곳은 뺀다(덮개로 막으면 누를 곳도 막힌다)
+  const grown = contextRects.map((box) => grow(box, CONTEXT_PAD))
+  const wrapping = grown.filter((box) => contains(box, hole))
+  const separate = grown.filter((box) => !overlaps(box, hole))
+  const holes = wrapping.length > 0 ? [...separate, ...wrapping] : [hole, ...separate]
+  const strips = wrapping.flatMap((box) => splitAround(box, hole))
+  const bubbleStyle = placeBubble({ target: hole, contexts: [...separate, ...wrapping], view, size: BUBBLE_SIZE })
 
   return (
     <>
       {/* 덮개 하나에 밝게 보일 곳을 뚫어 둔다. 뚫린 곳은 눌러도 덮개가 받지 않는다 */}
       <div
         aria-hidden
+        data-tour-ui
         onClick={onBlockedClick}
         className="fixed inset-0 z-[60] cursor-default bg-on-surface/45 backdrop-blur-[3px]"
-        style={{ clipPath: overlayClipPath([hole, ...contexts], view) }}
+        style={{ clipPath: overlayClipPath(holes, view) }}
       />
       {/* 같이 보여 주는 곳은 보기만 한다. 눌러도 앱이 반응하지 않고 안내만 흔든다 */}
-      {contexts.map((box, i) => (
+      {separate.map((box, i) => (
         <div
-          key={i}
+          key={`c${i}`}
           aria-hidden
+          data-tour-ui
           onClick={onBlockedClick}
           className="fixed z-[60] cursor-default rounded-xl ring-2 ring-surface-lowest/80"
+          style={{ top: box.top, left: box.left, width: box.width, height: box.height }}
+        />
+      ))}
+      {strips.map((box, i) => (
+        <div
+          key={`s${i}`}
+          aria-hidden
+          data-tour-ui
+          onClick={onBlockedClick}
+          className="fixed z-[60] cursor-default"
           style={{ top: box.top, left: box.left, width: box.width, height: box.height }}
         />
       ))}
       <div
         key={nudge}
         aria-hidden
+        data-tour-ui
         data-nudged={nudge > 0 ? 'true' : undefined}
         className={`pointer-events-none fixed z-[61] rounded-xl ring-4 ring-primary-container ${nudge > 0 ? 'animate-tour-nudge' : ''}`}
         style={{ top: hole.top, left: hole.left, width: hole.width, height: hole.height }}
       />
       <div
+        data-tour-ui
         className="fixed z-[70] w-80"
         style={bubbleStyle}
       >

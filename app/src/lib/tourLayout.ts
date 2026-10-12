@@ -13,6 +13,20 @@ export const grow = (box: Box, pad: number): Box => ({
 
 export const overlaps = (a: Box, b: Box) => a.left < right(b) && right(a) > b.left && a.top < bottom(b) && bottom(a) > b.top
 
+export const contains = (outer: Box, inner: Box) =>
+  outer.left <= inner.left && outer.top <= inner.top && right(outer) >= right(inner) && bottom(outer) >= bottom(inner)
+
+// outer에서 hole을 뺀 나머지를 위·아래·왼쪽·오른쪽 띠로 나눈다(hole은 outer 안에 있어야 한다)
+export const splitAround = (outer: Box, hole: Box): Box[] => {
+  const strips: Box[] = [
+    { left: outer.left, top: outer.top, width: outer.width, height: hole.top - outer.top },
+    { left: outer.left, top: bottom(hole), width: outer.width, height: bottom(outer) - bottom(hole) },
+    { left: outer.left, top: hole.top, width: hole.left - outer.left, height: hole.height },
+    { left: right(hole), top: hole.top, width: right(outer) - right(hole), height: hole.height },
+  ]
+  return strips.filter((strip) => strip.width > 0 && strip.height > 0)
+}
+
 // 화면 안으로 자른다
 const clamp = (box: Box, view: Viewport): Box => {
   const left = Math.max(box.left, 0)
