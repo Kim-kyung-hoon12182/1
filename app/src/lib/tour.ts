@@ -64,7 +64,7 @@ export const TOUR_STEPS: TourStep[] = [
     context: ['[data-tour="source-panel"]', 'main li[aria-current="true"]'],
     screen: 'run',
     title: '자료에 맞게 고쳐요',
-    body: '예: "매출은 9천만 원입니다. 목표 대비 달성 여부는 자료에 없어 확인이 필요합니다."로 고치고 Enter를 누르세요. 다르게 고쳐도 되고, 고치지 않고 Enter만 눌러도 넘어가요.',
+    body: '예: "[매출] 9천만 원 / 목표 대비 달성 여부: 자료에 없음"로 고치고 Enter를 누르세요. 다르게 고쳐도 되고, 고치지 않고 Enter만 눌러도 넘어가요.',
   },
   {
     target: '[data-tour="copy-finish"]',
