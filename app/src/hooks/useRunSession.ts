@@ -55,7 +55,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
   const lines = useMemo(() => result?.lines ?? [], [result])
   const hasEdits = isEdited(lines)
   // 지금 자료와 같은 자료에 대한 정정만 쓴다. 자료를 바꾸면 쓰지 않는다. 예시 자료는 AI를 거치지 않으므로 해당 없다.
-  const carriedForInput = carried && carried.material === input.trim() && !(sample && input.trim() === sample.material) ? carried : null
+  const carriedForInput = carried && carried.material === input.trim() && !(task.isDemo && sample && input.trim() === sample.material) ? carried : null
   const sentences = result?.sentences ?? []
   const flagged = useMemo(() => flaggedIndexes(lines), [lines])
   const highlighted = new Set(selected === null ? [] : lines[selected]?.sourceIds)
@@ -125,17 +125,20 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     revealTimer.current = window.setTimeout(() => setRevealing(false), REVEAL_MS)
   }
 
-  // 체험용 작업의 예시 자료는 AI 없이 예시 결과를 보여 주고(F-09), 그 밖의 자료는 AI에 보낸다(F-03)
+  // 체험용 작업(안내 모드)의 예시 자료는 AI 없이 예시 결과를 보여 주고(F-09), 직접 만든 작업은 예시 자료도 AI에 보낸다(F-03).
+  // 그래야 고친 내용과 규칙이 실제로 반영된다. 키가 없을 때만 예시 결과로 대신한다.
   async function run() {
     const material = input.trim()
     if (!material || running) return
-    if (sample && material === sample.material) return showResult(buildSampleResult(sample, material), true)
+    const isSampleMaterial = sample !== undefined && material === sample.material
+    if (sample && isSampleMaterial && task.isDemo) return showResult(buildSampleResult(sample, material), true)
     const carriedCorrections = carried && carried.material === material ? toCorrections(carried.pairs) : []
     setRunning(true)
     setNotice('')
     const outcome = await generateRun(task, material, carriedCorrections)
     setRunning(false)
     if (outcome.result) showResult(outcome.result, false)
+    else if (sample && isSampleMaterial && outcome.code === 'no_key') showResult(buildSampleResult(sample, material), true)
     else setNotice(RUN_FAILURE_NOTICE[outcome.code])
   }
 
