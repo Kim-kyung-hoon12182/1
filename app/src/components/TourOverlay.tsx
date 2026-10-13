@@ -1,5 +1,6 @@
 import Button from '@/components/Button'
 import Icon from '@/components/Icon'
+import Spinner from '@/components/Spinner'
 import { useRects, useTargetRect } from '@/hooks/useTargetRect'
 import { contains, grow, overlaps, overlayClipPath, placeBubble, splitAround } from '@/lib/tourLayout'
 import { useEffect, useRef, useState } from 'react'
@@ -99,6 +100,8 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
   const separate = grown.filter((box) => !overlaps(box, hole))
   const holes = wrapping.length > 0 ? [...separate, ...wrapping] : [hole, ...separate]
   const strips = wrapping.flatMap((box) => splitAround(box, hole))
+  // 눌러야 할 버튼이 아직 안 나왔으면(AI가 규칙 후보를 만드는 중) 기다리는 중이라고 알린다. 후보가 나오면 카드 높이가 바뀌어 다시 그려진다.
+  const waiting = Boolean(step.advanceOn) && document.querySelector(step.advanceOn ?? '') === null
   const bubbleStyle = placeBubble({ target: hole, contexts: [...separate, ...wrapping], view, size: BUBBLE_SIZE })
 
   return (
@@ -155,6 +158,7 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
           title={step.title}
           body={step.body}
           counter={`${index + 1} / ${total}`}
+          waiting={waiting}
           hint={hintShown ? (step.manual ? '[다음]을 눌러 넘어가세요. 그만하려면 [건너뛰기]를 누르세요.' : '지금은 표시된 곳을 눌러야 다음으로 넘어가요. 그만하려면 [건너뛰기]를 누르세요.') : undefined}
         >
           <div className="flex items-center gap-2">
@@ -173,9 +177,9 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
   )
 }
 
-type BubbleProps = { title: string; body: string; counter?: string; hint?: string; children: React.ReactNode }
+type BubbleProps = { title: string; body: string; counter?: string; hint?: string; waiting?: boolean; children: React.ReactNode }
 
-function Bubble({ title, body, counter, hint, children }: BubbleProps) {
+function Bubble({ title, body, counter, hint, waiting, children }: BubbleProps) {
   return (
     <div role="dialog" aria-live="polite" aria-label="사용 안내" className="rounded-xl bg-surface-lowest p-4 shadow-xl ring-1 ring-outline-variant">
       <div className="mb-1 flex items-center justify-between gap-2">
@@ -187,6 +191,12 @@ function Bubble({ title, body, counter, hint, children }: BubbleProps) {
       </div>
       <h3 className="text-headline-sm">{title}</h3>
       <p className="mt-1 text-body-sm leading-relaxed text-on-surface-variant">{body}</p>
+      {waiting && (
+        <p role="status" className="mt-2 flex items-center gap-2 text-body-sm font-semibold text-primary">
+          <Spinner />
+          만들고 있어요. 잠시만 기다려 주세요.
+        </p>
+      )}
       {hint && (
         <p role="status" className="mt-2 rounded-lg bg-flag-soft p-2 text-body-sm font-semibold text-flag-text">
           {hint}

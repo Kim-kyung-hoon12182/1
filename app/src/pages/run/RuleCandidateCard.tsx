@@ -1,6 +1,7 @@
 import Button from '@/components/Button'
 import Card from '@/components/Card'
 import { TextInput } from '@/components/Field'
+import Spinner from '@/components/Spinner'
 import Icon from '@/components/Icon'
 import Notice from '@/components/Notice'
 import { useRuleCandidate } from '@/hooks/useRuleCandidate'
@@ -41,8 +42,8 @@ export default function RuleCandidateCard({ task, run, lines, onAddRule }: RuleC
   if (candidate.phase === 'loading') {
     return (
       <Card as="section" bordered role="status" data-tour="rule-candidate" className="flex items-center gap-2 text-body-sm text-on-surface-variant">
-        <Icon name="auto_awesome" className="animate-pulse text-[18px] text-primary" />
-        고친 내용에서 규칙 후보를 만들고 있어요.
+        <Spinner />
+        고친 내용에서 규칙 후보를 만들고 있어요. 보통 몇 초 걸려요.
       </Card>
     )
   }

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Spinner from '@/components/Spinner'
 import Button from '@/components/Button'
 import Dialog from '@/components/Dialog'
 import { TextInput } from '@/components/Field'
@@ -78,7 +79,12 @@ export default function LeaveWithEditsDialog({ task, session, onAddRule, onCance
               규칙 후보 보기
             </Button>
           )}
-          {phase === 'loading' && <p className="text-body-sm text-on-surface-variant">고친 내용에서 규칙 후보를 만들고 있어요.</p>}
+          {phase === 'loading' && (
+            <p role="status" className="flex items-center gap-2 text-body-sm text-on-surface-variant">
+              <Spinner />
+              고친 내용에서 규칙 후보를 만들고 있어요.
+            </p>
+          )}
           {phase === 'none' && <p className="text-body-sm text-on-surface-variant">이번 자료에만 해당하는 고침이라 규칙 후보가 없어요.</p>}
           {phase === 'ready' && (
             <div className="space-y-2">
