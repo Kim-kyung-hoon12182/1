@@ -40,7 +40,10 @@ export default function RunPage({ task, prefillMaterial, onRecord, onAddRule, on
   const unfinished = session.result !== null && session.finished === null
 
   useEffect(() => {
-    const open = () => setSourceSheetOpen(true)
+    // 안내 중에는 시트를 열지 않는다. 시트가 아래 절반을 덮어서 안내가 가리키는 [고치기]가 가려지고 다음으로 못 넘어간다.
+    const open = () => {
+      if (!document.querySelector('[data-tour-ui]')) setSourceSheetOpen(true)
+    }
     window.addEventListener(SHOW_SOURCE_EVENT, open)
     return () => window.removeEventListener(SHOW_SOURCE_EVENT, open)
   }, [])

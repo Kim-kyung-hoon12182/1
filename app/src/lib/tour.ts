@@ -93,6 +93,14 @@ export const TOUR_STEPS: TourStep[] = [
     body: '고친 내용에서 규칙 후보가 나와요. 고쳐 쓸 수 있고, 추가한 규칙만 다음 실행부터 지켜서 글을 써요. [규칙 추가]를 눌러 보세요.',
   },
   {
+    target: '[data-tour="rule-added"]',
+    manual: true,
+    screen: 'run',
+    optional: true,
+    title: '규칙이 남았어요',
+    body: '방금 고친 내용이 이 작업의 규칙으로 저장됐어요. 다음 실행부터 AI에게 이 규칙을 함께 보내요. 규칙은 [내 작업]에서 고치거나 지울 수 있어요. 다 봤으면 [다음]을 눌러 주세요.',
+  },
+  {
     target: '[data-tour="handoff"]',
     advanceOn: '[data-tour="handoff-toggle"]',
     context: ['[data-tour="finished"]'],
@@ -114,6 +122,13 @@ export const TOUR_STEPS: TourStep[] = [
     title: '지난 결과를 다시 봐요',
     body: '방금 한 3회차가 맨 위에 있어요. [결과 보기]를 누르면 복사한 결과와 고친 곳을 볼 수 있어요. 1·2회차는 체험용으로 미리 채운 기록이라 결과가 없어요.',
   },
+  {
+    target: '[data-tour="run-result"]',
+    manual: true,
+    screen: 'history',
+    title: '복사한 결과와 고친 곳이 남아요',
+    body: '복사한 글이 이렇게 기록돼요. 글을 고쳤다면 고친 곳(전 → 후)도 아래에 함께 남아요. 다 봤으면 [다음]을 눌러 주세요.',
+  },
 ]
 
 export const TOUR_END = {
@@ -121,8 +136,8 @@ export const TOUR_END = {
   body: '안 고친 기록이 3번 쌓이면 "맡겨볼 만한 때예요"라고 알려 줘요. 이제 내 작업을 만들어 볼까요? 안내는 위쪽 [사용 안내]에서 다시 볼 수 있어요.',
 }
 
-// 조건이 맞을 때만 나오는 단계의 요소를 기다리는 시간
-export const TOUR_OPTIONAL_MS = 1500
+// 조건이 맞을 때만 나오는 단계의 요소를 기다리는 시간. 요소는 있으면 바로 나오므로 짧게 둔다(기다리는 동안 화면에 안내가 없어서, 길면 안내가 끊긴 것처럼 보인다)
+export const TOUR_OPTIONAL_MS = 250
 
 // 다음 단계의 요소가 이 시간 넘게 안 보이면 안내를 끝낸다
 export const TOUR_LOST_MS = 3000

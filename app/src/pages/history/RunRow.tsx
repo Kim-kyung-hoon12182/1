@@ -84,7 +84,7 @@ export default function RunRow({ entry, onRemove, onRun }: RunRowProps) {
       </div>
 
       {open && (
-        <div className="space-y-3 rounded-lg bg-surface-low p-3">
+        <div data-tour="run-result" className="space-y-3 rounded-lg bg-surface-low p-3">
           {run.finalText ? (
             <>
               <p className="text-label-md text-secondary">복사한 결과</p>

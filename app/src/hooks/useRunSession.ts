@@ -25,6 +25,10 @@ const RUN_FAILURE_NOTICE: Record<ApiErrorCode, string> = {
   network: '연결에 실패했어요. 인터넷 연결을 확인하고 다시 실행해 주세요. 자료는 그대로 남아 있어요.',
 }
 
+// 결과 위쪽 고정 영역(요약 카드와 상태 바)과 아래 복사 막대가 가리는 높이(대략)
+const STICKY_TOP_PX = 200
+const COPY_BAR_PX = 90
+
 // 작업 하나를 실행하는 동안의 상태와 동작 (S3). [복사하고 끝내기]를 누르면 onRecord로 실행 기록을 넘긴다 (F-06).
 export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (run: Run) => void) {
   const sample = getSample(task.sampleKey)
@@ -198,6 +202,13 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     applyEdit(index, editedTextOf(index, value))
     draftRef.current = null
     setEditing(null)
+    // 고치던 칸이 접히면 카드가 줄어서 위로 밀려 고친 글이 위쪽 고정 영역 밑으로 가려질 수 있다. 가려졌으면 가운데로 가져온다.
+    window.setTimeout(() => {
+      const card = cardRefs.current[index]
+      if (!card) return
+      const { top, bottom } = card.getBoundingClientRect()
+      if (top < STICKY_TOP_PX || bottom > window.innerHeight - COPY_BAR_PX) card.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 100)
   }
 
   const trackDraft = (index: number, value: string) => {

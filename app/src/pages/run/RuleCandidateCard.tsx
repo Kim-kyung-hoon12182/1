@@ -49,7 +49,7 @@ export default function RuleCandidateCard({ task, run, lines, onAddRule }: RuleC
 
   if (candidate.phase === 'added') {
     return (
-      <Card as="section" bordered role="status" className="flex items-start gap-3">
+      <Card as="section" bordered role="status" data-tour="rule-added" className="flex items-start gap-3">
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-fixed text-primary">
           <Icon name="bookmark" className="text-[18px]" />
         </div>
