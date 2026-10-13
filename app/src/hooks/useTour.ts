@@ -22,7 +22,7 @@ export function useTour(screen: TourScreen | 'create' | 'history') {
   // 지금 단계의 요소를 사용자가 누르면 다음 단계로. 화면의 누름 동작이 끝난 뒤에 넘어간다.
   useEffect(() => {
     // 키로 넘어가는 단계(입력칸)는 클릭으로 넘기지 않는다. 입력칸을 눌러 커서를 두는 건 자연스러운 동작이다.
-    if (!step || step.advanceKey) return
+    if (!step || step.advanceKey || step.manual) return
     const onClick = (event: MouseEvent) => {
       if (event.target instanceof Element && event.target.closest(step.advanceOn ?? step.target)) {
         window.setTimeout(() => setIndex((i) => (i === null ? null : i + 1)), 0)

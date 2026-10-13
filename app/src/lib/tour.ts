@@ -9,6 +9,8 @@ export type TourStep = {
   context?: string[]
   /** 지정한 키를 target 안에서 누르면 다음 단계로 넘어간다(입력칸처럼 누를 곳이 없는 단계) */
   advanceKey?: string
+  /** 누를 곳이 없는 설명 단계. 말풍선의 [다음]을 눌러야 넘어가고, 밝게 보이는 곳은 눌러도 반응하지 않는다 */
+  manual?: boolean
   /** 조건이 맞을 때만 나오는 단계. 요소가 안 보이면 알리지 않고 다음으로 넘어간다 */
   optional?: boolean
   screen: TourScreen
@@ -73,6 +75,13 @@ export const TOUR_STEPS: TourStep[] = [
     screen: 'run',
     title: '복사하고 끝내요',
     body: '고친 글이 복사되고, 고쳤는지가 기록돼요. 눌러 보세요.',
+  },
+  {
+    target: '[data-tour="finished"]',
+    manual: true,
+    screen: 'run',
+    title: '기록했어요',
+    body: '방금 결과와 고친 곳이 이 작업의 기록으로 남았어요. 고쳤는지가 기록되고, 이 기록이 쌓이면 맡겨볼 만한 때를 알려 줘요. 다 봤으면 [다음]을 눌러 주세요.',
   },
   {
     target: '[data-tour="rule-candidate"]',

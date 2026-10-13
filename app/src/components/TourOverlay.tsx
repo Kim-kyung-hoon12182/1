@@ -124,6 +124,9 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
           style={{ top: box.top, left: box.left, width: box.width, height: box.height }}
         />
       ))}
+      {step.manual && (
+        <div aria-hidden data-tour-ui onClick={onBlockedClick} onMouseDown={keepFocus} className="fixed z-[60] cursor-default" style={{ top: hole.top, left: hole.left, width: hole.width, height: hole.height }} />
+      )}
       {strips.map((box, i) => (
         <div
           key={`s${i}`}
@@ -152,11 +155,18 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
           title={step.title}
           body={step.body}
           counter={`${index + 1} / ${total}`}
-          hint={hintShown ? '지금은 표시된 곳을 눌러야 다음으로 넘어가요. 그만하려면 [건너뛰기]를 누르세요.' : undefined}
+          hint={hintShown ? (step.manual ? '[다음]을 눌러 넘어가세요. 그만하려면 [건너뛰기]를 누르세요.' : '지금은 표시된 곳을 눌러야 다음으로 넘어가요. 그만하려면 [건너뛰기]를 누르세요.') : undefined}
         >
-          <Button size="sm" variant="ghost" onClick={onSkip}>
-            건너뛰기
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button size="sm" variant="ghost" onClick={onSkip}>
+              건너뛰기
+            </Button>
+            {step.manual && (
+              <Button size="sm" variant="primary" onClick={onNext}>
+                다음
+              </Button>
+            )}
+          </div>
         </Bubble>
       </div>
     </>
