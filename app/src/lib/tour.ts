@@ -46,7 +46,8 @@ export const TOUR_STEPS: TourStep[] = [
   },
   {
     target: 'main li[aria-current="true"] [data-tour="source-link"]',
-    context: ['[data-tour="source-panel"]', 'main li[aria-current="true"]'],
+    // 왼쪽 자료는 일부러 흐리게 둔다. [자료에서 보기]를 눌러야 자료가 밝아지고 참고한 문장이 표시되는 것을 보여 주려는 것
+    context: ['main li[aria-current="true"]'],
     screen: 'run',
     title: '참고한 자료를 확인해요',
     body: '"자료에 없음"은 자료에서 찾지 못한 값이라는 뜻이에요. [자료에서 보기]를 눌러 AI가 참고한 문장을 확인해 보세요.',
