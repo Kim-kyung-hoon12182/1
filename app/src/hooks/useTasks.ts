@@ -50,6 +50,8 @@ export function useTasks() {
   const addRule = (taskId: string, rule: Rule) => updateTask(taskId, (task) => ({ ...task, rules: [...task.rules, rule] }))
   const updateRule = (taskId: string, ruleId: string, text: string) =>
     updateTask(taskId, (task) => ({ ...task, rules: task.rules.map((rule) => (rule.id === ruleId ? { ...rule, text } : rule)) }))
+  const setRuleFreeform = (taskId: string, ruleId: string, freeform: boolean) =>
+    updateTask(taskId, (task) => ({ ...task, rules: task.rules.map((rule) => (rule.id === ruleId ? { ...rule, freeform: freeform || undefined } : rule)) }))
   const removeRule = (taskId: string, ruleId: string) =>
     updateTask(taskId, (task) => ({ ...task, rules: task.rules.filter((rule) => rule.id !== ruleId) }))
 
@@ -70,5 +72,5 @@ export function useTasks() {
 
   const findTask = (id: string) => (id === demo.id ? demo : tasks.find((task) => task.id === id))
 
-  return { tasks, demo, saveFailed, addTask, addRun, addRule, updateRule, removeRule, removeRun, answerEditedAfter, removeTask, resetDemo, findTask }
+  return { tasks, demo, saveFailed, addTask, addRun, addRule, updateRule, setRuleFreeform, removeRule, removeRun, answerEditedAfter, removeTask, resetDemo, findTask }
 }

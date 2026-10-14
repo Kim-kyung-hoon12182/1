@@ -9,6 +9,8 @@ export type Rule = {
   id: string
   text: string
   source: 'setup' | 'edit'
+  /** 이 규칙을 지키는 줄은 자료에 없는 의견·느낀 점을 써도 된다(TIL 같은 글). 숫자·이름은 그래도 자료와 맞춰 본다 */
+  freeform?: boolean
   fromRun?: number
 }
 

@@ -2,6 +2,7 @@ import Badge from '@/components/Badge'
 import Button from '@/components/Button'
 import Card from '@/components/Card'
 import { TextInput } from '@/components/Field'
+import FreeformToggle from '@/components/FreeformToggle'
 import IconButton from '@/components/IconButton'
 import { RULE_MAX } from '@/lib/limits'
 import type { Rule } from '@/types/task'
@@ -15,6 +16,7 @@ type RuleCardProps = {
   /** 연필로 고치는 중인지 */
   isEditing: boolean
   onChange: (text: string) => void
+  onSetFreeform: (freeform: boolean) => void
   onRemove: () => void
   onStartEdit: () => void
   onCancelEdit: () => void
@@ -28,6 +30,7 @@ export default function RuleCard({
   originLabel,
   isEditing,
   onChange,
+  onSetFreeform,
   onRemove,
   onStartEdit,
   onCancelEdit,
@@ -66,6 +69,7 @@ export default function RuleCard({
             }}
           />
         </div>
+        <FreeformToggle checked={rule.freeform === true} label={`규칙 ${number}`} onChange={onSetFreeform} />
         <div className="flex items-center justify-between gap-2">
           <Button size="sm" variant="ghost" icon="delete" className="py-1.5 hover:text-flag-icon" onClick={onRemove}>
             삭제
@@ -100,6 +104,7 @@ export default function RuleCard({
           )}
         </div>
         <p className="text-headline-sm leading-snug">{rule.text}</p>
+        <FreeformToggle checked={rule.freeform === true} label={`규칙 ${number}`} onChange={onSetFreeform} />
       </div>
       <div className="flex shrink-0 items-center gap-1">
         <IconButton icon="edit" label={`규칙 ${number} 고치기`} onClick={onStartEdit} />

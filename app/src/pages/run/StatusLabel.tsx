@@ -51,6 +51,15 @@ export default function StatusLabel({ status, sourceIds, missingTokens, sentence
       </Tooltip>
     )
   }
+  if (status === 'opinion') {
+    return (
+      <Tooltip content={legendOf('opinion')}>
+        <Badge size="md" pill icon="edit_note">
+          {text('내 생각 줄')}
+        </Badge>
+      </Tooltip>
+    )
+  }
   if (status === 'not_in_input') {
     return (
       <Tooltip content={legendOf('not_in_input')}>

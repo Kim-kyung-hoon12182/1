@@ -68,6 +68,7 @@ export default function RulesStep({ draft }: { draft: TaskDraft }) {
                 originLabel={originLabel(rule)}
                 isEditing={draft.editingId === rule.id}
                 onChange={(text) => draft.updateRule(rule.id, text)}
+                onSetFreeform={(freeform) => draft.setFreeform(rule.id, freeform)}
                 onRemove={() => draft.removeRule(rule.id)}
                 onStartEdit={() => draft.startEdit(rule)}
                 onCancelEdit={draft.cancelEdit}

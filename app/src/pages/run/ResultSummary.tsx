@@ -44,6 +44,11 @@ export default function ResultSummary({ session, task, onGoToTasks }: { session:
               제목 {countByStatus(lines, 'heading')}줄
             </Badge>
           )}
+          {countByStatus(lines, 'opinion') > 0 && (
+            <Badge size="md" icon="edit_note">
+              내 생각 줄 {countByStatus(lines, 'opinion')}줄
+            </Badge>
+          )}
           <Badge size="md" tone="flagSoft" icon="warning">
             근거 확인 필요 {countByStatus(lines, 'needs_check')}줄
           </Badge>

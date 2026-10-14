@@ -19,6 +19,7 @@ type TaskListPageProps = {
   onResetDemo: () => void
   onAddRule: (taskId: string, text: string) => void
   onUpdateRule: (taskId: string, ruleId: string, text: string) => void
+  onSetRuleFreeform: (taskId: string, ruleId: string, freeform: boolean) => void
   onRemoveRule: (taskId: string, ruleId: string) => void
   onRemoveTask: (taskId: string) => void
   onHistory: (task: Task) => void
@@ -33,6 +34,7 @@ export default function TaskListPage({
   onResetDemo,
   onAddRule,
   onUpdateRule,
+  onSetRuleFreeform,
   onRemoveRule,
   onRemoveTask,
   onHistory,
@@ -94,6 +96,7 @@ export default function TaskListPage({
           onClose={() => setRulesTaskId(null)}
           onAdd={(text) => onAddRule(rulesTask.id, text)}
           onUpdate={(ruleId, text) => onUpdateRule(rulesTask.id, ruleId, text)}
+          onSetFreeform={(ruleId, freeform) => onSetRuleFreeform(rulesTask.id, ruleId, freeform)}
           onRemove={(ruleId) => onRemoveRule(rulesTask.id, ruleId)}
           onRemoveTask={
             rulesTask.isDemo

@@ -73,6 +73,7 @@ app/
 - `coverage.ts`(참고 범위)를 고치면 `node --experimental-strip-types scripts/coverage-test.ts`를 돌린다
 - `citation.ts`(근거 번호 바로잡기)를 고치면 `node --experimental-strip-types scripts/citation-test.ts`를 돌린다
 - `rules.ts`의 규칙 후보 부분(`buildRuleCandidatePrompt`, `parseRuleCandidate`)을 고치면 `node --experimental-strip-types scripts/rule-candidate-test.ts`를 돌린다
+- `lineEdit.ts`(고친 줄 다시 검사, 자료 밖 허용)를 고치면 `node --experimental-strip-types scripts/freeform-test.ts`, `scripts/money-test.ts`를 돌린다
 - `taskName.ts`(작업 이름 제안)를 고치면 `node --experimental-strip-types scripts/task-name-test.ts`를 돌린다
 - `history.ts`(실행 이력 집계)를 고치면 `node --experimental-strip-types scripts/history-test.ts`를 돌린다
 - `unknownMark.ts`([확인 필요] 표시)를 고치면 `node --experimental-strip-types scripts/unknown-mark-test.ts`를 돌린다

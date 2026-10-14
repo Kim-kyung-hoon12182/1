@@ -3,6 +3,7 @@ import Badge from '@/components/Badge'
 import Button from '@/components/Button'
 import Dialog from '@/components/Dialog'
 import { TextInput } from '@/components/Field'
+import FreeformToggle from '@/components/FreeformToggle'
 import IconButton from '@/components/IconButton'
 import { RULE_MAX } from '@/lib/limits'
 import type { Rule, Task } from '@/types/task'
@@ -12,6 +13,7 @@ type RulesDialogProps = {
   onClose: () => void
   onAdd: (text: string) => void
   onUpdate: (ruleId: string, text: string) => void
+  onSetFreeform: (ruleId: string, freeform: boolean) => void
   onRemove: (ruleId: string) => void
   /** 체험용 작업은 지울 수 없으므로 없으면 삭제 버튼을 보이지 않는다 */
   onRemoveTask?: () => void
@@ -26,7 +28,7 @@ const originOf = (rule: Rule) =>
       : { label: '등록할 때', tone: 'muted' as const }
 
 // S6 규칙 목록(최소): 규칙을 보고 고치고 지우고 더한다
-export default function RulesDialog({ task, onClose, onAdd, onUpdate, onRemove, onRemoveTask }: RulesDialogProps) {
+export default function RulesDialog({ task, onClose, onAdd, onUpdate, onSetFreeform, onRemove, onRemoveTask }: RulesDialogProps) {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [draft, setDraft] = useState('')
   const [newRule, setNewRule] = useState('')
@@ -102,6 +104,11 @@ export default function RulesDialog({ task, onClose, onAdd, onUpdate, onRemove, 
                       <IconButton icon="edit" label={`규칙 ${index + 1} 고치기`} onClick={() => startEdit(rule)} />
                       <IconButton icon="delete" label={`규칙 ${index + 1} 삭제`} danger onClick={() => onRemove(rule.id)} />
                     </div>
+                  </div>
+                )}
+                {editingId !== rule.id && (
+                  <div className="mt-1.5">
+                    <FreeformToggle checked={rule.freeform === true} label={`규칙 ${index + 1}`} onChange={(checked) => onSetFreeform(rule.id, checked)} />
                   </div>
                 )}
               </li>

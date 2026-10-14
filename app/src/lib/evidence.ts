@@ -1,5 +1,5 @@
 // 'heading'은 소제목 줄(lib/heading.ts). checkLine은 만들지 않고, 결과를 줄로 만들 때 붙인다.
-export type LineStatus = 'has_source' | 'not_in_input' | 'needs_check' | 'heading'
+export type LineStatus = 'has_source' | 'not_in_input' | 'needs_check' | 'heading' | 'opinion'
 
 export type LineCheck = {
   status: LineStatus

@@ -17,7 +17,7 @@ import TaskListPage from '@/pages/TaskListPage'
 import type { Task } from '@/types/task'
 
 export default function App() {
-  const { tasks, demo, saveFailed, addTask, addRun, addRule, updateRule, removeRule, removeRun, answerEditedAfter, removeTask, resetDemo, findTask } =
+  const { tasks, demo, saveFailed, addTask, addRun, addRule, updateRule, setRuleFreeform, removeRule, removeRun, answerEditedAfter, removeTask, resetDemo, findTask } =
     useTasks()
   // 복사하지 않은 결과가 있는 실행 화면에서 나가려 하면 한 번 묻는다 (RunPage가 알려 준다)
   const unfinishedRef = useRef(false)
@@ -114,6 +114,7 @@ export default function App() {
           onResetDemo={resetDemo}
           onAddRule={(taskId, text) => addRule(taskId, { id: `u${crypto.randomUUID().slice(0, 8)}`, text, source: 'setup' })}
           onUpdateRule={updateRule}
+          onSetRuleFreeform={setRuleFreeform}
           onRemoveRule={removeRule}
           onRemoveTask={removeTask}
           onHistory={(task) => go({ screen: 'history', taskId: task.id })}

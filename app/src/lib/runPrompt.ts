@@ -25,7 +25,7 @@ export const buildRunPrompt = (answers: Answers, rules: Rule[], sentences: strin
     `결과 모양: ${answers.shape}`,
     '',
     '[지킬 규칙]',
-    ...rules.filter((rule) => rule.text.trim()).map((rule) => `${rule.id}. ${rule.text.trim()}`),
+    ...rules.filter((rule) => rule.text.trim()).map((rule) => `${rule.id}. ${rule.text.trim()}${rule.freeform ? ' [자료 밖 허용]' : ''}`),
     '',
     '[자료] 문장마다 번호가 붙어 있습니다.',
     ...sentences.map((sentence, index) => `${index + 1}. ${sentence}`),
@@ -42,6 +42,9 @@ export const buildRunPrompt = (answers: Answers, rules: Rule[], sentences: strin
     ...(answers.example?.trim() ? ['', '[예전에 잘 나온 결과: 말투와 모양만 참고하세요]', answers.example.trim()] : []),
     '',
     '- 자료에 없는 숫자, 이름, 사실은 쓰지 마세요. 모르는 부분은 "[확인 필요]"라고 쓰세요.',
+    ...(rules.some((rule) => rule.freeform && rule.text.trim())
+      ? ['- [자료 밖 허용]이 붙은 규칙을 지키는 줄만 자료에 없는 의견, 느낀 점, 다짐을 써도 됩니다. 그 줄의 ruleIds에 그 규칙 번호를 넣으세요. 자료에 있는 사실처럼 쓰지 말고, 숫자와 이름은 그 줄에서도 자료에 없는 것을 쓰지 마세요.']
+      : []),
     '- 자료의 조심스러운 표현(가능성이 있다, ~할 수 있다, 추정, 일부)은 단정으로 바꾸지 말고 그대로 유지하세요.',
     '- 날짜와 숫자는 자료에 적힌 표기 그대로 쓰세요(예: 2026. 09. 23.을 2026년 9월 23일로 바꾸지 마세요).',
     '- 자료의 시제와 사실 상태를 바꾸지 마세요. 이미 끝난 일은 끝난 일로, 계획이나 예정은 계획이나 예정으로 그대로 쓰세요.',

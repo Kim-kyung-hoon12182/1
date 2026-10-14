@@ -87,6 +87,9 @@ export function useTaskDraft(initialSampleKey: SampleKey | undefined, onSaved: (
   const updateRule = (id: string, text: string) =>
     setRules((prev) => prev.map((rule) => (rule.id === id ? { ...rule, text } : rule)))
 
+  const setFreeform = (id: string, freeform: boolean) =>
+    setRules((prev) => prev.map((rule) => (rule.id === id ? { ...rule, freeform: freeform || undefined } : rule)))
+
   const removeRule = (id: string) => setRules((prev) => prev.filter((rule) => rule.id !== id))
 
   function startEdit(rule: Rule) {
@@ -143,6 +146,7 @@ export function useTaskDraft(initialSampleKey: SampleKey | undefined, onSaved: (
     makeRules,
     cancelLoading,
     updateRule,
+    setFreeform,
     removeRule,
     startEdit,
     cancelEdit,

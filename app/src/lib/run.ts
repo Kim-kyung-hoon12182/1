@@ -1,10 +1,10 @@
 import type { Sample } from '@/data/sampleTasks'
 import { checkLine, hasUnbackedFlip, hasUnbackedFuture, type LineStatus } from '@/lib/evidence'
-import { statusOfText } from '@/lib/lineEdit'
+import { statusOfText, withOpinion } from '@/lib/lineEdit'
 import { hasUnknownMark } from '@/lib/unknownMark'
 import { splitSentences } from '@/lib/material'
 import type { RawLine } from '@/lib/runPrompt'
-import type { OutputLine } from '@/types/task'
+import type { OutputLine, Rule } from '@/types/task'
 
 export type RunResult = {
   sentences: string[]
@@ -24,13 +24,13 @@ export const buildSampleResult = (sample: Sample, material: string): RunResult =
 }
 
 // AI가 준 줄에도 같은 검사를 붙인다. AI가 붙인 번호는 참고한 곳일 뿐 검증이 아니다 (F-04)
-export const buildAiResult = (rawLines: RawLine[], sentences: string[]): RunResult => ({
+export const buildAiResult = (rawLines: RawLine[], sentences: string[], rules: Rule[] = []): RunResult => ({
   sentences,
-  lines: rawLines.map((line) => ({ ...line, ...statusOfText(line.text, line.sourceIds, sentences) })),
+  lines: rawLines.map((line) => ({ ...line, ...withOpinion(line, statusOfText(line.text, line.sourceIds, sentences), rules) })),
 })
 
 
-export const isFlagged = (line: OutputLine) => !line.deleted && line.status !== 'has_source' && line.status !== 'heading'
+export const isFlagged = (line: OutputLine) => !line.deleted && line.status !== 'has_source' && line.status !== 'heading' && line.status !== 'opinion'
 
 export const flaggedIndexes = (lines: OutputLine[]) =>
   lines.flatMap((line, index) => (isFlagged(line) ? [index] : []))
