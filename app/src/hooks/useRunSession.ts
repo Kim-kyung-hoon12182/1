@@ -43,6 +43,8 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
   const [selected, setSelected] = useState<number | null>(null)
   const [editing, setEditing] = useState<number | null>(null)
   const [copyState, setCopyState] = useState<CopyState>('idle')
+  // 복사하기 전에 복사될 글을 보여 주는 창(S3-8)
+  const [previewOpen, setPreviewOpen] = useState(false)
   const [cardScrollTarget, setCardScrollTarget] = useState<{ index: number } | null>(null)
   const [finished, setFinished] = useState<Run | null>(null)
   // 이전 결과에서 고치거나 지운 내용. 같은 자료로 다시 실행할 때 "이번 실행의 정정"으로 AI에게 보낸다(규칙으로 남기는 게 아니다)
@@ -102,6 +104,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
   }, [copyState])
 
   const resetView = () => {
+    setPreviewOpen(false)
     setSelected(null)
     setEditing(null)
     setCopyState('idle')
@@ -249,6 +252,14 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     }
   }
 
+  // 복사될 글을 먼저 보여 준다. 고치던 줄이 확정 전이면(입력칸에 커서가 있던 채로 눌렀을 때) 그 글까지 반영해서 보여 준다.
+  function openPreview() {
+    if (!result || finished) return
+    const draft = draftRef.current
+    if (editing !== null && draft?.index === editing) finishEdit(editing, draft.value)
+    setPreviewOpen(true)
+  }
+
   // F-06 순서: ① 복사 ② 복사가 실패해도 기록은 확정(성공 여부는 copied에 남김) ③ 다음 행동 안내
   async function copyAndFinish() {
     if (!result || finished) return
@@ -276,6 +287,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     draftRef.current = null
     setResult((prev) => (prev ? { ...prev, lines: current } : prev))
     setEditing(null)
+    setPreviewOpen(false)
     onRecord(record)
     setFinished(record)
   }
@@ -321,6 +333,9 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     goToFlagged,
     copyText,
     copyAndFinish,
+    previewOpen,
+    openPreview,
+    closePreview: () => setPreviewOpen(false),
   }
 }
 

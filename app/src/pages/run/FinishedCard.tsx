@@ -30,7 +30,7 @@ const describeStreak = (run: Run, streak: number) => {
   return `안 고친 기록이 연속 ${streak}번이에요. ${HANDOFF_STREAK - streak}번 더 이어지면 맡겨볼 만한 때를 알려 줘요.`
 }
 
-// [복사하고 끝내기] 뒤에 보이는 카드. 기록한 결과와 다음 행동을 알려 준다 (S3-8, F-06).
+// [복사할 글 보기]에서 복사 뒤에 보이는 카드. 기록한 결과와 다음 행동을 알려 준다 (S3-8, F-06).
 export default function FinishedCard({ task, run, session, onGoToTasks, onAddRule }: FinishedCardProps) {
   const [handoffClosed, setHandoffClosed] = useState(false)
   const streak = countStreak(task.runs)

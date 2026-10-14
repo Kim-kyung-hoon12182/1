@@ -12,6 +12,7 @@ import FinishedCard from './run/FinishedCard'
 import IntroGuide from './run/IntroGuide'
 import ResultCard from './run/ResultCard'
 import ResultSkeleton from './run/ResultSkeleton'
+import CopyPreviewDialog from './run/CopyPreviewDialog'
 import ResultSummary from './run/ResultSummary'
 import RunHeader from './run/RunHeader'
 import SourcePanel from './run/SourcePanel'
@@ -108,6 +109,7 @@ export default function RunPage({ task, prefillMaterial, onRecord, onAddRule, on
           )}
         </section>
       </div>
+      {session.previewOpen && !session.finished && <CopyPreviewDialog session={session} />}
       {leaveOpen && (
         <LeaveWithEditsDialog
           task={task}

@@ -90,7 +90,7 @@ export default function HistoryPage({ tasks, demo, onGoToTasks, onRemoveRun, onR
             </Button>
           }
         >
-          작업을 실행하고 [복사하고 끝내기]를 누르면 여기에 쌓여요.
+          작업을 실행하고 [이대로 복사하고 기록]을 누르면 여기에 쌓여요.
         </EmptyState>
       ) : (
         <>

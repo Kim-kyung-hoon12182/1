@@ -73,8 +73,15 @@ export const TOUR_STEPS: TourStep[] = [
     target: '[data-tour="copy-finish"]',
     context: ['[data-tour="source-panel"]', 'main li[aria-current="true"]'],
     screen: 'run',
-    title: '복사하고 끝내요',
-    body: '고친 글이 복사되고, 고쳤는지가 기록돼요. 눌러 보세요.',
+    title: '복사할 글을 열어요',
+    body: '고친 내용을 반영한 글이 어떤 모양인지 먼저 보여 줘요. 눌러 보세요.',
+  },
+  {
+    target: '[data-tour="copy-confirm"]',
+    context: ['[data-tour="copy-preview"]'],
+    screen: 'run',
+    title: '이대로 복사해요',
+    body: '복사될 글이에요. 고친 글은 들어가고 삭제한 줄은 빠져요. [이대로 복사하고 기록]을 누르면 복사되고, 고쳤는지가 기록돼요. 눌러 보세요.',
   },
   {
     target: '[data-tour="finished"]',
