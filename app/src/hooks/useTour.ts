@@ -32,6 +32,19 @@ export function useTour(screen: TourScreen | 'create' | 'history') {
     return () => document.removeEventListener('click', onClick, true)
   }, [step])
 
+  // 입력칸 단계에서 칸이 다른 길로 닫히면(바깥을 누르는 등 포커스가 빠진 경우) Enter를 기다리지 않고 다음 단계로 넘어간다.
+  // 칸이 사라진 채로 두면 안내가 가리킬 곳을 잃고 끝내야 하는 상태가 된다.
+  useEffect(() => {
+    if (!step?.advanceKey) return
+    const { target } = step
+    let missing = 0
+    const timer = window.setInterval(() => {
+      missing = document.querySelector(target) ? 0 : missing + 1
+      if (missing >= 2) setIndex((i) => (i === null ? null : i + 1))
+    }, 250)
+    return () => window.clearInterval(timer)
+  }, [step])
+
   // 입력칸처럼 누를 곳이 없는 단계는 정해 둔 키로 넘어간다
   useEffect(() => {
     if (!step?.advanceKey) return
