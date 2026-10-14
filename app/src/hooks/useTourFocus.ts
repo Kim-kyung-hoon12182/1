@@ -20,12 +20,6 @@ export function useTourFocus(active: boolean, stepKey: number, pressSelector: st
 
     const onKey = (event: KeyboardEvent) => {
       if (event.key !== 'Tab') return
-      // 입력칸에서 Tab을 누르면 칸이 닫히며(포커스가 빠져나가므로) 안내가 가리키는 칸이 사라진다. 입력 중에는 Tab으로 나가지 못하게 한다.
-      const current = document.activeElement
-      if (current instanceof HTMLElement && current.matches('input, textarea') && pressSelector && current.closest(pressSelector)) {
-        event.preventDefault()
-        return
-      }
       const items = allowed()
       if (items.length === 0) return
       const at = items.indexOf(document.activeElement as HTMLElement)
