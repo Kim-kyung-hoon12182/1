@@ -32,7 +32,10 @@ export default function AppHeader({ current, runAvailable, onNavigate, onStartTo
     <header className="sticky top-0 z-40 border-b border-outline-variant bg-surface-lowest">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-8">
         <div className="flex h-full min-w-0 items-center gap-2 sm:gap-8">
-          <img src="/logo-header.png" alt="또시켰네" width="120" height="48" className="h-9 w-auto shrink-0 sm:h-12" />
+          {/* 로고를 누르면 첫 화면(내 작업)으로 간다. 복사하지 않은 결과가 있으면 나가기 확인이 먼저 뜬다 */}
+          <button type="button" aria-label="또시켰네 첫 화면(내 작업)으로" onClick={() => onNavigate('tasks')} className="shrink-0 rounded-lg focus-visible:outline-2 focus-visible:outline-primary">
+            <img src="/logo-header.png" alt="" width="120" height="48" className="h-9 w-auto sm:h-12" />
+          </button>
           <nav aria-label="주 메뉴" className="flex h-full items-center gap-3 sm:gap-4">
             {NAV_ITEMS.map((item) => {
               const isCurrent = item.id === current
