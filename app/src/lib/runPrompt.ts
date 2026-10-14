@@ -1,4 +1,5 @@
 import type { Answers, Rule } from '@/types/task'
+import { commonDirectives, FREEFORM_MARK } from './directives.ts'
 
 export type RawLine = {
   text: string
@@ -25,7 +26,7 @@ export const buildRunPrompt = (answers: Answers, rules: Rule[], sentences: strin
     `결과 모양: ${answers.shape}`,
     '',
     '[지킬 규칙]',
-    ...rules.filter((rule) => rule.text.trim()).map((rule) => `${rule.id}. ${rule.text.trim()}${rule.freeform ? ' [자료 밖 허용]' : ''}`),
+    ...rules.filter((rule) => rule.text.trim()).map((rule) => `${rule.id}. ${rule.text.trim()}${rule.freeform ? ` ${FREEFORM_MARK}` : ''}`),
     '',
     '[자료] 문장마다 번호가 붙어 있습니다.',
     ...sentences.map((sentence, index) => `${index + 1}. ${sentence}`),
@@ -41,15 +42,7 @@ export const buildRunPrompt = (answers: Answers, rules: Rule[], sentences: strin
       : []),
     ...(answers.example?.trim() ? ['', '[예전에 잘 나온 결과: 말투와 모양만 참고하세요]', answers.example.trim()] : []),
     '',
-    '- 자료에 없는 숫자, 이름, 사실은 쓰지 마세요. 모르는 부분은 "[확인 필요]"라고 쓰세요.',
-    ...(rules.some((rule) => rule.freeform && rule.text.trim())
-      ? ['- [자료 밖 허용]이 붙은 규칙을 지키는 줄만 자료에 없는 의견, 느낀 점, 다짐을 써도 됩니다. 그 줄의 ruleIds에 그 규칙 번호를 넣으세요. 자료에 있는 사실처럼 쓰지 말고, 숫자와 이름은 그 줄에서도 자료에 없는 것을 쓰지 마세요.']
-      : []),
-    '- 자료의 조심스러운 표현(가능성이 있다, ~할 수 있다, 추정, 일부)은 단정으로 바꾸지 말고 그대로 유지하세요.',
-    '- 날짜와 숫자는 자료에 적힌 표기 그대로 쓰세요(예: 2026. 09. 23.을 2026년 9월 23일로 바꾸지 마세요).',
-    '- 자료의 시제와 사실 상태를 바꾸지 마세요. 이미 끝난 일은 끝난 일로, 계획이나 예정은 계획이나 예정으로 그대로 쓰세요.',
-    '- 결과는 줄 단위로 쓰고, 한 줄에는 하나의 내용만 담으세요.',
-    '- 소제목이 필요하면 "[완료한 일]"처럼 대괄호로 감싼 짧은 줄로만 쓰세요. "여기까지예요" 같은 맺음 문장은 쓰지 마세요.',
+    ...commonDirectives(rules),
     '- 줄마다 근거가 된 자료 번호(sourceIds)와, 그 자료 문장에서 그대로 옮긴 짧은 글(sourceQuotes, 8~15글자)과, 지킨 규칙 번호(ruleIds)를 붙이세요. 번호는 틀리기 쉬우니 글을 자료와 똑같이 옮기세요. 근거가 없으면 빈 배열로 두세요.',
     '- 응답은 JSON만 출력하세요. 형식: {"lines":[{"text":"줄 내용","sourceIds":[1],"sourceQuotes":["자료에서 옮긴 글"],"ruleIds":["r1"]}]}',
   ].join('\n')

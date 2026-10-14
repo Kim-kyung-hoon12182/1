@@ -1,4 +1,5 @@
-import type { Task } from '@/types/task'
+import type { Task } from '../types/task.ts'
+import { commonDirectives, FREEFORM_MARK } from './directives.ts'
 
 // 받침이 있으면 "을", 없으면 "를". 한글로 끝나지 않으면 둘 다 보여 준다.
 export const withObjectParticle = (word: string) => {
@@ -10,21 +11,25 @@ export const withObjectParticle = (word: string) => {
 type HandoffTask = Pick<Task, 'name' | 'answers' | 'rules'>
 
 // 다른 곳(예약 작업 등)에 붙여 넣을 지시문 (정의서 F-08). AI를 쓰지 않고 앱이 규칙과 답변으로 조립한다.
+// 앱이 AI에 보내는 실행 요청과 같은 공통 지시를 쓴다(directives.ts). 줄마다 근거 번호를 받는 약속과 JSON 형식은 앱 안에서만 필요해서 넣지 않는다.
 // 이름 끝의 "(체험)" 같은 괄호 표기는 지시문에 넣지 않는다
 const plainName = (name: string) => name.replace(/\s*\([^)]*\)\s*$/, '').trim() || name.trim()
 
 export const buildHandoffPrompt = (task: HandoffTask) => {
-  const rules = task.rules.map((rule) => rule.text.trim()).filter(Boolean)
+  const rules = task.rules.filter((rule) => rule.text.trim())
   return [
-    `매주 ${withObjectParticle(plainName(task.name))} 써 주세요.`,
+    `매주 "${plainName(task.name)}" 글을 써 주세요.`,
     '',
     '[결과 모양]',
     task.answers.shape.trim(),
     '',
     '[지킬 규칙]',
-    ...rules.map((rule, index) => `${index + 1}. ${rule}`),
+    ...rules.map((rule, index) => `${index + 1}. ${rule.text.trim()}${rule.freeform ? ` ${FREEFORM_MARK}` : ''}`),
     '',
     '[자료]',
-    `제가 ${withObjectParticle(task.answers.materials)} 붙여 넣으면 그걸로만 써 주세요. 자료에 없는 숫자나 이름은 쓰지 말고, 모르는 부분은 [확인 필요]라고 표시해 주세요.`,
+    `메모는 실행할 때마다 이 지시문 아래에 붙여 넣을게요. 제가 적어 둔 자료 설명: "${task.answers.materials.trim()}"`,
+    '',
+    '[공통으로 지킬 것]',
+    ...commonDirectives(rules, false),
   ].join('\n')
 }
