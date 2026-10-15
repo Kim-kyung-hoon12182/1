@@ -5,7 +5,7 @@ import Dialog from '@/components/Dialog'
 import { TextInput } from '@/components/Field'
 import FreeformToggle from '@/components/FreeformToggle'
 import IconButton from '@/components/IconButton'
-import { RULE_MAX } from '@/lib/limits'
+import { RULES_BUDGET, rulesChars, ruleMaxLength } from '@/lib/limits'
 import type { Rule, Task } from '@/types/task'
 
 type RulesDialogProps = {
@@ -58,6 +58,10 @@ export default function RulesDialog({ task, onClose, onAdd, onUpdate, onSetFreef
         규칙은 글을 쓸 때 지킬 약속이고, 앱이 결과를 판단하는 기준은 아니에요. 고치거나 지우면 다음 실행부터 반영돼요.
       </p>
 
+      <p className="mb-2 text-label-md text-on-surface-variant" title="규칙이 너무 길어지면 AI에 보내는 요청이 한도를 넘어요">
+        규칙 {task.rules.length}개 · {rulesChars(task.rules).toLocaleString()} / {RULES_BUDGET.toLocaleString()}자
+      </p>
+
       {task.rules.length === 0 ? (
         <p className="rounded-lg bg-surface-low p-4 text-body-sm text-on-surface-variant">아직 규칙이 없어요. 아래에서 추가해 보세요.</p>
       ) : (
@@ -75,7 +79,7 @@ export default function RulesDialog({ task, onClose, onAdd, onUpdate, onSetFreef
                     <TextInput
                       autoFocus
                       value={draft}
-                      maxLength={RULE_MAX}
+                      maxLength={ruleMaxLength(task.rules, rule.text.length)}
                       aria-label={`규칙 ${index + 1} 고치기`}
                       onChange={(event) => setDraft(event.target.value)}
                       onKeyDown={(event) => {
@@ -120,9 +124,9 @@ export default function RulesDialog({ task, onClose, onAdd, onUpdate, onSetFreef
       <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
         <TextInput
           value={newRule}
-          maxLength={RULE_MAX}
+          maxLength={ruleMaxLength(task.rules)}
           aria-label="새 규칙"
-          placeholder="예: 날짜는 YYYY-MM-DD 형식으로 쓴다"
+          placeholder={ruleMaxLength(task.rules) === 0 ? '규칙 글자 수 한도에 도달했어요. 규칙을 줄이면 더할 수 있어요.' : '예: 날짜는 YYYY-MM-DD 형식으로 쓴다'}
           onChange={(event) => setNewRule(event.target.value)}
           onKeyDown={(event) => {
             if (event.key === 'Enter' && !event.nativeEvent.isComposing) addNew()

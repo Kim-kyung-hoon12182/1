@@ -5,7 +5,6 @@ import Spinner from '@/components/Spinner'
 import Icon from '@/components/Icon'
 import Notice from '@/components/Notice'
 import { useRuleCandidate } from '@/hooks/useRuleCandidate'
-import { RULE_MAX } from '@/lib/limits'
 import { editedPairs } from '@/lib/rules'
 import type { OutputLine, Rule, Run, Task } from '@/types/task'
 
@@ -98,7 +97,7 @@ export default function RuleCandidateCard({ task, run, lines, onAddRule }: RuleC
 
       <TextInput
         value={candidate.text}
-        maxLength={RULE_MAX}
+        maxLength={Math.max(candidate.room, candidate.text.length)}
         aria-label="규칙 후보"
         placeholder="예: 금액은 만 원 단위로 쓴다"
         onChange={(event) => candidate.setText(event.target.value)}
@@ -110,6 +109,7 @@ export default function RuleCandidateCard({ task, run, lines, onAddRule }: RuleC
         }}
       />
       {candidate.duplicate && <p className="text-body-sm text-flag-text">이미 있는 규칙이에요.</p>}
+      {candidate.overBudget && <p className="text-body-sm text-flag-text">규칙 글자 수 한도({candidate.room.toLocaleString()}자 남음)를 넘어요. 후보를 줄이거나 [내 작업]에서 규칙을 정리해 주세요.</p>}
 
       {run.isSample && (
         <Notice tone="info" icon="info">

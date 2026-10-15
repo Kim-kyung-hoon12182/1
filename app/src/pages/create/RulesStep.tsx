@@ -5,7 +5,7 @@ import { Field, TextInput } from '@/components/Field'
 import Icon from '@/components/Icon'
 import Notice from '@/components/Notice'
 import { isUserAdded, type TaskDraft } from '@/hooks/useTaskDraft'
-import { NAME_MAX, RULE_MAX } from '@/lib/limits'
+import { NAME_MAX, RULES_BUDGET, rulesChars, ruleMaxLength } from '@/lib/limits'
 import type { Rule } from '@/types/task'
 import { RulesAside } from './Asides'
 import { RECAP_FIELDS, RULE_LABEL } from './copy'
@@ -57,6 +57,9 @@ export default function RulesStep({ draft }: { draft: TaskDraft }) {
               {ruleCount}개
             </Badge>
             <span className="text-label-sm text-on-surface-variant">연필 아이콘으로 고치고, 휴지통으로 삭제해요.</span>
+            <span className="ml-auto text-label-sm text-on-surface-variant" title="규칙이 너무 길어지면 AI에 보내는 요청이 한도를 넘어요">
+              규칙 글자 {rulesChars(draft.rules).toLocaleString()} / {RULES_BUDGET.toLocaleString()}자
+            </span>
           </Card>
 
           <ul className="flex flex-col gap-2">
@@ -67,6 +70,7 @@ export default function RulesStep({ draft }: { draft: TaskDraft }) {
                 index={index}
                 originLabel={originLabel(rule)}
                 isEditing={draft.editingId === rule.id}
+                maxLength={ruleMaxLength(draft.rules, rule.text.length)}
                 onChange={(text) => draft.updateRule(rule.id, text)}
                 onSetFreeform={(freeform) => draft.setFreeform(rule.id, freeform)}
                 onRemove={() => draft.removeRule(rule.id)}
@@ -182,8 +186,8 @@ function AddRuleCard({ draft }: { draft: TaskDraft }) {
           id="new-rule"
           className="h-10"
           value={draft.newRule}
-          maxLength={RULE_MAX}
-          placeholder="예: 날짜는 YYYY-MM-DD 형식으로 쓴다"
+          maxLength={ruleMaxLength(draft.rules)}
+          placeholder={ruleMaxLength(draft.rules) === 0 ? '규칙 글자 수 한도에 도달했어요. 규칙을 줄이면 더할 수 있어요.' : '예: 날짜는 YYYY-MM-DD 형식으로 쓴다'}
           onChange={(event) => draft.setNewRule(event.target.value)}
           onKeyDown={(event) => {
             if (event.key === 'Enter' && !event.nativeEvent.isComposing) {

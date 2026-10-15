@@ -1,8 +1,10 @@
 const MODEL = 'gemini-3.5-flash-lite'
-// 자료 8,000자에 규칙·질문 답변·지시 문장이 더해진 요청 전체의 한도
-const MAX_INPUT_CHARS = 14000
-// 구글이 느릴 때 화면이 계속 기다리지 않도록, 재시도까지 합쳐 이 시간 안에 끝낸다
-const TOTAL_TIMEOUT_MS = 30_000
+// 자료 8,000자에 문장 번호, 규칙·질문 답변·예전 결과·고친 내용·지시 문장이 더해진 요청 전체의 한도(화면의 lib/limits.ts REQUEST_MAX_CHARS와 같은 값).
+// 시험(docs/test-report.md 54번): 자료 8,000자 요청은 약 9,800자이고, 규칙을 많이 더해도 이 안에서 시간은 거의 늘지 않는다.
+const MAX_INPUT_CHARS = 16000
+// 구글이 느릴 때 화면이 계속 기다리지 않도록, 재시도까지 합쳐 이 시간 안에 끝낸다.
+// 자료 8,000자를 문장마다 한 줄로 옮기면 약 24초가 걸리고 30초 제한에 걸려 실패하기도 했다(시험 54번). Vercel 함수 제한은 vercel.json의 60초다.
+const TOTAL_TIMEOUT_MS = 50_000
 // 수요가 몰려서(503) 또는 한도에 걸려서(429) 실패하면 잠깐 쉬었다가 다시 보낸다
 const RETRY_STATUSES = [503, 429]
 const RETRY_DELAYS_MS = [1000, 2000]
@@ -41,7 +43,7 @@ export async function POST(request: Request): Promise<Response> {
     return fail(400, 'bad_request', '내용을 입력해 주세요.')
   }
   if (prompt.length > MAX_INPUT_CHARS) {
-    return fail(400, 'bad_request', '입력이 너무 길어요. 자료를 줄여 주세요.')
+    return fail(400, 'bad_request', '요청이 너무 길어요. 자료나 규칙을 줄여 주세요.')
   }
 
   const deadline = Date.now() + TOTAL_TIMEOUT_MS

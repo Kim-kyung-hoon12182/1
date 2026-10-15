@@ -9,6 +9,7 @@ export default function ResultSkeleton() {
         <Spinner />
         결과를 쓰고 있어요. 곧 이 자리에 줄마다 나와요.
       </p>
+      <p className="text-label-md text-on-surface-variant">보통 몇 초 걸려요. 자료가 길고 줄마다 정리하는 규칙이면 최대 1분 걸릴 수 있어요.</p>
       <ul aria-hidden className="space-y-3">
         {[80, 65, 90, 55].map((width, index) => (
           <Card key={index} as="li" bordered padding="none" className="flex animate-pulse items-center gap-3 border-l-4 border-neutral-line/40 px-4 py-4">

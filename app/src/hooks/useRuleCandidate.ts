@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { generateRuleCandidate } from '@/lib/api'
 import { editedPairs, hasRule } from '@/lib/rules'
+import { ruleMaxLength } from '@/lib/limits'
 import type { OutputLine, Rule, Run, Task } from '@/types/task'
 
 // none: 고친 줄이 없어 카드를 안 띄움 / loading / ready / added / closed
@@ -39,12 +40,15 @@ export function useRuleCandidate(task: Task, run: Run, lines: OutputLine[], onAd
 
   const trimmed = text.trim()
   const duplicate = hasRule(task.rules, trimmed)
+  // 규칙 글자 수 한도 안에서만 더할 수 있다
+  const room = ruleMaxLength(task.rules)
+  const overBudget = trimmed.length > room
 
   function add() {
-    if (!trimmed || duplicate) return
+    if (!trimmed || duplicate || overBudget) return
     onAddRule({ id: `e${crypto.randomUUID().slice(0, 8)}`, text: trimmed, source: 'edit', fromRun: run.number })
     setPhase('added')
   }
 
-  return { phase, text, setText, manual, canAdd: trimmed !== '' && !duplicate, duplicate, add, dismiss: () => setPhase('closed') }
+  return { phase, text, setText, manual, canAdd: trimmed !== '' && !duplicate && !overBudget, duplicate, overBudget, room, add, dismiss: () => setPhase('closed') }
 }

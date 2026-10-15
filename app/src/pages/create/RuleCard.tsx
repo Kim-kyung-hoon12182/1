@@ -4,7 +4,6 @@ import Card from '@/components/Card'
 import { TextInput } from '@/components/Field'
 import FreeformToggle from '@/components/FreeformToggle'
 import IconButton from '@/components/IconButton'
-import { RULE_MAX } from '@/lib/limits'
 import type { Rule } from '@/types/task'
 import { RULE_LABEL, RULE_PLACEHOLDER } from './copy'
 
@@ -15,6 +14,8 @@ type RuleCardProps = {
   originLabel: string | null
   /** 연필로 고치는 중인지 */
   isEditing: boolean
+  /** 이 규칙에 더 쓸 수 있는 글자 수(규칙 전체 글자 수 한도 안에서) */
+  maxLength: number
   onChange: (text: string) => void
   onSetFreeform: (freeform: boolean) => void
   onRemove: () => void
@@ -29,6 +30,7 @@ export default function RuleCard({
   index,
   originLabel,
   isEditing,
+  maxLength,
   onChange,
   onSetFreeform,
   onRemove,
@@ -58,7 +60,7 @@ export default function RuleCard({
             className="h-10"
             autoFocus={isEditing}
             value={rule.text}
-            maxLength={RULE_MAX}
+            maxLength={maxLength}
             placeholder={RULE_PLACEHOLDER}
             onChange={(event) => onChange(event.target.value)}
             onKeyDown={(event) => {

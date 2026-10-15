@@ -146,7 +146,7 @@ export function useRunSession(task: Task, prefillMaterial: boolean, onRecord: (r
     setRunning(false)
     if (outcome.result) showResult(outcome.result, false)
     else if (sample && isSampleMaterial && outcome.code === 'no_key') showResult(buildSampleResult(sample, material), true)
-    else setNotice(RUN_FAILURE_NOTICE[outcome.code])
+    else setNotice(outcome.notice ?? RUN_FAILURE_NOTICE[outcome.code])
   }
 
   // 지금 결과에서 고치거나 지운 내용을 다음 실행에 함께 보내도록 모아 둔다

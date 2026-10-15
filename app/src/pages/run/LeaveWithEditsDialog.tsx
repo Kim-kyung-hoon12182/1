@@ -6,7 +6,7 @@ import { TextInput } from '@/components/Field'
 import Notice from '@/components/Notice'
 import type { RunSession } from '@/hooks/useRunSession'
 import { generateRuleCandidate } from '@/lib/api'
-import { RULE_MAX } from '@/lib/limits'
+import { ruleMaxLength } from '@/lib/limits'
 import { DELETED_AFTER, editedPairs, hasRule } from '@/lib/rules'
 import type { Rule, Task } from '@/types/task'
 
@@ -33,6 +33,8 @@ export default function LeaveWithEditsDialog({ task, session, onAddRule, onCance
   const [manual, setManual] = useState(false)
   const trimmed = text.trim()
   const duplicate = hasRule(task.rules, trimmed)
+  const room = ruleMaxLength(task.rules)
+  const overBudget = trimmed.length > room
 
   async function suggest() {
     setPhase('loading')
@@ -49,7 +51,7 @@ export default function LeaveWithEditsDialog({ task, session, onAddRule, onCance
   }
 
   function add() {
-    if (!trimmed || duplicate) return
+    if (!trimmed || duplicate || overBudget) return
     onAddRule({ id: `e${crypto.randomUUID().slice(0, 8)}`, text: trimmed, source: 'edit', fromRun: task.runs.length + 1 })
     setPhase('added')
   }
@@ -91,7 +93,7 @@ export default function LeaveWithEditsDialog({ task, session, onAddRule, onCance
               {manual && <p className="text-body-sm text-on-surface-variant">규칙 후보를 만들지 못했어요. 다음에도 적용할 내용을 한 줄로 적어 주세요.</p>}
               <TextInput
                 value={text}
-                maxLength={RULE_MAX}
+                maxLength={Math.max(room, text.length)}
                 aria-label="규칙 후보"
                 placeholder="예: 금액은 만 원 단위로 쓴다"
                 onChange={(event) => setText(event.target.value)}
@@ -103,7 +105,8 @@ export default function LeaveWithEditsDialog({ task, session, onAddRule, onCance
                 }}
               />
               {duplicate && <p className="text-body-sm text-flag-text">이미 있는 규칙이에요.</p>}
-              <Button size="sm" variant="primary" icon="add" disabled={!trimmed || duplicate} onClick={add}>
+              {overBudget && <p className="text-body-sm text-flag-text">규칙 글자 수 한도({room.toLocaleString()}자 남음)를 넘어요. 후보를 줄이거나 [내 작업]에서 규칙을 정리해 주세요.</p>}
+              <Button size="sm" variant="primary" icon="add" disabled={!trimmed || duplicate || overBudget} onClick={add}>
                 규칙 추가
               </Button>
             </div>
