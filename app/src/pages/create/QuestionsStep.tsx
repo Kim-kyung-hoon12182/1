@@ -1,6 +1,6 @@
 import Button from '@/components/Button'
 import Card from '@/components/Card'
-import { Field, TextArea, TextInput } from '@/components/Field'
+import { Field, TextArea } from '@/components/Field'
 import Icon from '@/components/Icon'
 import Notice from '@/components/Notice'
 import { SAMPLES, SAMPLE_KEYS } from '@/data/sampleTasks'
@@ -59,9 +59,11 @@ export default function QuestionsStep({ draft, onCancel }: QuestionsStepProps) {
               hint={question.hint}
               counter={`${answers[question.field].length} / ${ANSWER_MAX}자`}
             >
-              <TextInput
+              <TextArea
                 id={`q-${question.field}`}
                 className="mt-1"
+                autoGrow
+                rows={2}
                 value={answers[question.field]}
                 maxLength={ANSWER_MAX}
                 onChange={(event) => draft.setAnswer(question.field, event.target.value)}

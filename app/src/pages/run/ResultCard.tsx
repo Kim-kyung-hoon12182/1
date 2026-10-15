@@ -72,6 +72,7 @@ export default function ResultCard({ index, task, session }: ResultCardProps) {
           autoFocus
           tone="paper"
           rows={2}
+          autoGrow
           defaultValue={line.editedText ?? line.text}
           aria-label={`${index + 1}번 줄 고치기`}
           onClick={(event) => event.stopPropagation()}

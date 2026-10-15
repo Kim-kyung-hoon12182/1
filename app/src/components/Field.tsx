@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, ReactNode } from 'react'
+import { useEffect, useRef, type ComponentPropsWithRef, type ReactNode } from 'react'
 import { cn } from '@/lib/cn'
 
 type FieldProps = {
@@ -51,8 +51,36 @@ export function TextInput({ tone = 'low', className, ...rest }: TextInputProps) 
   return <input className={cn(BASE, 'h-11 px-3', TONES[tone], className)} {...rest} />
 }
 
-type TextAreaProps = ComponentPropsWithRef<'textarea'> & { tone?: Tone }
+type TextAreaProps = ComponentPropsWithRef<'textarea'> & {
+  tone?: Tone
+  /** 글이 길어지면 칸이 아래로 늘어난다(처음 높이는 rows). 길게 쓰는 칸에서 앞부분이 안 보이는 것을 막는다 */
+  autoGrow?: boolean
+}
 
-export function TextArea({ tone = 'low', className, ...rest }: TextAreaProps) {
-  return <textarea className={cn(BASE, 'resize-y p-3 leading-relaxed', TONES[tone], className)} {...rest} />
+export function TextArea({ tone = 'low', className, autoGrow = false, ref, onInput, ...rest }: TextAreaProps) {
+  const inner = useRef<HTMLTextAreaElement | null>(null)
+  const fit = () => {
+    const element = inner.current
+    if (!autoGrow || !element) return
+    element.style.height = 'auto'
+    element.style.height = `${element.scrollHeight}px`
+  }
+  // 값이 바깥에서 바뀌어도(value) 다시 맞춘다. 직접 입력(defaultValue)은 onInput이 맞춘다
+  useEffect(fit, [rest.value, autoGrow])
+  return (
+    <textarea
+      ref={(element) => {
+        inner.current = element
+        if (typeof ref === 'function') ref(element)
+        else if (ref) ref.current = element
+        if (element) fit()
+      }}
+      className={cn(BASE, autoGrow ? 'resize-none overflow-hidden' : 'resize-y', 'p-3 leading-relaxed', TONES[tone], className)}
+      onInput={(event) => {
+        fit()
+        onInput?.(event)
+      }}
+      {...rest}
+    />
+  )
 }
