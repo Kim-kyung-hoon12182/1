@@ -185,6 +185,8 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
         data-tour-ui
         className="fixed z-[70] w-80"
         style={bubbleStyle}
+        // 말풍선의 [다음]을 눌러도 고치던 입력칸의 포커스가 빠지지 않게 한다(빠지면 칸이 닫혀 안내가 가리킬 곳을 잃는다)
+        onMouseDown={keepFocus}
       >
         <Bubble
           title={step.title}
