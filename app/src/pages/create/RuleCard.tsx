@@ -1,7 +1,7 @@
 import Badge from '@/components/Badge'
 import Button from '@/components/Button'
 import Card from '@/components/Card'
-import { TextInput } from '@/components/Field'
+import RuleTextArea from '@/components/RuleTextArea'
 import FreeformToggle from '@/components/FreeformToggle'
 import IconButton from '@/components/IconButton'
 import type { Rule } from '@/types/task'
@@ -54,20 +54,16 @@ export default function RuleCard({
           <label htmlFor={`rule-${rule.id}`} className="mb-1 block text-label-md font-semibold">
             {RULE_LABEL}
           </label>
-          <TextInput
+          <RuleTextArea
             id={`rule-${rule.id}`}
             tone="lowest"
-            className="h-10"
             autoFocus={isEditing}
             value={rule.text}
             maxLength={maxLength}
             placeholder={RULE_PLACEHOLDER}
-            onChange={(event) => onChange(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter' && !event.nativeEvent.isComposing && !isBlank) {
-                event.preventDefault()
-                onFinishEdit()
-              }
+            onChange={onChange}
+            onSubmit={() => {
+              if (!isBlank) onFinishEdit()
             }}
           />
         </div>

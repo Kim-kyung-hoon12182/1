@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Badge from '@/components/Badge'
 import Button from '@/components/Button'
 import Dialog from '@/components/Dialog'
-import { TextInput } from '@/components/Field'
+import RuleTextArea from '@/components/RuleTextArea'
 import FreeformToggle from '@/components/FreeformToggle'
 import IconButton from '@/components/IconButton'
 import { RULES_BUDGET, rulesChars, ruleMaxLength } from '@/lib/limits'
@@ -76,21 +76,14 @@ export default function RulesDialog({ task, onClose, onAdd, onUpdate, onSetFreef
                 </div>
                 {editingId === rule.id ? (
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                    <TextInput
+                    <RuleTextArea
                       autoFocus
                       value={draft}
                       maxLength={ruleMaxLength(task.rules, rule.text.length)}
                       aria-label={`규칙 ${index + 1} 고치기`}
-                      onChange={(event) => setDraft(event.target.value)}
-                      onKeyDown={(event) => {
-                        if (event.key === 'Enter' && !event.nativeEvent.isComposing) finishEdit()
-                        if (event.key === 'Escape') {
-                          // 창 전체가 닫히지 않고 고치기만 취소한다
-                          event.preventDefault()
-                          event.stopPropagation()
-                          setEditingId(null)
-                        }
-                      }}
+                      onChange={setDraft}
+                      onSubmit={finishEdit}
+                      onEscape={() => setEditingId(null)}
                     />
                     <div className="flex shrink-0 gap-1.5">
                       <Button size="sm" variant="primary" onClick={finishEdit} disabled={!draft.trim()}>
@@ -122,15 +115,13 @@ export default function RulesDialog({ task, onClose, onAdd, onUpdate, onSetFreef
       )}
 
       <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
-        <TextInput
+        <RuleTextArea
           value={newRule}
           maxLength={ruleMaxLength(task.rules)}
           aria-label="새 규칙"
           placeholder={ruleMaxLength(task.rules) === 0 ? '규칙 글자 수 한도에 도달했어요. 규칙을 줄이면 더할 수 있어요.' : '예: 날짜는 YYYY-MM-DD 형식으로 쓴다'}
-          onChange={(event) => setNewRule(event.target.value)}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' && !event.nativeEvent.isComposing) addNew()
-          }}
+          onChange={setNewRule}
+          onSubmit={addNew}
         />
         <Button className="shrink-0" icon="add" onClick={addNew} disabled={!newRule.trim()}>
           규칙 추가

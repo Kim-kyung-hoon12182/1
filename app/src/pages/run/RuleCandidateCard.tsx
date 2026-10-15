@@ -1,6 +1,6 @@
 import Button from '@/components/Button'
 import Card from '@/components/Card'
-import { TextInput } from '@/components/Field'
+import RuleTextArea from '@/components/RuleTextArea'
 import Spinner from '@/components/Spinner'
 import Icon from '@/components/Icon'
 import Notice from '@/components/Notice'
@@ -95,18 +95,13 @@ export default function RuleCandidateCard({ task, run, lines, onAddRule }: RuleC
         </div>
       )}
 
-      <TextInput
+      <RuleTextArea
         value={candidate.text}
         maxLength={Math.max(candidate.room, candidate.text.length)}
         aria-label="규칙 후보"
         placeholder="예: 금액은 만 원 단위로 쓴다"
-        onChange={(event) => candidate.setText(event.target.value)}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter' && !event.nativeEvent.isComposing) {
-            event.preventDefault()
-            candidate.add()
-          }
-        }}
+        onChange={candidate.setText}
+        onSubmit={candidate.add}
       />
       {candidate.duplicate && <p className="text-body-sm text-flag-text">이미 있는 규칙이에요.</p>}
       {candidate.overBudget && <p className="text-body-sm text-flag-text">규칙 글자 수 한도({candidate.room.toLocaleString()}자 남음)를 넘어요. 후보를 줄이거나 [내 작업]에서 규칙을 정리해 주세요.</p>}

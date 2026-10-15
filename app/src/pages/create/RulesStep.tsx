@@ -4,6 +4,7 @@ import Card from '@/components/Card'
 import { Field, TextInput } from '@/components/Field'
 import Icon from '@/components/Icon'
 import Notice from '@/components/Notice'
+import RuleTextArea from '@/components/RuleTextArea'
 import { isUserAdded, type TaskDraft } from '@/hooks/useTaskDraft'
 import { NAME_MAX, RULES_BUDGET, rulesChars, ruleMaxLength } from '@/lib/limits'
 import type { Rule } from '@/types/task'
@@ -182,19 +183,13 @@ function AddRuleCard({ draft }: { draft: TaskDraft }) {
         직접 새 규칙 추가
       </div>
       <Field id="new-rule" label={<span className="text-label-sm font-normal text-on-surface-variant">{RULE_LABEL}</span>}>
-        <TextInput
+        <RuleTextArea
           id="new-rule"
-          className="h-10"
           value={draft.newRule}
           maxLength={ruleMaxLength(draft.rules)}
           placeholder={ruleMaxLength(draft.rules) === 0 ? '규칙 글자 수 한도에 도달했어요. 규칙을 줄이면 더할 수 있어요.' : '예: 날짜는 YYYY-MM-DD 형식으로 쓴다'}
-          onChange={(event) => draft.setNewRule(event.target.value)}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' && !event.nativeEvent.isComposing) {
-              event.preventDefault()
-              draft.addRule()
-            }
-          }}
+          onChange={draft.setNewRule}
+          onSubmit={draft.addRule}
         />
       </Field>
       <div className="flex items-center justify-between gap-3">
