@@ -5,7 +5,7 @@ import { useRects, useTargetRect } from '@/hooks/useTargetRect'
 import { contains, grow, overlaps, overlayClipPath, placeBubble, splitAround } from '@/lib/tourLayout'
 import { useEffect, useState } from 'react'
 import { useTourFocus } from '@/hooks/useTourFocus'
-import { TOUR_END, TOUR_LOST_MS, TOUR_OPTIONAL_MS, type TourStep } from '@/lib/tour'
+import { TOUR_EDIT_TEXT, TOUR_END, TOUR_LOST_MS, TOUR_OPTIONAL_MS, type TourStep } from '@/lib/tour'
 
 type TourOverlayProps = {
   step: TourStep | null
@@ -27,9 +27,8 @@ const NUDGE_HINT_MS = 2600
 // 막힌 곳을 눌러도 입력 중이던 칸의 포커스가 풀리지 않게 한다(풀리면 고치던 줄이 닫힌다)
 const keepFocus = (event: React.MouseEvent) => event.preventDefault()
 
-const CLICK_HINT = '지금은 표시된 곳을 눌러야 다음으로 넘어가요. [다음]을 누르면 대신 눌러 드려요.'
-const MANUAL_HINT = '[다음]을 눌러 넘어가세요.'
-const EDIT_HINT = '고친 글을 쓰고 Enter를 눌러 주세요. 고치지 않고 Enter만 눌러도 돼요.'
+// 안내 중에는 말풍선의 [다음]·[튜토리얼 끝내기]만 눌린다. 나머지는 앱이 대신 해 준다.
+const BLOCKED_HINT = '직접 누르지 않아도 돼요. [다음]을 누르면 앱이 대신 해 줘요. 그만하려면 [튜토리얼 끝내기]를 누르세요.'
 const NOT_READY_HINT = '아직 준비 중이에요. 잠시만 기다려 주세요.'
 
 // 안내 모드: 회색 블러로 화면을 덮고 지금 누를 곳만 밝게 보여 준다. 밝은 곳은 막지 않아서 실제로 눌린다.
@@ -64,7 +63,7 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
     setHint(message)
     setNudge((count) => count + 1)
   }
-  const onBlockedClick = () => showHint(step?.manual ? MANUAL_HINT : step?.advanceKey ? EDIT_HINT : CLICK_HINT)
+  const onBlockedClick = () => showHint(BLOCKED_HINT)
 
   // Esc는 바로 끝내지 않고 끝낼지 묻는다. 다시 누르면 묻기를 닫는다.
   useEffect(() => {
@@ -79,7 +78,17 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
   const onNextClick = () => {
     if (!step) return
     if (step.manual) return onNext()
-    if (step.advanceKey) return showHint(EDIT_HINT)
+    // 고치는 단계: 안 고쳤으면 정해 둔 글로 고쳐 주고, 직접 쓴 글이 있으면 그 글을 쓴다. 칸의 포커스를 빼서 고친 글을 확정한 뒤 넘어간다.
+    if (step.advanceKey) {
+      const field = document.querySelector<HTMLTextAreaElement>(step.target)
+      if (!field) return showHint(NOT_READY_HINT)
+      if (field.value === field.defaultValue) {
+        Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set?.call(field, TOUR_EDIT_TEXT)
+        field.dispatchEvent(new Event('input', { bubbles: true }))
+      }
+      field.blur()
+      return onNext()
+    }
     const element = document.querySelector<HTMLElement>(step.advanceOn ?? step.target)
     if (!element) return showHint(NOT_READY_HINT)
     if (element instanceof HTMLButtonElement && element.disabled) return showHint(NOT_READY_HINT)
@@ -159,9 +168,8 @@ export default function TourOverlay({ step, atEnd, index, total, onSkip, onNext,
           style={{ top: box.top, left: box.left, width: box.width, height: box.height }}
         />
       ))}
-      {step.manual && (
-        <div aria-hidden data-tour-ui onClick={onBlockedClick} onMouseDown={keepFocus} className="fixed z-[60] cursor-default" style={{ top: hole.top, left: hole.left, width: hole.width, height: hole.height }} />
-      )}
+      {/* 밝게 보이는 곳도 눌리지 않는다. 앱이 [다음]에서 대신 눌러 준다 */}
+      <div aria-hidden data-tour-ui onClick={onBlockedClick} onMouseDown={keepFocus} className="fixed z-[60] cursor-default" style={{ top: hole.top, left: hole.left, width: hole.width, height: hole.height }} />
       {strips.map((box, i) => (
         <div
           key={`s${i}`}
