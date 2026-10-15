@@ -45,14 +45,7 @@ export function useTour(screen: TourScreen | 'create' | 'history') {
     return () => document.removeEventListener('keydown', onKey, true)
   }, [step])
 
-  useEffect(() => {
-    if (!running) return
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') stop('skipped')
-    }
-    document.addEventListener('keydown', onKey)
-    return () => document.removeEventListener('keydown', onKey)
-  }, [running])
+  // Esc는 말풍선(TourOverlay)이 받아 끝낼지 묻는다
 
   // 안내하는 화면이 아닌 곳에 오래 있으면(뒤로가기, 주소 바꾸기) 안내를 끝낸다
   useEffect(() => {
